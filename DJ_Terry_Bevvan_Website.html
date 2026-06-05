@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ Terry Bevvan | Ottawa-Gatineau Wedding, Event & Club DJ</title>
+<meta name="description" content="Book DJ Terry Bevvan for weddings, private events, corporate functions, festivals, and club nights across Gatineau, Ottawa, and the surrounding region.">
+<meta property="og:title" content="DJ Terry Bevvan">
+<meta property="og:description" content="Professional DJ services for weddings, events, clubs, and community celebrations in Ottawa-Gatineau.">
+<meta property="og:image" content="fbpost.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #08090b;
+  --panel: #121418;
+  --panel-2: #1a1d22;
+  --paper: #f7f2e8;
+  --muted: #b8b3a8;
+  --quiet: #77736b;
+  --line: rgba(247, 242, 232, 0.16);
+  --lime: #d6ff3f;
+  --red: #ff3e33;
+  --blue: #34c4ff;
+  --gold: #f7be2c;
+  --radius: 8px;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "DM Sans", Arial, sans-serif;
+  color: var(--paper);
+  background: var(--ink);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; }
+
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px clamp(18px, 5vw, 56px);
+  background: rgba(8, 9, 11, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--paper);
+  white-space: nowrap;
+}
+
+.brand span { color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 26px; }
+.nav-links a {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.nav-links a:hover { color: var(--paper); }
+.nav-cta, .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--lime);
+  color: #111;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover, .nav-cta:hover { transform: translateY(-1px); }
+.button.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--line);
+  color: var(--paper);
+}
+
+.hero {
+  min-height: 96vh;
+  display: grid;
+  align-items: end;
+  position: relative;
+  padding: 122px clamp(20px, 5vw, 64px) 44px;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url("whiterabbit.jpg") center 42% / cover no-repeat;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(8, 9, 11, 0.88) 0%, rgba(8, 9, 11, 0.52) 46%, rgba(8, 9, 11, 0.2) 100%),
+    linear-gradient(0deg, rgba(8, 9, 11, 0.92) 0%, rgba(8, 9, 11, 0.08) 42%, rgba(8, 9, 11, 0.66) 100%);
+}
+
+.hero-inner { max-width: 1120px; width: 100%; margin: 0 auto; }
+.eyebrow {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+h1, h2, h3, p { margin-top: 0; }
+h1 {
+  max-width: 780px;
+  margin-bottom: 22px;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(76px, 13vw, 176px);
+  line-height: 0.86;
+  letter-spacing: 0.02em;
+}
+
+h1 span { color: var(--red); }
+.hero-copy {
+  max-width: 600px;
+  color: var(--muted);
+  font-size: clamp(16px, 2vw, 19px);
+}
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  max-width: 720px;
+  margin-top: 56px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.meta-item {
+  background: rgba(18, 20, 24, 0.82);
+  padding: 18px;
+}
+
+.meta-label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--quiet);
+}
+
+.meta-value { font-weight: 700; color: var(--paper); }
+section { padding: 96px clamp(20px, 5vw, 64px); }
+.container { max-width: 1120px; margin: 0 auto; }
+.section-head { max-width: 720px; margin-bottom: 40px; }
+h2 {
+  margin-bottom: 18px;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(46px, 7vw, 82px);
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+}
+
+.section-copy { color: var(--muted); font-size: 17px; }
+.about { background: #101115; }
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) 1.18fr;
+  gap: clamp(32px, 7vw, 80px);
+  align-items: center;
+}
+
+.portrait {
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: var(--panel);
+}
+
+.portrait img { aspect-ratio: 4 / 5; width: 100%; height: 100%; object-fit: cover; }
+.about-inlay {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-top: 28px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.about-inlay img {
+  width: 132px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+.about-inlay p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.about-inlay strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--paper);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.stat, .card, .event-card, .quote, .contact-panel, .form-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.stat { padding: 18px; }
+.stat strong {
+  display: block;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--lime);
+}
+
+.stat span, .card p, .event-card p, .quote p { color: var(--muted); }
+.services { background: var(--ink); }
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card { padding: 26px; min-height: 220px; }
+.card .icon {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 24px;
+  border-radius: var(--radius);
+  background: rgba(214, 255, 63, 0.1);
+  color: var(--lime);
+  font-family: "DM Mono", monospace;
+}
+
+h3 {
+  margin-bottom: 10px;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.feature {
+  background: linear-gradient(180deg, #15171c 0%, #0c0d10 100%);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.event-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; }
+.event-date {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-bottom: 22px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255, 62, 51, 0.12);
+  color: #ffb2ac;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.poster {
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.poster img { width: 100%; height: 100%; object-fit: cover; }
+.music { background: #101115; }
+.music-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(30px, 6vw, 72px);
+  align-items: start;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 9px; }
+.tag {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tag:nth-child(3n+1) { color: var(--lime); border-color: rgba(214, 255, 63, 0.35); }
+.tag:nth-child(3n+2) { color: var(--blue); border-color: rgba(52, 196, 255, 0.35); }
+.tag:nth-child(3n) { color: var(--gold); border-color: rgba(247, 190, 44, 0.35); }
+.quote { padding: 32px; border-left: 4px solid var(--red); }
+.quote p {
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: var(--paper);
+}
+
+.video { background: var(--ink); }
+.video-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #000;
+  box-shadow: var(--shadow);
+  aspect-ratio: 16 / 9;
+}
+
+.video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-frame:not(.has-embed) iframe { display: none; }
+.video-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--paper);
+  background:
+    linear-gradient(rgba(8, 9, 11, 0.48), rgba(8, 9, 11, 0.78)),
+    url("https://img.youtube.com/vi/8iCcnyhGvGM/maxresdefault.jpg") center / cover no-repeat;
+}
+
+.video-frame.has-embed .video-fallback { display: none; }
+.play-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--ink);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.play-badge::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 22px solid var(--ink);
+}
+
+.video-fallback strong {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 0.95;
+}
+
+.video-fallback em {
+  display: block;
+  font-style: normal;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  border-color: rgba(214, 255, 63, 0.45);
+  color: var(--paper);
+}
+
+.social-link::after { content: "Visit"; color: var(--lime); }
+.gallery { background: var(--ink); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 220px;
+  gap: 12px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.gallery-item.wide { grid-column: span 2; grid-row: span 2; }
+.gallery-item.landscape { grid-column: span 2; }
+.gallery-item.tall { grid-row: span 2; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-item::after {
+  content: attr(data-label);
+  position: absolute;
+  inset: auto 0 0;
+  padding: 14px 16px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.86), transparent);
+  color: var(--paper);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.booking { background: #101115; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.contact-panel, .form-panel { padding: 26px; }
+.contact-row { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.contact-row:first-child { padding-top: 0; }
+.contact-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.contact-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--lime);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-row a, .contact-row p { color: var(--muted); margin: 0; text-decoration: none; }
+.contact-row a:hover { color: var(--paper); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field.full { grid-column: 1 / -1; }
+label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--quiet);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+input, select, textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0d0e11;
+  color: var(--paper);
+  outline: none;
+}
+
+textarea { min-height: 128px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--lime); }
+.form-note { margin: 14px 0 0; color: var(--quiet); font-size: 13px; }
+footer {
+  padding: 34px clamp(20px, 5vw, 64px);
+  border-top: 1px solid var(--line);
+  color: var(--quiet);
+  background: var(--ink);
+}
+
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-links { display: flex; gap: 16px; }
+.footer-links a { text-decoration: none; color: var(--muted); }
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  .site-nav { align-items: flex-start; }
+  .nav-links { display: none; }
+  .hero { min-height: 92vh; }
+  .hero-meta, .about-grid, .feature-grid, .music-layout, .contact-grid { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-item.wide, .gallery-item.landscape { grid-column: span 2; }
+  .gallery-item.tall { grid-row: span 1; }
+}
+
+@media (max-width: 620px) {
+  .site-nav { padding: 14px 18px; }
+  .brand { font-size: 20px; letter-spacing: 0.06em; }
+  .nav-cta { display: none; }
+  h1 { font-size: 56px; max-width: 340px; }
+  .hero-copy, .hero-meta { max-width: 340px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .hero-actions .button { width: min(100%, 260px); }
+  section { padding: 72px 20px; }
+  .hero-meta, .stats, .card-grid, .gallery-grid, .form-grid, .social-grid { grid-template-columns: 1fr; }
+  .about-inlay { grid-template-columns: 1fr; }
+  .about-inlay img { width: 100%; max-width: 260px; }
+  .gallery-item.wide, .gallery-item.landscape { grid-column: span 1; grid-row: span 1; }
+  .footer-inner { align-items: flex-start; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Primary navigation">
+  <a class="brand" href="#top">DJ <span>Terry</span> Bevvan</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#events">Events</a>
+    <a href="#music">Music</a>
+    <a href="#video">Video</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="#contact">Book Now</a>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow reveal">Ottawa-Gatineau DJ since 2005</div>
+      <h1 class="reveal">DJ <span>Terry</span> Bevvan</h1>
+      <p class="hero-copy reveal">Weddings, private parties, corporate events, community festivals, and club nights with the kind of room-reading only years behind the decks can teach.</p>
+      <div class="hero-actions reveal">
+        <a class="button" href="#contact">Start a Booking</a>
+        <a class="button secondary" href="#events">See Upcoming Dates</a>
+      </div>
+      <div class="hero-meta reveal" aria-label="Service highlights">
+        <div class="meta-item"><span class="meta-label">Based In</span><span class="meta-value">Gatineau, QC</span></div>
+        <div class="meta-item"><span class="meta-label">Serving</span><span class="meta-value">Ottawa-Gatineau</span></div>
+        <div class="meta-item"><span class="meta-label">Events</span><span class="meta-value">Weddings to Clubs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container about-grid">
+      <figure class="portrait reveal">
+        <img src="djpics/bluejordansurban.png" alt="DJ Terry Bevvan in blue Jordans in an urban alley">
+      </figure>
+      <div>
+        <div class="eyebrow reveal">Behind the decks</div>
+        <h2 class="reveal">Professional, prepared, and built for the room.</h2>
+        <p class="section-copy reveal">DJ Terry Bevvan was witnessed to house music in 1997 and started DJing in 2005. From formal wedding moments to late-night club energy, Terry brings a clean setup, a steady presence, and a music selection shaped around the people in front of him.</p>
+        <p class="section-copy reveal">Every event gets planned with care: must-play songs, do-not-play lists, special announcements, timing, setup details, and the flexibility to adjust when the dance floor asks for something different.</p>
+        <div class="about-inlay reveal">
+          <img src="terrybevvan.jpg" alt="DJ Terry Bevvan portrait" loading="lazy">
+          <p><strong>Off-stage style</strong>Rooted in club culture, streetwear, family, and the kind of personality that makes clients feel comfortable before the first track drops.</p>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><strong>21</strong><span>years of DJ experience</span></div>
+          <div class="stat"><strong>500+</strong><span>events and celebrations</span></div>
+          <div class="stat"><strong>1</strong><span>goal: a packed floor</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow reveal">Services</div>
+        <h2 class="reveal">The right setup for your night.</h2>
+        <p class="section-copy reveal">Choose the package around the event, then shape the music, timing, and technical setup around the crowd.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card reveal"><span class="icon">01</span><h3>Weddings</h3><p>Ceremony, cocktail hour, dinner, first dance, reception, announcements, and custom music planning.</p></article>
+        <article class="card reveal"><span class="icon">02</span><h3>Private Events</h3><p>Birthdays, anniversaries, house parties, milestone nights, and family celebrations with music tailored to the guest list.</p></article>
+        <article class="card reveal"><span class="icon">03</span><h3>Corporate</h3><p>Staff parties, holiday events, fundraisers, networking nights, and galas with professional sound and timing.</p></article>
+        <article class="card reveal"><span class="icon">04</span><h3>Clubs & Bars</h3><p>High-energy sets for dance floors, themed nights, throwbacks, and late-night rooms that need momentum.</p></article>
+        <article class="card reveal"><span class="icon">05</span><h3>Festivals</h3><p>Community events, outdoor stages, and public celebrations with crowd-friendly programming and clear coordination.</p></article>
+        <article class="card reveal"><span class="icon">06</span><h3>Sound & Lighting</h3><p>Professional PA, microphones, DJ booth setup, lighting options, setup, sound check, and teardown.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature" id="events">
+    <div class="container feature-grid">
+      <article class="event-card reveal">
+        <div>
+          <span class="event-date">Friday, June 26, 2026</span>
+          <div class="eyebrow">Upcoming public event</div>
+          <h2>Live at Mansfield en Fete.</h2>
+          <p>Catch DJ Terry Bevvan at Mansfield en Fete from 9:30 PM to 2:30 AM. Free admission, community celebration, and a late-night set built for a summer crowd.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="button" href="#contact">Book Terry</a>
+          <a class="button secondary" href="#gallery">View Promo</a>
+        </div>
+      </article>
+      <figure class="poster reveal">
+        <img src="fbpost.png" alt="DJ Terry Bevvan Mansfield en Fete promotional poster">
+      </figure>
+    </div>
+  </section>
+
+  <section class="music" id="music">
+    <div class="container music-layout">
+      <div>
+        <div class="eyebrow reveal">Music range</div>
+        <h2 class="reveal">From dinner to dance floor.</h2>
+        <p class="section-copy reveal">The set starts with the event brief, then follows the room. Terry can move through classics, current hits, wedding staples, club tracks, throwbacks, and client requests without locking the night into one lane.</p>
+      </div>
+      <div>
+        <div class="tags reveal" aria-label="Music genres">
+          <span class="tag">Pop</span><span class="tag">Dance</span><span class="tag">House</span><span class="tag">Tech House</span>
+          <span class="tag">EDM</span><span class="tag">Hip Hop</span><span class="tag">R&B</span><span class="tag">Rock</span>
+          <span class="tag">Latin</span><span class="tag">80s</span><span class="tag">90s</span><span class="tag">2000s</span>
+          <span class="tag">2010s</span><span class="tag">Wedding Classics</span><span class="tag">Club Anthems</span>
+        </div>
+        <div class="quote reveal" style="margin-top:22px">
+          <p>"Music is not background noise. It is what people remember."</p>
+          <span class="eyebrow">DJ Terry Bevvan</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="video" id="video">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow reveal">Featured video</div>
+        <h2 class="reveal">Watch the set come alive.</h2>
+        <p class="section-copy reveal">A quick way for visitors to feel the energy before they reach out.</p>
+      </div>
+      <div class="video-frame reveal">
+        <iframe data-src="https://www.youtube.com/embed/8iCcnyhGvGM?rel=0" title="DJ Terry Bevvan featured video" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <a class="video-fallback" href="https://www.youtube.com/watch?v=8iCcnyhGvGM" target="_blank" rel="noopener">
+          <div>
+            <span class="play-badge" aria-hidden="true"></span>
+            <strong>Watch video on YouTube</strong>
+            <em>Local previews can block embedded playback. The hosted site will try the embedded player automatically.</em>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow reveal">Gallery</div>
+        <h2 class="reveal">A look at the energy.</h2>
+        <p class="section-copy reveal">A mix of club nights, venue sets, throwback booth shots, current gear, and public event promos.</p>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-item wide reveal" data-label="White Rabbit booth"><img src="whiterabbit.jpg" alt="DJ booth and dance floor lighting" loading="lazy"></figure>
+        <figure class="gallery-item landscape reveal" data-label="Festival controller setup"><img src="djpics/FLX10.jpg" alt="Close-up of DJ controller setup" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Venue set"><img src="djpics/518318613_10171713231045084_1124848711304215968_n.jpg" alt="DJ Terry Bevvan performing in a busy venue" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Club booth throwback"><img src="djpics/sundaze.jpg" alt="DJ Terry Bevvan at a club booth with Pioneer turntables" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Pioneer decks"><img src="djpics/sundaze2.jpg" alt="DJ Terry Bevvan mixing at Pioneer decks" loading="lazy"></figure>
+        <figure class="gallery-item tall reveal" data-label="Nightclub setup"><img src="djpics/whiterabbitpic2.jpg" alt="DJ Terry Bevvan at a nightclub setup" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="At the mixer"><img src="djpics/fcgig.jpg" alt="DJ Terry Bevvan mixing from the side of the booth" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Volume mix"><img src="djpics/519416327_10171719584790084_8916464356134407129_n.jpg" alt="DJ controller close-up" loading="lazy"></figure>
+        <figure class="gallery-item landscape reveal" data-label="Heaven nightclub"><img src="djpics/heavennightclub.jpg" alt="DJ Terry Bevvan performing at Heaven nightclub" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Back in the day"><img src="djpics/halloweenbackintheday.jpg" alt="Throwback DJ booth photo" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Mansfield en Fete"><img src="gig.jpg" alt="Mansfield en Fete entertainment lineup poster" loading="lazy"></figure>
+        <figure class="gallery-item reveal" data-label="Public event poster"><img src="fbpost.png" alt="DJ Terry Bevvan Mansfield en Fete poster" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow reveal">Booking</div>
+        <h2 class="reveal">Tell Terry about the event.</h2>
+        <p class="section-copy reveal">Send the date, location, event type, guest count, and the kind of night you want. The form opens an email draft so you can review everything before sending.</p>
+      </div>
+      <div class="contact-grid">
+        <aside class="contact-panel reveal">
+          <div class="contact-row">
+            <span class="contact-label">Email</span>
+            <a href="mailto:terrybevvan@gmail.com">terrybevvan@gmail.com</a>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Listen & Follow</span>
+            <div class="social-grid">
+              <a class="social-link" href="https://www.youtube.com/@terrybevvan/featured" target="_blank" rel="noopener">YouTube</a>
+              <a class="social-link" href="https://www.facebook.com/profile.php?id=61580565046803" target="_blank" rel="noopener">Facebook</a>
+              <a class="social-link" href="https://soundcloud.com/terrybevvan" target="_blank" rel="noopener">SoundCloud</a>
+              <a class="social-link" href="https://www.mixcloud.com/terrybevvan" target="_blank" rel="noopener">Mixcloud</a>
+            </div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Location</span>
+            <p>Gatineau, QC<br>Serving Ottawa, Gatineau, and surrounding communities.</p>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Best For</span>
+            <p>Weddings, private parties, corporate functions, clubs, bars, fundraisers, and community events.</p>
+          </div>
+        </aside>
+        <form class="form-panel reveal" id="bookingForm">
+          <div class="form-grid">
+            <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+            <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="eventType">Event Type</label><select id="eventType" name="eventType"><option>Wedding</option><option>Private Party</option><option>Corporate Event</option><option>Club or Bar Night</option><option>Festival or Community Event</option><option>Other</option></select></div>
+            <div class="field"><label for="date">Event Date</label><input id="date" name="date" type="date"></div>
+            <div class="field"><label for="location">Venue / City</label><input id="location" name="location" type="text"></div>
+            <div class="field"><label for="guests">Guest Count</label><input id="guests" name="guests" type="number" min="1"></div>
+            <div class="field full"><label for="message">Details</label><textarea id="message" name="message" placeholder="Music preferences, schedule, special moments, sound or lighting needs..."></textarea></div>
+          </div>
+          <button class="button" type="submit" style="width:100%; margin-top:16px">Create Email Request</button>
+          <p class="form-note">No information is stored on this page. Your email app will open with the message filled in.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>Copyright 2026 DJ Terry Bevvan. Ottawa-Gatineau entertainment.</div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#events">Events</a>
+      <a href="https://www.youtube.com/@terrybevvan/featured" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://soundcloud.com/terrybevvan" target="_blank" rel="noopener">SoundCloud</a>
+      <a href="https://www.mixcloud.com/terrybevvan" target="_blank" rel="noopener">Mixcloud</a>
+      <a href="https://www.facebook.com/profile.php?id=61580565046803" target="_blank" rel="noopener">Facebook</a>
+      <a href="#contact">Book</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll(".reveal");
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) entry.target.classList.add("visible");
+  });
+}, { threshold: 0.14 });
+reveals.forEach((el) => observer.observe(el));
+
+const videoFrame = document.querySelector(".video-frame");
+const videoEmbed = videoFrame?.querySelector("iframe");
+if (videoFrame && videoEmbed && location.protocol !== "file:") {
+  videoEmbed.src = videoEmbed.dataset.src;
+  videoFrame.classList.add("has-embed");
+}
+
+document.getElementById("bookingForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.currentTarget);
+  const lines = [
+    "Hi Terry,",
+    "",
+    "I would like to inquire about booking you for an event.",
+    "",
+    `Name: ${form.get("name") || ""}`,
+    `Email: ${form.get("email") || ""}`,
+    `Event type: ${form.get("eventType") || ""}`,
+    `Event date: ${form.get("date") || "TBD"}`,
+    `Venue / city: ${form.get("location") || "TBD"}`,
+    `Guest count: ${form.get("guests") || "TBD"}`,
+    "",
+    "Details:",
+    form.get("message") || "",
+    "",
+    "Thanks!"
+  ];
+  const subject = encodeURIComponent(`Booking inquiry: ${form.get("eventType") || "Event"}`);
+  const body = encodeURIComponent(lines.join("\n"));
+  window.location.href = `mailto:terrybevvan@gmail.com?subject=${subject}&body=${body}`;
+});
+</script>
+</body>
+</html>
