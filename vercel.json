@@ -4,10 +4,6 @@
     {
       "src": "/",
       "dest": "/DJ_Terry_Bevvan_Website.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
     }
   ]
 }
