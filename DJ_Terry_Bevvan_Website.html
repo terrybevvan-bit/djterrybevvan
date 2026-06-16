@@ -589,6 +589,37 @@ h3 {
   color: var(--paper);
 }
 
+.testimonial-card {
+  margin-top: 22px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0d0e11;
+}
+
+.testimonial-card p {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.testimonial-card cite {
+  display: block;
+  margin-top: 18px;
+  color: var(--paper);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.testimonial-card span {
+  display: block;
+  margin-top: 4px;
+  color: var(--quiet);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .booking { background: #101115; }
 .contact-row { padding: 18px 0; border-bottom: 1px solid var(--line); }
 .contact-row:first-child { padding-top: 0; }
@@ -907,17 +938,24 @@ footer {
             <li><strong>Keep it honest</strong>A few specific details are more useful than a long perfect review.</li>
           </ul>
         </aside>
-        <form class="form-panel reveal" id="reviewForm">
-          <div class="form-grid">
-            <div class="field"><label for="reviewName">Name</label><input id="reviewName" name="reviewName" type="text" autocomplete="name" required></div>
-            <div class="field"><label for="reviewEvent">Event Type</label><select id="reviewEvent" name="reviewEvent"><option>Wedding</option><option>Private Party</option><option>Corporate Event</option><option>Club or Bar Night</option><option>Festival or Community Event</option><option>Other</option></select></div>
-            <div class="field"><label for="reviewDate">Event Date</label><input id="reviewDate" name="reviewDate" type="date"></div>
-            <div class="field"><label for="reviewCity">Venue / City</label><input id="reviewCity" name="reviewCity" type="text"></div>
-            <div class="field full"><label for="reviewMessage">Testimonial</label><textarea id="reviewMessage" name="reviewMessage" placeholder="What stood out about the music, planning, MC work, or dance floor?" required></textarea></div>
-          </div>
-          <button class="button" type="submit" style="width:100%; margin-top:16px">Create Testimonial Email</button>
-          <p class="form-note">This opens an email draft so you can approve the testimonial before it is shared.</p>
-        </form>
+        <div>
+          <blockquote class="testimonial-card reveal">
+            <p>Terry was our DJ for our wedding, and he did an excellent job. From the very beginning, he was friendly, supportive, professional, and incredibly easy to work with. On our wedding day, our venue made a mistake with the tent size, which left him with much less space than expected. Despite the challenge, Terry went with the flow, adapted without any complaints, and made it seem like no big deal at all. He kept everything running smoothly and helped make our day so much fun. We are so grateful for his flexibility, positive attitude, and outstanding service. We would highly recommend Terry to anyone looking for a DJ!</p>
+            <cite>Victoria Harper</cite>
+            <span>Wedding | Bouchette, Quebec | June 13, 2026</span>
+          </blockquote>
+          <form class="form-panel reveal" id="reviewForm" style="margin-top:22px">
+            <div class="form-grid">
+              <div class="field"><label for="reviewName">Name</label><input id="reviewName" name="reviewName" type="text" autocomplete="name" required></div>
+              <div class="field"><label for="reviewEvent">Event Type</label><select id="reviewEvent" name="reviewEvent"><option>Wedding</option><option>Private Party</option><option>Corporate Event</option><option>Club or Bar Night</option><option>Festival or Community Event</option><option>Other</option></select></div>
+              <div class="field"><label for="reviewDate">Event Date</label><input id="reviewDate" name="reviewDate" type="date"></div>
+              <div class="field"><label for="reviewCity">Venue / City</label><input id="reviewCity" name="reviewCity" type="text"></div>
+              <div class="field full"><label for="reviewMessage">Testimonial</label><textarea id="reviewMessage" name="reviewMessage" placeholder="What stood out about the music, planning, MC work, or dance floor?" required></textarea></div>
+            </div>
+            <button class="button" type="submit" style="width:100%; margin-top:16px">Create Testimonial Email</button>
+            <p class="form-note">This opens an email draft so you can approve the testimonial before it is shared.</p>
+          </form>
+        </div>
       </div>
     </div>
   </section>
