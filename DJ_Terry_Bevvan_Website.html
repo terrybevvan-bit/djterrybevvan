@@ -551,15 +551,45 @@ h3 {
   text-transform: uppercase;
 }
 
-.booking { background: #101115; }
-.contact-grid {
+.reviews { background: #14161a; }
+.review-grid, .contact-grid {
   display: grid;
   grid-template-columns: 0.82fr 1.18fr;
   gap: 22px;
   align-items: start;
 }
 
-.contact-panel, .form-panel { padding: 26px; }
+.review-panel, .contact-panel, .form-panel { padding: 26px; }
+.review-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(214, 255, 63, 0.08), rgba(52, 196, 255, 0.06)), var(--panel);
+}
+
+.review-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.review-list {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.review-list li {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(8, 9, 11, 0.38);
+}
+
+.review-list strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--paper);
+}
+
+.booking { background: #101115; }
 .contact-row { padding: 18px 0; border-bottom: 1px solid var(--line); }
 .contact-row:first-child { padding-top: 0; }
 .contact-row:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -631,7 +661,7 @@ footer {
   .site-nav { align-items: flex-start; }
   .nav-links { display: none; }
   .hero { min-height: 92vh; }
-  .hero-meta, .about-grid, .feature-grid, .music-layout, .contact-grid { grid-template-columns: 1fr; }
+  .hero-meta, .about-grid, .feature-grid, .music-layout, .review-grid, .contact-grid { grid-template-columns: 1fr; }
   .card-grid, .clips-grid { grid-template-columns: 1fr 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .gallery-item.wide, .gallery-item.landscape { grid-column: span 2; }
@@ -666,6 +696,7 @@ footer {
     <a href="#video">Video</a>
     <a href="#clips">Clips</a>
     <a href="#gallery">Gallery</a>
+    <a href="#reviews">Reviews</a>
     <a href="#contact">Contact</a>
   </div>
   <a class="nav-cta" href="#contact">Book Now</a>
@@ -854,6 +885,43 @@ footer {
     </div>
   </section>
 
+  <section class="reviews" id="reviews">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow reveal">Reviews</div>
+        <h2 class="reveal">Share the night people will remember.</h2>
+        <p class="section-copy reveal">If Terry helped make your wedding, party, or event feel effortless, a quick review helps the next client book with confidence.</p>
+      </div>
+      <div class="review-grid">
+        <aside class="review-panel reveal">
+          <div class="eyebrow">Best place to review</div>
+          <h3>Google reviews help most.</h3>
+          <p class="section-copy">Google reviews are public, easy to share, and help couples and event planners find DJ Terry Bevvan when they are searching locally.</p>
+          <div class="review-actions">
+            <a class="button" href="https://share.google/xg3KLpxx0lSO4rc5V" target="_blank" rel="noopener">Leave a Google Review</a>
+            <a class="button secondary" href="#reviewForm">Send a Testimonial</a>
+          </div>
+          <ul class="review-list">
+            <li><strong>Wedding clients</strong>Mention the ceremony, dinner, dance floor, MC moments, and planning experience.</li>
+            <li><strong>Event clients</strong>Mention the music, setup, sound, timing, and how the crowd responded.</li>
+            <li><strong>Keep it honest</strong>A few specific details are more useful than a long perfect review.</li>
+          </ul>
+        </aside>
+        <form class="form-panel reveal" id="reviewForm">
+          <div class="form-grid">
+            <div class="field"><label for="reviewName">Name</label><input id="reviewName" name="reviewName" type="text" autocomplete="name" required></div>
+            <div class="field"><label for="reviewEvent">Event Type</label><select id="reviewEvent" name="reviewEvent"><option>Wedding</option><option>Private Party</option><option>Corporate Event</option><option>Club or Bar Night</option><option>Festival or Community Event</option><option>Other</option></select></div>
+            <div class="field"><label for="reviewDate">Event Date</label><input id="reviewDate" name="reviewDate" type="date"></div>
+            <div class="field"><label for="reviewCity">Venue / City</label><input id="reviewCity" name="reviewCity" type="text"></div>
+            <div class="field full"><label for="reviewMessage">Testimonial</label><textarea id="reviewMessage" name="reviewMessage" placeholder="What stood out about the music, planning, MC work, or dance floor?" required></textarea></div>
+          </div>
+          <button class="button" type="submit" style="width:100%; margin-top:16px">Create Testimonial Email</button>
+          <p class="form-note">This opens an email draft so you can approve the testimonial before it is shared.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section class="booking" id="contact">
     <div class="container">
       <div class="section-head">
@@ -909,6 +977,7 @@ footer {
     <div class="footer-links">
       <a href="#services">Services</a>
       <a href="#events">Events</a>
+      <a href="#reviews">Reviews</a>
       <a href="https://www.youtube.com/@terrybevvan/featured" target="_blank" rel="noopener">YouTube</a>
       <a href="https://soundcloud.com/terrybevvan" target="_blank" rel="noopener">SoundCloud</a>
       <a href="https://www.mixcloud.com/terrybevvan" target="_blank" rel="noopener">Mixcloud</a>
@@ -955,6 +1024,29 @@ document.getElementById("bookingForm").addEventListener("submit", (event) => {
     "Thanks!"
   ];
   const subject = encodeURIComponent(`Booking inquiry: ${form.get("eventType") || "Event"}`);
+  const body = encodeURIComponent(lines.join("\n"));
+  window.location.href = `mailto:terrybevvan@gmail.com?subject=${subject}&body=${body}`;
+});
+
+document.getElementById("reviewForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.currentTarget);
+  const lines = [
+    "Hi Terry,",
+    "",
+    "Here is a testimonial you can use:",
+    "",
+    `Name: ${form.get("reviewName") || ""}`,
+    `Event type: ${form.get("reviewEvent") || ""}`,
+    `Event date: ${form.get("reviewDate") || "TBD"}`,
+    `Venue / city: ${form.get("reviewCity") || "TBD"}`,
+    "",
+    "Testimonial:",
+    form.get("reviewMessage") || "",
+    "",
+    "Thanks!"
+  ];
+  const subject = encodeURIComponent(`Testimonial from ${form.get("reviewName") || "a client"}`);
   const body = encodeURIComponent(lines.join("\n"));
   window.location.href = `mailto:terrybevvan@gmail.com?subject=${subject}&body=${body}`;
 });
