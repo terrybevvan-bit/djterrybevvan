@@ -316,11 +316,17 @@ h3 {
   background: linear-gradient(180deg, #15171c 0%, #0c0d10 100%);
 }
 
-.feature-grid {
+.events-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 28px;
   align-items: stretch;
+}
+
+.event-feature {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
 }
 
 .event-card { padding: 30px; display: flex; flex-direction: column; justify-content: space-between; }
@@ -343,9 +349,10 @@ h3 {
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: var(--panel);
+  min-height: 520px;
 }
 
-.poster img { width: 100%; height: 100%; object-fit: cover; }
+.poster img { width: 100%; height: 100%; object-fit: contain; }
 .music { background: #101115; }
 .music-layout {
   display: grid;
@@ -692,7 +699,7 @@ footer {
   .site-nav { align-items: flex-start; }
   .nav-links { display: none; }
   .hero { min-height: 92vh; }
-  .hero-meta, .about-grid, .feature-grid, .music-layout, .review-grid, .contact-grid { grid-template-columns: 1fr; }
+  .hero-meta, .about-grid, .events-grid, .music-layout, .review-grid, .contact-grid { grid-template-columns: 1fr; }
   .card-grid, .clips-grid { grid-template-columns: 1fr 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .gallery-item.wide, .gallery-item.landscape { grid-column: span 2; }
@@ -796,22 +803,41 @@ footer {
   </section>
 
   <section class="feature" id="events">
-    <div class="container feature-grid">
-      <article class="event-card reveal">
-        <div>
-          <span class="event-date">Saturdays, 8 PM to 11 PM</span>
-          <div class="eyebrow">Upcoming public event</div>
-          <h2>Saturdays at L'AO.</h2>
-          <p>Catch DJ Terry Bevvan every Saturday at L'AO from 8 PM to 11 PM, with a room-ready mix built for dinner, drinks, and a night out.</p>
+    <div class="container events-grid">
+      <article class="event-feature reveal">
+        <div class="event-card">
+          <div>
+            <span class="event-date">Saturdays, 8 PM to 11 PM</span>
+            <div class="eyebrow">Upcoming public event</div>
+            <h2>Saturdays at L'AO.</h2>
+            <p>Catch DJ Terry Bevvan every Saturday at L'AO from 8 PM to 11 PM, with a room-ready mix built for dinner, drinks, and a night out.</p>
+          </div>
+          <div class="hero-actions">
+            <a class="button" href="#contact">Book Terry</a>
+            <a class="button secondary" href="#gallery">View Promo</a>
+          </div>
         </div>
-        <div class="hero-actions">
-          <a class="button" href="#contact">Book Terry</a>
-          <a class="button secondary" href="#gallery">View Promo</a>
-        </div>
+        <figure class="poster">
+          <img src="djpics/djterrybevvanlao.png" alt="DJ Terry Bevvan Saturdays at L'AO promotional poster">
+        </figure>
       </article>
-      <figure class="poster reveal">
-        <img src="djpics/djterrybevvanlao.png" alt="DJ Terry Bevvan Saturdays at L'AO promotional poster">
-      </figure>
+      <article class="event-feature reveal">
+        <div class="event-card">
+          <div>
+            <span class="event-date">Friday, July 3, 2026</span>
+            <div class="eyebrow">This weekend</div>
+            <h2>Serpenta Birthday at POA Tiki.</h2>
+            <p>Join Arkana Underground for Serpenta Neona's birthday at POA Tiki, 281A Dalhousie Street. The party runs from 8 PM to 2 AM, with Terry Bevvan on from 11 PM to midnight.</p>
+          </div>
+          <div class="hero-actions">
+            <a class="button" href="#contact">Book Terry</a>
+            <a class="button secondary" href="#gallery">View Promo</a>
+          </div>
+        </div>
+        <figure class="poster">
+          <img src="djpics/serpenta.jpg" alt="Serpenta Neona birthday event poster featuring DJ Terry Bevvan">
+        </figure>
+      </article>
     </div>
   </section>
 
