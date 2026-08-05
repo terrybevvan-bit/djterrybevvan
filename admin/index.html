@@ -464,6 +464,8 @@
         <div style="font-size:13px;font-weight:700" id="interview-client-name"></div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <span id="interview-saved-badge" style="display:none;font-size:11px;font-family:'DM Mono',monospace;color:var(--green);padding:4px 10px;background:var(--green-bg);border-radius:20px">✓ Saved</span>
+          <button class="action-btn" onclick="downloadClientForm()">Download Client Form</button>
+          <button class="action-btn" onclick="emailClientForm()">Email Client Form</button>
           <button class="action-btn primary" onclick="showImportModal()">⬇ Import Client Form</button>
           <button class="action-btn danger" onclick="clearInterview()">Clear All</button>
         </div>
@@ -1449,6 +1451,176 @@ function clearInterview() {
 }
 
 // ── IMPORT ────────────────────────────────────────────────────────────
+function selectedInterviewGig() {
+  const id = document.getElementById('interview-client-select').value;
+  if(!id) { alert('Please select a client first.'); return null; }
+  const g = gigs.find(x => String(x.id) === String(id));
+  if(!g) { alert('Could not find that client.'); return null; }
+  return g;
+}
+
+function safeFileName(value) {
+  return String(value || 'Client')
+    .replace(/[^a-zA-Z0-9 -]/g, '')
+    .trim()
+    .replace(/\s+/g, '_') || 'Client';
+}
+
+function buildClientFormHtml(g) {
+  const sections = JSON.stringify(interviewSections);
+  const client = JSON.stringify({
+    name: g.name || '',
+    type: g.type || '',
+    date: g.date || '',
+    email: g.email || ''
+  });
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ Terry Bevvan Client Music Planner</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;font-family:Arial,sans-serif;background:#f3f1ea;color:#1d1d1a;line-height:1.45}
+  header{background:#1d1d1a;color:white;padding:28px 18px}
+  main{max-width:860px;margin:0 auto;padding:22px 18px 40px}
+  h1{margin:0 0 8px;font-size:28px}
+  h2{margin:26px 0 12px;font-size:18px}
+  p{margin:0;color:#666}
+  .panel{background:white;border:1px solid #ddd8ce;border-radius:10px;padding:18px;margin-top:16px}
+  .field{margin:0 0 16px}
+  label{display:block;font-weight:700;margin-bottom:5px}
+  small{display:block;color:#777;margin-bottom:7px}
+  textarea{width:100%;min-height:76px;border:1px solid #cfc8bc;border-radius:8px;padding:10px;font:inherit;resize:vertical}
+  button{border:0;border-radius:8px;padding:11px 14px;font-weight:700;cursor:pointer;background:#e24b4a;color:white}
+  button.secondary{background:#1d1d1a}
+  #output{width:100%;min-height:170px;margin-top:10px;font-family:Consolas,monospace;font-size:12px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .note{font-size:13px;color:#666;margin-top:10px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Client Music Planner</h1>
+  <p id="clientLine"></p>
+</header>
+<main>
+  <div class="panel">
+    <p>Please fill out as much as you can. When finished, click <strong>Create Answer Code</strong>, then send the code back to Terry.</p>
+  </div>
+  <form id="planner"></form>
+  <div class="panel">
+    <h2>Send Your Answers</h2>
+    <p>Click the button below, then copy the answer code into your email reply.</p>
+    <div class="actions">
+      <button type="button" onclick="createAnswerCode()">Create Answer Code</button>
+      <button type="button" class="secondary" onclick="copyAnswerCode()">Copy Code</button>
+      <button type="button" class="secondary" onclick="emailAnswers()">Email Answers</button>
+    </div>
+    <textarea id="output" readonly placeholder="Your answer code will appear here."></textarea>
+    <p class="note">You can reopen this file later; answers are saved in this browser.</p>
+  </div>
+</main>
+<script>
+const sections = ${sections};
+const client = ${client};
+const STORAGE_KEY = 'djtb_client_form_' + (client.name || 'client') + '_' + (client.date || 'date');
+const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+document.getElementById('clientLine').textContent = [client.name, client.type, client.date].filter(Boolean).join(' - ');
+const form = document.getElementById('planner');
+Object.entries(sections).forEach(([sectionKey, section]) => {
+  const panel = document.createElement('section');
+  panel.className = 'panel';
+  panel.innerHTML = '<h2>' + section.label + '</h2>';
+  section.fields.forEach(field => {
+    const wrap = document.createElement('div');
+    wrap.className = 'field';
+    const label = document.createElement('label');
+    label.htmlFor = field.key;
+    label.textContent = field.q;
+    const hint = document.createElement('small');
+    hint.textContent = field.hint;
+    const textarea = document.createElement('textarea');
+    textarea.id = field.key;
+    textarea.value = saved[field.key] || '';
+    textarea.addEventListener('input', saveAnswers);
+    wrap.append(label, hint, textarea);
+    panel.appendChild(wrap);
+  });
+  form.appendChild(panel);
+});
+function collectAnswers() {
+  const answers = {};
+  Object.values(sections).forEach(section => {
+    section.fields.forEach(field => {
+      answers[field.key] = document.getElementById(field.key).value.trim();
+    });
+  });
+  return answers;
+}
+function saveAnswers() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collectAnswers()));
+}
+function createAnswerCode() {
+  saveAnswers();
+  const payload = { v: 1, client: client, answers: collectAnswers() };
+  document.getElementById('output').value = JSON.stringify(payload, null, 2);
+}
+function copyAnswerCode() {
+  createAnswerCode();
+  const output = document.getElementById('output');
+  output.focus();
+  output.select();
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(output.value).then(() => alert('Answer code copied.'));
+  } else {
+    document.execCommand('copy');
+    alert('Answer code copied.');
+  }
+}
+function emailAnswers() {
+  createAnswerCode();
+  const subject = encodeURIComponent('Client music planner answers - ' + (client.name || 'Client'));
+  const body = encodeURIComponent('Hi Terry,\\n\\nHere are my music planner answers.\\n\\n' + document.getElementById('output').value);
+  window.location.href = 'mailto:terrybevvan@gmail.com?subject=' + subject + '&body=' + body;
+}
+</` + `script>
+</body>
+</html>`;
+}
+
+function downloadClientForm() {
+  const g = selectedInterviewGig();
+  if(!g) return;
+  const html = buildClientFormHtml(g);
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Client_Form_${safeFileName(g.name)}_${g.date || 'TBD'}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function emailClientForm() {
+  const g = selectedInterviewGig();
+  if(!g) return;
+  downloadClientForm();
+  alert('The client form has downloaded. Attach that HTML file to the email draft that opens next.');
+  const subject = encodeURIComponent('DJ music planner form for your event');
+  const body = encodeURIComponent(`Hi ${g.name || ''},
+
+Please find your DJ music planner form attached.
+
+Please open the HTML file, fill it out, then click "Create Answer Code" and send that code back to me.
+
+Thanks,
+Terry`);
+  window.location.href = `mailto:${g.email || ''}?subject=${subject}&body=${body}`;
+}
+
 function showImportModal() {
   document.getElementById('import-paste-area').value = '';
   document.getElementById('import-modal-bg').classList.remove('hidden');
