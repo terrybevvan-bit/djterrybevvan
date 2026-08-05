@@ -823,6 +823,8 @@ function viewDetail(id) {
         <button class="action-btn primary" onclick="showContractEmail(${g.id})">✉️ Contract Email</button>
         <button class="action-btn primary" onclick="showInvoice(${g.id})">Invoice</button>
         <button class="action-btn" onclick="showDepEmail(${g.id})">Deposit Reminder</button>
+        <button class="action-btn" onclick="downloadClientForm(${g.id})">Download Client Form</button>
+        <button class="action-btn" onclick="emailClientForm(${g.id})">Email Client Form</button>
         <button class="action-btn primary" onclick="setView('interview');document.getElementById('interview-client-select').value='${g.id}';loadInterview();showImportModal()">⬇ Import Client Form</button>
         <button class="action-btn primary" onclick="exportGigSheet(${g.id})" style="background:var(--green);color:#fff;border-color:transparent">⬇ Gig Sheet</button>
         <button class="action-btn danger" onclick="removeGig(${g.id})">Remove</button>
@@ -1451,8 +1453,8 @@ function clearInterview() {
 }
 
 // ── IMPORT ────────────────────────────────────────────────────────────
-function selectedInterviewGig() {
-  const id = document.getElementById('interview-client-select').value;
+function selectedInterviewGig(clientId) {
+  const id = clientId || document.getElementById('interview-client-select').value;
   if(!id) { alert('Please select a client first.'); return null; }
   const g = gigs.find(x => String(x.id) === String(id));
   if(!g) { alert('Could not find that client.'); return null; }
@@ -1591,8 +1593,8 @@ function emailAnswers() {
 </html>`;
 }
 
-function downloadClientForm() {
-  const g = selectedInterviewGig();
+function downloadClientForm(clientId) {
+  const g = selectedInterviewGig(clientId);
   if(!g) return;
   const html = buildClientFormHtml(g);
   const blob = new Blob([html], { type: 'text/html' });
@@ -1604,10 +1606,10 @@ function downloadClientForm() {
   URL.revokeObjectURL(url);
 }
 
-function emailClientForm() {
-  const g = selectedInterviewGig();
+function emailClientForm(clientId) {
+  const g = selectedInterviewGig(clientId);
   if(!g) return;
-  downloadClientForm();
+  downloadClientForm(clientId);
   alert('The client form has downloaded. Attach that HTML file to the email draft that opens next.');
   const subject = encodeURIComponent('DJ music planner form for your event');
   const body = encodeURIComponent(`Hi ${g.name || ''},
