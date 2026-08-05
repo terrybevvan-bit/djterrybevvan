@@ -2,6 +2,10 @@
   "version": 2,
   "routes": [
     {
+      "src": "/studio/?",
+      "dest": "/studio/index.html"
+    },
+    {
       "src": "/",
       "dest": "/DJ_Terry_Bevvan_Website.html"
     }
