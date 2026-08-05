@@ -198,8 +198,8 @@
   }
   .add-btn:hover { opacity: 0.85; }
   .action-btn {
-    padding: 0 12px; min-height: 34px; border-radius: var(--rad); border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.04); font-size: 10px; color: var(--muted); cursor: pointer;
+    padding: 0 14px; min-height: 38px; border-radius: var(--rad); border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.04); font-size: 11px; color: var(--muted); cursor: pointer;
     font-family: "DM Mono", monospace; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.15s; white-space: nowrap;
   }
   .action-btn:hover { background: rgba(255, 255, 255, 0.08); color: var(--text); transform: translateY(-1px); }
@@ -220,20 +220,20 @@
   .leads-table { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radlg); overflow: hidden; }
   .leads-table table { width: 100%; border-collapse: collapse; }
   .leads-table th {
-    font-size: 10px; font-family: 'DM Mono', monospace; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--hint); padding: 12px 14px;
+    font-size: 11px; font-family: 'DM Mono', monospace; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--hint); padding: 14px 18px;
     border-bottom: 1px solid var(--border); text-align: left; background: var(--bg2);
   }
-  .leads-table td { padding: 13px 14px; font-size: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .leads-table td { padding: 17px 18px; font-size: 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   .leads-table tr:last-child td { border-bottom: none; }
   .leads-table tr:hover td { background: var(--bg2); transition: background 0.1s; }
-  .client-name { font-weight: 700; font-size: 14px; }
-  .client-event { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .client-name { font-weight: 700; font-size: 17px; line-height: 1.2; }
+  .client-event { font-size: 13px; color: var(--muted); margin-top: 5px; }
   .mono { font-family: 'DM Mono', monospace; }
-  .action-row { display: flex; gap: 5px; flex-wrap: wrap; }
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
   /* BADGES */
-  .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-family: 'DM Mono', monospace; font-weight: 500; letter-spacing: 0.04em; }
+  .badge { display: inline-block; padding: 5px 11px; border-radius: 20px; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; letter-spacing: 0.04em; }
   .badge-lead { background: rgba(255,62,51,0.12); color: #ff8a82; }
   .badge-booked { background: rgba(214,255,63,0.12); color: var(--green); }
   .badge-deposit { background: rgba(247,190,44,0.12); color: var(--accent2); }
@@ -748,7 +748,7 @@ function statusBadge(s) {
 function depCell(g) {
   return `<span class="dep-dot ${g.depReceived==='yes'?'dep-yes':'dep-no'}"></span>`
     + (g.depReceived==='yes' ? `<span class="green">Received</span>` : `<span class="red">Pending</span>`)
-    + `<br><span class="mono" style="font-size:10px;color:var(--hint)">$${(g.depositAmt||0).toLocaleString()} req.</span>`;
+    + `<br><span class="mono" style="font-size:12px;color:var(--hint)">$${(g.depositAmt||0).toLocaleString()} req.</span>`;
 }
 function fmtDate(d) {
   if(!d) return 'TBD';
@@ -765,10 +765,10 @@ function renderTable(tbodyId, filter) {
   tbody.innerHTML = list.map(g=>`
     <tr>
       <td><div class="client-name">${g.name}</div><div class="client-event">${g.venue||'—'}</div></td>
-      <td class="mono" style="font-size:12px">${fmtDate(g.date)}</td>
-      <td style="font-size:12px;color:var(--muted)">${g.type}</td>
-      <td class="mono" style="font-size:13px;font-weight:700">$${(g.fee||0).toLocaleString()}</td>
-      <td style="font-size:12px">${depCell(g)}</td>
+      <td class="mono" style="font-size:14px">${fmtDate(g.date)}</td>
+      <td style="font-size:14px;color:var(--muted)">${g.type}</td>
+      <td class="mono" style="font-size:16px;font-weight:700">$${(g.fee||0).toLocaleString()}</td>
+      <td style="font-size:14px">${depCell(g)}</td>
       <td>${statusBadge(g.status)}</td>
       <td><div class="action-row"><button class="action-btn primary" onclick="viewDetail(${g.id})">View</button><button class="action-btn danger" onclick="removeGig(${g.id})">✕</button></div></td>
     </tr>`).join('');
@@ -780,7 +780,7 @@ function renderDocsTable() {
   tbody.innerHTML = gigs.map(g=>`
     <tr>
       <td><div class="client-name">${g.name}</div></td>
-      <td class="mono" style="font-size:12px">${fmtDate(g.date)}</td>
+      <td class="mono" style="font-size:14px">${fmtDate(g.date)}</td>
       <td class="mono" style="font-weight:700">$${(g.fee||0).toLocaleString()}</td>
       <td>${statusBadge(g.status)}</td>
       <td><div class="action-row">
@@ -978,7 +978,7 @@ function renderContractTable() {
   tbody.innerHTML = list.map(g => `
     <tr>
       <td><div class="client-name">${g.name}</div></td>
-      <td class="mono" style="font-size:12px">${fmtDate(g.date)}</td>
+      <td class="mono" style="font-size:14px">${fmtDate(g.date)}</td>
       <td class="mono" style="font-weight:700">$${(g.fee||0).toLocaleString()}</td>
       <td>${statusBadge(g.status)}</td>
       <td><div class="action-row">
@@ -998,9 +998,9 @@ function renderDepositTable() {
   tbody.innerHTML = list.map(g => `
     <tr>
       <td><div class="client-name">${g.name}</div></td>
-      <td class="mono" style="font-size:12px">${fmtDate(g.date)}</td>
+      <td class="mono" style="font-size:14px">${fmtDate(g.date)}</td>
       <td class="mono" style="font-weight:700">$${(g.fee||0).toLocaleString()}</td>
-      <td style="font-size:12px">${depCell(g)}</td>
+      <td style="font-size:14px">${depCell(g)}</td>
       <td>${statusBadge(g.status)}</td>
       <td><div class="action-row">
         <button class="action-btn" onclick="showDepEmail(${g.id})">Reminder</button>
@@ -1020,8 +1020,8 @@ function renderGigDayTable() {
     const bal = Math.max(0,(g.fee||0)-(g.depReceived==='yes'?g.depositAmt:0));
     return `<tr>
       <td><div class="client-name">${g.name}</div></td>
-      <td class="mono" style="font-size:12px">${fmtDate(g.date)}</td>
-      <td style="font-size:12px;color:var(--muted)">${g.venue||'—'}</td>
+      <td class="mono" style="font-size:14px">${fmtDate(g.date)}</td>
+      <td style="font-size:14px;color:var(--muted)">${g.venue||'—'}</td>
       <td class="mono" style="font-weight:700;color:var(--accent)">$${bal.toLocaleString()}</td>
       <td><div class="action-row">
         <button class="action-btn primary" style="background:var(--green);color:var(--bg3);border-color:transparent" onclick="exportGigSheet(${g.id})">⬇ Gig Sheet</button>
@@ -1040,8 +1040,8 @@ function renderDoneTable() {
   tbody.innerHTML = list.map(g => `
     <tr>
       <td><div class="client-name">${g.name}</div></td>
-      <td class="mono" style="font-size:12px">${fmtDate(g.date)}</td>
-      <td style="font-size:12px;color:var(--muted)">${g.type}</td>
+      <td class="mono" style="font-size:14px">${fmtDate(g.date)}</td>
+      <td style="font-size:14px;color:var(--muted)">${g.type}</td>
       <td class="mono" style="font-weight:700;color:var(--green)">$${(g.fee||0).toLocaleString()}</td>
       <td><div class="action-row">
         <button class="action-btn primary" onclick="showInvoice(${g.id})">Invoice</button>
