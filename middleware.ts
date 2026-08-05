@@ -4,7 +4,7 @@ declare const process: {
   env: Record<string, string | undefined>;
 };
 
-const ADMIN_PATH_PREFIX = '/admin';
+const PROTECTED_PATH_PREFIXES = ['/admin', '/studio'];
 const REALM = 'DJ Terry Bevvan Admin';
 
 function unauthorized(message = 'Authentication required') {
@@ -36,11 +36,11 @@ function parseBasicAuth(header: string | null) {
 
 export default function middleware(request: Request) {
   const url = new URL(request.url);
-  const protectsAdmin =
-    url.pathname === ADMIN_PATH_PREFIX ||
-    url.pathname.startsWith(`${ADMIN_PATH_PREFIX}/`);
+  const protectsProtectedArea = PROTECTED_PATH_PREFIXES.some(
+    (prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`),
+  );
 
-  if (!protectsAdmin) {
+  if (!protectsProtectedArea) {
     return next();
   }
 
@@ -66,5 +66,5 @@ export default function middleware(request: Request) {
 }
 
 export const config = {
-  matcher: ['/admin', '/admin/:path*'],
+  matcher: ['/admin', '/admin/:path*', '/studio', '/studio/:path*'],
 };
