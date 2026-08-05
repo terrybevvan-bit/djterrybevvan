@@ -842,13 +842,13 @@ function viewDetail(id) {
         <div style="grid-column:1/-1"><div class="detail-key">Notes</div><div class="detail-val" style="color:var(--muted)">${g.notes||'—'}</div></div>
       </div>
       <div class="detail-actions">
+        <button class="action-btn" onclick="downloadClientForm(${g.id})">Download Client Form</button>
+        <button class="action-btn" onclick="emailClientForm(${g.id})">Email Client Form</button>
+        <button class="action-btn primary" onclick="setView('interview');document.getElementById('interview-client-select').value='${g.id}';loadInterview();showImportModal()">⬇ Import Client Form</button>
         <button class="add-btn" onclick="showContract(${g.id})">Generate Contract</button>
         <button class="action-btn primary" onclick="showContractEmail(${g.id})">✉️ Contract Email</button>
         <button class="action-btn primary" onclick="showInvoice(${g.id})">Invoice</button>
         <button class="action-btn" onclick="showDepEmail(${g.id})">Deposit Reminder</button>
-        <button class="action-btn" onclick="downloadClientForm(${g.id})">Download Client Form</button>
-        <button class="action-btn" onclick="emailClientForm(${g.id})">Email Client Form</button>
-        <button class="action-btn primary" onclick="setView('interview');document.getElementById('interview-client-select').value='${g.id}';loadInterview();showImportModal()">⬇ Import Client Form</button>
         <button class="action-btn primary" onclick="exportGigSheet(${g.id})" style="background:var(--green);color:var(--bg3);border-color:transparent">⬇ Gig Sheet</button>
         <button class="action-btn danger" onclick="removeGig(${g.id})">Remove</button>
       </div>
