@@ -1,5 +1,5 @@
 /* Master Room / second edition */
-.pb-brand-export .pb-fmt{width:110px;flex:0 0 110px}.pb-brand-export .pb-master-btn{flex:0 0 auto}.pb-brand:before,.pb-brand:after,.player-bar:before,.player-bar:after{display:none!important}
+.pb-brand-export .pb-fmt{width:166px;flex:0 0 166px}.pb-brand-export .pb-master-btn{flex:0 0 auto}.pb-brand:before,.pb-brand:after,.player-bar:before,.player-bar:after{display:none!important}
 /* Presets may be chosen before audio is loaded; transport uses native disabled buttons. */
 #playerBarBody.disabled-section,#secTarget.disabled-section{pointer-events:auto;opacity:1}
 .pb-brand-export{flex-shrink:0}.pb-master-btn{min-width:135px;white-space:nowrap}.pb-master-btn.ghost{min-width:105px}.pb-brand::before,.pb-brand::after{display:none!important}

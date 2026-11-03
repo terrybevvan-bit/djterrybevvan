@@ -1385,11 +1385,12 @@
             <div><span class="pb-brand-name">MASTER ROOM <span>02</span></span><br><span class="pb-brand-sub">Listen. Refine. Release.</span></div>
             <div class="pb-brand-export">
               <button class="pb-load-btn" id="pbLoadBtn" title="Load one or more tracks">⇪ Load</button>
-              <select id="fmt" class="pb-fmt mini" title="Output format">
-                <option value="wav24">24-bit</option>
-                <option value="wav16">16-bit</option>
+              <select id="fmt" class="pb-fmt mini" title="Output format" aria-label="Master export format">
+                <option value="wav24">WAV ? 24-bit</option>
+                <option value="wav16">WAV ? 16-bit</option>
+                <option value="mp3">MP3 ? 320 kbps</option>
               </select>
-              <button class="pb-master-btn" id="masterBtn" disabled title="Master the current track and download the exact WAV">Export master ↗</button>
+              <button class="pb-master-btn" id="masterBtn" disabled title="Master the current track and download in the selected format">Export master ↗</button>
               <button class="pb-master-btn ghost" id="batchBtn" disabled title="Master every track in the queue">Export batch</button>
             </div>
           </div>
@@ -1426,7 +1427,7 @@
             <input type="range" id="seek" min="0" max="1000" value="0" disabled class="pb-wave-seek">
           </div>
 
-          <div class="pb-engine-note" id="pbEngineNote">▸ Live preview — realtime chain. Tick <b>exact render</b> to hear the actual downloaded file.</div>
+          <div class="pb-engine-note" id="pbEngineNote">▸ Live preview — realtime chain. Tick <b>exact render</b> to hear the master before export encoding.</div>
 
           <div class="pb-meters">
             <div class="vu-meter">
@@ -3721,7 +3722,7 @@ window.STYLES=[
     peakHold=0;
     sourceNode.onended=()=>{ if(playing && liveCtx.currentTime-startedAt>=dur-0.05) stopPlayback(); };
     playing=true; $('#playBtn').textContent='❚❚';
-    $('#pbEngineNote').innerHTML='✓ <b>Exact render</b> — this is the actual file that will download, sample-for-sample.';
+    $('#pbEngineNote').innerHTML='✓ <b>Exact render</b> — this is the rendered master before WAV or MP3 encoding.';
     $('#pbEngineNote').classList.add('exact');
     tick();
   }
@@ -4320,12 +4321,27 @@ window.STYLES=[
     for(let c=0;c<rendered.numberOfChannels;c++){ const a=rendered.getChannelData(c); for(let i=0;i<a.length;i++) a[i]*=trim*Math.min(1,fi?i/fi:1,fo?(a.length-1-i)/fo:1); }
     return {rendered, m:measure(rendered)};
   }
-  function downloadBuffer(rendered, name){
-    const bits=$('#fmt').value==='wav16'?16:24;
-    const wav=encodeWAV(rendered,bits);
-    const blob=new Blob([wav],{type:'audio/wav'});
+  async function encodeMP3(buffer){
+    // MP3 supports mono/stereo; normalize unusual rates and multichannel mixes.
+    if(![32000,44100,48000].includes(buffer.sampleRate)||buffer.numberOfChannels>2){
+      const off=new OfflineAudioContext(Math.min(2,buffer.numberOfChannels),Math.ceil(buffer.duration*44100),44100);
+      const source=off.createBufferSource(); source.buffer=buffer;
+      source.connect(off.destination); source.start(); buffer=await off.startRendering();
+    }
+    return new Promise((resolve,reject)=>{
+      const worker=new Worker('mp3-worker.js');
+      const finish=()=>worker.terminate();
+      worker.onmessage=({data})=>{finish();data.error?reject(new Error(data.error)):resolve(data.blob);};
+      worker.onerror=()=>{finish();reject(new Error('MP3 encoder could not run. Please try again or choose WAV.'));};
+      const channels=Array.from({length:buffer.numberOfChannels},(_,i)=>buffer.getChannelData(i).slice().buffer);
+      worker.postMessage({channels,sampleRate:buffer.sampleRate},channels);
+    });
+  }
+  async function downloadBuffer(rendered, name, format){
+    const mp3=format==='mp3';
+    const blob=mp3?await encodeMP3(rendered):new Blob([encodeWAV(rendered,format==='wav16'?16:24)],{type:'audio/wav'});
     const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-    a.download=name+'_master.wav'; a.click();
+    a.download=name+'_master.'+(mp3?'mp3':'wav'); a.click();
     setTimeout(()=>URL.revokeObjectURL(a.href),6000);
   }
   function reflectMeters(m){
@@ -4335,17 +4351,23 @@ window.STYLES=[
   }
   async function masterSingle(){
     if(!audioBuffer||batchRunning) return;
-    $('#progWrap').classList.add('show'); setProg(15,'Rendering audio offline…');
-    const p=readParams();
-    let res;
-    try{ res=await renderBuffer(audioBuffer,p); }
-    catch(err){ setProg(0,'Render failed: '+err.message); return; }
-    setProg(75,'Measuring & encoding…');
-    reflectMeters(res.m);
-    downloadBuffer(res.rendered, srcName);
-    setProg(100, `Done · ${res.m.lufs.toFixed(1)} LUFS · peak ${res.m.peakDb.toFixed(1)} dB`);
-    window.studioToast('Mastered WAV downloaded');
-    setTimeout(()=>$('#progWrap').classList.remove('show'),3500);
+    batchRunning=true;
+    $('#masterBtn').disabled=true; $('#batchBtn').disabled=true;
+    const format=$('#fmt').value;
+    $('#progWrap').classList.add('show'); setProg(15,'Rendering audio offline?');
+    try{
+      const res=await renderBuffer(audioBuffer,readParams());
+      setProg(75,format==='mp3'?'Encoding MP3 ? 320 kbps?':'Measuring & encoding?');
+      reflectMeters(res.m);
+      await downloadBuffer(res.rendered,srcName,format);
+      setProg(100,`Done ? ${res.m.lufs.toFixed(1)} LUFS ? peak ${res.m.peakDb.toFixed(1)} dB`);
+      window.studioToast('Mastered '+(format==='mp3'?'MP3':'WAV')+' downloaded');
+      setTimeout(()=>$('#progWrap').classList.remove('show'),3500);
+    }catch(err){setProg(0,'Export failed: '+err.message);}
+    finally{
+      batchRunning=false;
+      $('#masterBtn').disabled=!audioBuffer; $('#batchBtn').disabled=!queue.length;
+    }
   }
   async function masterBatch(){
     if(!queue.length||batchRunning) return;
@@ -4353,6 +4375,7 @@ window.STYLES=[
     $('#batchBtn').disabled=true; $('#masterBtn').disabled=true;
     $('#progWrap').classList.add('show');
     const p=readParams();
+    const format=$('#fmt').value;
     const total=queue.length; let ok=0, failed=0;
     for(let i=0;i<queue.length;i++){
       const it=queue[i];
@@ -4363,7 +4386,7 @@ window.STYLES=[
         if(!it.buffer) it.buffer=await decode(it.file);
         const res=await renderBuffer(it.buffer, p);
         reflectMeters(res.m);
-        downloadBuffer(res.rendered, it.name.replace(/\.[^.]+$/,'')||('track'+(i+1)));
+        await downloadBuffer(res.rendered, it.name.replace(/\.[^.]+$/,'')||('track'+(i+1)),format);
         it.status='done'; it.result=res.m; ok++;
         await new Promise(r=>setTimeout(r,350));
       }catch(err){ it.status='err'; failed++; }
