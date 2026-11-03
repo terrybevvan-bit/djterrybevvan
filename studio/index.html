@@ -739,6 +739,7 @@
     button.btn { font-size: 16px; }
   }
 </style>
+<link rel="stylesheet" href="studio.css">
 </head>
 <body>
 <div class="app">
@@ -746,23 +747,24 @@
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
-      <p class="kicker">Suno v4.5 / v5 · club toolkit</p>
+      <p class="kicker">THE FINISHING STUDIO</p>
       <h1>Terry Bevvan<span>/ Studio</span></h1>
     </div>
     <nav class="sb-nav">
-      <div class="grp-label">Create</div>
-      <div class="navitem on" data-tool="builder"><span class="ico">⚡</span><span class="lbl">Track Builder</span></div>
-      <div class="navitem" data-tool="lyriclab"><span class="ico">✍</span><span class="lbl">Lyric Lab</span></div>
+      <div class="grp-label">Your studio</div>
+      <div class="navitem on" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
       <div class="navitem" data-tool="soundcloud"><span class="ico">☁</span><span class="lbl">SoundCloud Desc</span></div>
       <div class="navitem" data-tool="mcvox"><span class="ico">🎤</span><span class="lbl">MC Vocals</span></div>
-      <div class="grp-label">Produce</div>
-      <div class="navitem" data-tool="djedit"><span class="ico">▶</span><span class="lbl">DJ Edit</span></div>
-      <div class="navitem" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
+      <a class="studio-link melodic-link" href="https://terry-melodic-studio.b1maxv52.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Melodic Studio<small>Generate lyrics</small></span><span aria-hidden="true">↗</span></a>
       <div class="grp-label">Library</div>
       <div class="navitem" data-tool="styles"><span class="ico">◇</span><span class="lbl">EDM Style Library</span></div>
       <div class="navitem" data-tool="saved"><span class="ico">◈</span><span class="lbl">Saved Tracks</span><span class="badge" id="savedCount">0</span></div>
       <div class="navitem" data-tool="cheat"><span class="ico">▤</span><span class="lbl">Genre Cheat-Sheet</span></div>
       <div class="navitem" data-tool="trends"><span class="ico">📈</span><span class="lbl">Genre Trends</span></div>
+      <div class="grp-label">My music</div>
+      <a class="studio-link" href="https://soundcloud.com/terrybevvan" target="_blank" rel="noopener noreferrer"><span class="ico" aria-hidden="true">☁</span><span class="lbl">SoundCloud</span><span aria-hidden="true">↗</span></a>
+      <a class="studio-link" href="https://open.spotify.com/artist/77ESL4CKxUBtUUhlyMb2FU" target="_blank" rel="noopener noreferrer"><span class="ico" aria-hidden="true">◉</span><span class="lbl">Spotify</span><span aria-hidden="true">↗</span></a>
+      <a class="studio-link" href="https://music.youtube.com/playlist?list=OLAK5uy_mRLkrnHM9uWVJH8Rjl2NoL3LdRGFwz7GU" target="_blank" rel="noopener noreferrer"><span class="ico" aria-hidden="true">▶</span><span class="lbl">YouTube Music</span><span aria-hidden="true">↗</span></a>
     </nav>
     <div class="sb-foot">
       Runs on your machine.<br>Nothing uploaded. No subscription.<br>Saved tracks stored locally.
@@ -774,11 +776,11 @@
   <div class="main">
     <div class="mobile-bar">
       <button class="burger" id="burger">☰</button>
-      <span class="mtitle" id="mobileTitle">Track Builder</span>
+      <span class="mtitle" id="mobileTitle">Master Room</span>
     </div>
 
     <!-- Panels injected below -->
-    <div id="panel-builder" class="tool-panel on">
+    <div id="panel-builder" class="tool-panel">
       <div class="wrap">
         <header class="tool-head">
           <div class="brand">
@@ -1127,6 +1129,7 @@
                   <option>Electro Tech House</option>
                   <option>Deep House</option>
                   <option>Afro House</option>
+                  <option>Latin House</option>
                   <option>Progressive House Dub</option>
                   <option>Dark Tribal House</option>
                   <option>Diva / Big-Room House</option>
@@ -1350,13 +1353,13 @@
       </div>
     </div>
 
-    <div id="panel-master" class="tool-panel">
+    <div id="panel-master" class="tool-panel on">
       <div class="wrap narrow">
         <header class="tool-head">
           <div class="brand">
-            <p class="kicker">Web Audio Mastering · runs on your machine · no upload</p>
-            <h2>Master Room <span>/ Terry Bevvan</span></h2>
-            <p>Drop a track in. Pick a target, tweak the chain, hit master. It renders a clean, loud, streaming-ready WAV entirely in your browser — nothing leaves your computer.</p>
+            <p class="kicker">MASTER ROOM / TERRY BEVVAN</p>
+            <h2>Make it <em>release ready.</em></h2>
+            <p>Your sound, finished. Load your mix, find your preset, and give every detail its space.</p>
           </div>
           <button class="fs-btn" id="masterFsBtn" title="Full screen"><span id="fsIcon">⛶</span><span id="fsLabel">Full Screen</span></button>
         </header>
@@ -1365,7 +1368,7 @@
         <section class="load-compact">
           <div class="sec-body">
             <div id="drop" class="drop-slim">
-              <span class="drop-slim-txt">⇪ Drop audio here, or click — one file or a whole batch</span>
+              <span class="drop-slim-txt">＋ Add your mix <small>Drop audio or browse files · WAV, MP3, FLAC · batch supported</small></span>
             </div>
             <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" multiple>
             <div class="loaded" id="loaded">
@@ -1379,15 +1382,15 @@
         <!-- ============ PINNED PLAYER BAR (the ONE player) ============ -->
         <div id="playerBar" class="player-bar">
           <div class="pb-brand">
-            <div><span class="pb-brand-name">TERRY BEVVAN <span>MP-1</span></span><br><span class="pb-brand-sub">Intelligent Master Processor</span></div>
+            <div><span class="pb-brand-name">MASTER ROOM <span>02</span></span><br><span class="pb-brand-sub">Listen. Refine. Release.</span></div>
             <div class="pb-brand-export">
               <button class="pb-load-btn" id="pbLoadBtn" title="Load one or more tracks">⇪ Load</button>
               <select id="fmt" class="pb-fmt mini" title="Output format">
                 <option value="wav24">24-bit</option>
                 <option value="wav16">16-bit</option>
               </select>
-              <button class="pb-master-btn" id="masterBtn" disabled title="Master the current track and download the exact WAV">⚡ Master</button>
-              <button class="pb-master-btn ghost" id="batchBtn" disabled title="Master every track in the queue">⚡ All</button>
+              <button class="pb-master-btn" id="masterBtn" disabled title="Master the current track and download the exact WAV">Export master ↗</button>
+              <button class="pb-master-btn ghost" id="batchBtn" disabled title="Master every track in the queue">Export batch</button>
             </div>
           </div>
           <div class="progress-wrap" id="progWrap">
@@ -1427,7 +1430,7 @@
 
           <div class="pb-meters">
             <div class="vu-meter">
-              <span class="vu-label">Loudness</span>
+              <span class="vu-label">Loudness estimate</span>
               <svg viewBox="0 0 200 115" preserveAspectRatio="xMidYMid meet">
                 <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#3a2f10" stroke-width="2"/>
                 <path d="M 20 100 A 80 80 0 0 1 100 20" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55"/>
@@ -1439,7 +1442,7 @@
               <div class="vu-readout"><span class="num idle" id="mLufs">—</span><span class="unit">LUFS</span></div>
             </div>
             <div class="vu-meter">
-              <span class="vu-label">True Peak</span>
+              <span class="vu-label">Sample peak</span>
               <svg viewBox="0 0 200 115" preserveAspectRatio="xMidYMid meet">
                 <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#3a2f10" stroke-width="2"/>
                 <path d="M 20 100 A 80 80 0 0 1 130 25" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55"/>
@@ -1469,9 +1472,9 @@
 
           <!-- VST internal tabs -->
           <div class="vst-tabs" id="vstTabs">
-            <button class="vst-tab on" data-vtab="secTarget">① Start</button>
-            <button class="vst-tab" data-vtab="secChain">② Chain</button>
-            <button class="vst-tab" data-vtab="secCompare">③ Compare</button>
+            <button class="vst-tab on" data-vtab="secTarget">01 · Presets</button>
+            <button class="vst-tab" data-vtab="secChain">02 · Shape your sound</button>
+            <button class="vst-tab" data-vtab="secCompare">03 · Check & compare</button>
           </div>
           <div class="vst-body" id="vstBody"><!-- sections relocated here by JS --></div>
           </div>
@@ -1481,7 +1484,7 @@
         <section id="secTarget" class="disabled-section">
           <div class="sec-head"><span class="sec-num">02</span><h3>Pick a Starting Point</h3><span class="hint">one click loads the whole chain — then fine-tune in the tabs</span></div>
           <div class="sec-body">
-            <p class="flow-help">Start here. Pick <b>one</b> of the three options below — a manual preset (safest), the AI, or a reference track. Each one fills in all the chain settings for you. Then use the tabs underneath to tweak and hit Master at the bottom. You never have to touch a slider if you don't want to.</p>
+            <p class="flow-help">Pick a sound you love. Your presets load the whole chain; fine-tune only when you need to. Saved presets stay right here.</p>
 
             <div class="preset-group-label">① Manual presets <span class="pg-sub">— predictable, no surprises. Transparent is the gentlest.</span></div>
             <div class="chips" id="presetChips">
@@ -1594,7 +1597,7 @@
               <button class="chain-tab" data-tab="out">Output &amp; Loudness</button>
             </div>
 
-            <!-- TAB: EQ -->
+            <div class="finishing-tools"><h3>The finishing touches</h3><div class="controls"><div class="ctl"><div class="top"><span>Mono bass</span><span class="val" id="bassMonoV">0 Hz</span></div><input aria-label="Mono bass" type="range" id="bassMono" min="0" max="250" step="10" value="0"><div class="desc">Center the bass below this frequency for a more stable low end. Zero bypasses.</div></div><div class="ctl"><div class="top"><span>Tonal tilt</span><span class="val" id="tiltV">0 dB</span></div><input aria-label="Tonal tilt" type="range" id="tilt" min="-3" max="3" step="0.25" value="0"><div class="desc">A broad balance: warmer to the left, brighter to the right.</div></div><div class="ctl"><div class="top"><span>Fade in</span><span class="val" id="fadeInV">0 ms</span></div><input aria-label="Fade in" type="range" id="fadeIn" min="0" max="100" step="5" value="0"><div class="desc">Smooth the opening edge without a long fade. Applied to the exact render and export.</div></div><div class="ctl"><div class="top"><span>Fade out</span><span class="val" id="fadeOutV">0 ms</span></div><input aria-label="Fade out" type="range" id="fadeOut" min="0" max="2000" step="50" value="0"><div class="desc">Finish cleanly and avoid abrupt endings. Applied to the exact render and export.</div></div></div><p class="note">All finishing tools start bypassed. Fade controls are heard with “exact render” enabled.</p></div><!-- TAB: EQ -->
             <div class="chain-pane on" data-pane="eq">
               <div class="controls">
                 <div class="ctl">
@@ -1716,7 +1719,7 @@
         </section>
 
         <!-- 04 COMPARE -->
-        <section id="secCompare" class="disabled-section">
+        <section id="secCompare" class="disabled-section"><div class="health-check"><h3>Before you release</h3><button class="btn ghost" id="healthBtn">Check track health</button><div id="healthReport" role="status">Check clipping, stereo compatibility, and dynamics in your source mix.</div><p class="note">Loudness is an RMS-based estimate. Peak readings are sample peaks; verify integrated LUFS and true peak in a dedicated meter for delivery specifications.</p></div>
           <div class="sec-head"><span class="sec-num">04</span><h3>Compare Raw vs Mastered</h3><span class="hint">frozen before/after with waveforms</span></div>
           <div class="sec-body">
             <p class="flow-help" style="margin-bottom:14px"><b>Two ways to listen, and they're different:</b> the <b>player up top</b> is live — it plays your track through the chain in real time and updates as you move sliders (use its A/B to flip raw ↔ mastered on the fly). <b>This section</b> renders a <b>frozen snapshot</b> of the mastered version and draws both waveforms so you can see the change and scrub them in sync. Use the top player while tweaking; build this once you want a locked before/after with visuals.</p>
@@ -1754,7 +1757,7 @@
                 <div class="delta" id="dLufs"></div>
               </div>
               <div class="cmp-cell">
-                <div class="cl">True Peak · dB</div>
+                <div class="cl">Sample Peak · dB</div>
                 <div class="rowline"><span class="k">Raw</span><span class="v raw" id="sRawPeak">—</span></div>
                 <div class="rowline"><span class="k">Mastered</span><span class="v mst" id="sMstPeak">—</span></div>
                 <div class="delta" id="dPeak"></div>
@@ -1929,191 +1932,7 @@
     </div>
 
 
-    <div id="panel-trends" class="tool-panel">
-      <div class="wrap">
-        <header class="tool-head">
-          <div class="brand">
-            <p class="kicker">Research snapshot · dated, sourced, not live data</p>
-            <h2>Genre Trends <span>/ What's Actually Big Right Now</span></h2>
-            <p>What's trending across EDM styles and streaming platforms — researched and dated so you know exactly how fresh it is. Trends shift month to month; ask Claude to refresh this page with a new search whenever you want an update.</p>
-          </div>
-        </header>
-
-        <div class="trend-asof">
-          <span class="trend-asof-dot"></span>
-          Research current as of <b>late July 2026</b> · sources linked throughout · not a live feed
-        </div>
-
-        <section>
-          <div class="sec-head"><span class="sec-num">01</span><h3>The Big Picture</h3><span class="hint">the headline number</span></div>
-          <div class="sec-body">
-            <div class="trend-headline">
-              <div class="trend-headline-num">#1</div>
-              <div class="trend-headline-txt">EDM was America's <b>fastest-growing genre</b> in the first half of 2026, gaining more of the US listening market than any other genre — per Luminate's 2026 Midyear Report. Global on-demand streams overall grew 9.8% to 2.8 trillion; dance/electronic is taking share directly from hip-hop/R&B, which still leads at ~1 in 4 US streams but is "ceding ground."</div>
-            </div>
-            <div class="info-cards">
-              <div class="info-card">
-                <h4>Festival mainstage proof</h4>
-                <p>Dance/electronic music made up roughly <b>45% of Coachella's 2026 lineup</b> — a sharp jump from the year before (Beatportal analysis). Electronic is now also the single most-booked genre across US festivals generally.</p>
-              </div>
-              <div class="info-card">
-                <h4>Drum & bass breaks out in the US</h4>
-                <p>DnB has climbed hard in America in 2026 — sold-out Red Rocks shows, bigger festival billing for Sub Focus, Chase &amp; Status, Hedex. NGHTMRE called it flatly: "Drum and bass is in for 2026."</p>
-              </div>
-              <div class="info-card">
-                <h4>Higher energy, broadly</h4>
-                <p>Across the board, dancefloors are trending toward higher-energy styles — reflected in DnB's rise, Hard/Industrial Techno holding as SoundCloud's 3rd most-played genre, and hardcore/hardstyle tracks over 180 BPM increasing three years running.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <div class="sec-head"><span class="sec-num">02</span><h3>Biggest EDM Styles Right Now</h3><span class="hint">ranked by momentum, not just size</span></div>
-          <div class="sec-body">
-            <div class="chips" id="trendGenreChips" style="margin-bottom:16px">
-              <span class="chip on" data-filter="all">All</span>
-              <span class="chip" data-filter="established">Established &amp; Dominant</span>
-              <span class="chip" data-filter="rising">Fast-Rising</span>
-              <span class="chip" data-filter="cooling">Cooling Off</span>
-            </div>
-            <div class="trend-genre-grid" id="trendGenreGrid">
-
-              <div class="trend-card" data-cat="established">
-                <div class="trend-card-top"><span class="trend-tag established">Established &amp; dominant</span><span class="trend-lib-tag in-lib">✓ in your Library</span></div>
-                <h4>Tech House</h4>
-                <p>Not trending — <i>structural</i>. Been the most-booked club/festival sound for three straight years running. FISHER, John Summit, Dom Dolla, Chris Lake, and Mau P are among the most-booked artists in global club culture right now. 2026's shift: producers pushing further into detail work — shuffle, transient shape, bass texture. Beatport's #1 tech house track as of March 2026: "Turbo Blanco" (Chris Lorenzo &amp; Kah-lo), 130 BPM.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising</span><span class="trend-lib-tag in-lib">✓ in your Library</span></div>
-                <h4>Afro House</h4>
-                <p>The IMS Business Report names it the fastest-growing genre in electronic music, and it shows — dominating Beatport's charts and every major Ibiza room (Pacha, Hï, DC10, Time Warp) through 2026. Driven by Afrobeats/Amapiano crossing into pop culture, plus a wave of "Afro House edit" remixes of popular songs. Top names: Hugel, Keinemusik.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising</span><span class="trend-lib-tag in-lib">✓ in your Library (Liquid DnB)</span></div>
-                <h4>Drum &amp; Bass</h4>
-                <p>Climbing the ranks among American ravers faster than almost anything else — arenas and Red Rocks selling out, festival billing rising. Industry voices are calling 2026 DnB's American breakout moment. The open question: whether a US festival ever books it as an actual headline slot.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising</span><span class="trend-lib-tag in-lib">✓ in your Library</span></div>
-                <h4>UK Garage</h4>
-                <p>Finally found real footing in the US in 2026 — more prominent on festival lineups than ever before, after years as a UK-only underground staple.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising</span><span class="trend-lib-tag in-lib">✓ in your Library</span></div>
-                <h4>Melodic Techno</h4>
-                <p>Stayed prominent in playlists and festival sets, and increasingly cross-pollinating with Afro House — descending "cinematic lift" basslines paired with Afro House drums is a specific fusion trick showing up in 2025-26's biggest crossover records.</p>
-              </div>
-
-              <div class="trend-card" data-cat="established">
-                <div class="trend-card-top"><span class="trend-tag established">Established &amp; dominant</span><span class="trend-lib-tag in-lib">✓ in your Library (Hard Techno)</span></div>
-                <h4>Hard / Industrial Techno</h4>
-                <p>SoundCloud's 3rd most-played electronic genre in 2025 data, and holding. The share of hardcore/hardstyle tracks crossing 180 BPM has grown for three consecutive years — dancefloors trending harder and faster generally.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising (regional)</span><span class="trend-lib-tag in-lib">✓ in your Library</span></div>
-                <h4>Gqom</h4>
-                <p>Percussion-heavy Zulu-rooted house style — Australian producer Wax Motif specifically called out Gqom (alongside faster tempos generally) as poised to surge in relevance through 2026.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising (regional)</span><span class="trend-lib-tag in-lib">✓ in your Library</span></div>
-                <h4>Colombian Guaracha</h4>
-                <p>Medellín-born fusion of tribal house and cumbia — festive trumpets, tambora drums and accordion over a tribal house groove. One of SoundCloud's fastest-growing genres of 2025, and part of a wider wave of Latino EDM subgenres currently shaping the scene globally.</p>
-              </div>
-
-              <div class="trend-card" data-cat="rising">
-                <div class="trend-card-top"><span class="trend-tag rising">Fast-rising (regional)</span><span class="trend-lib-tag not-in-lib">not in your Library yet</span></div>
-                <h4>Global Regional Sounds</h4>
-                <p>Indonesian Breakbeat, Vinahouse, and South Korean EDM round out SoundCloud's fastest-growing genres of 2025 — Global South markets are growing at roughly twice the rate of Western markets and starting to visibly shape the wider scene.</p>
-              </div>
-
-              <div class="trend-card" data-cat="cooling">
-                <div class="trend-card-top"><span class="trend-tag cooling">Cooling off</span><span class="trend-lib-tag" style="opacity:.4">n/a</span></div>
-                <h4>Big Room &amp; Classic Dubstep</h4>
-                <p>Both losing momentum outside of niche/nostalgia communities, per producer-facing industry analysis — the sounds that defined mid-2010s festival mainstages are increasingly a throwback rather than the current default.</p>
-              </div>
-
-            </div>
-            <p class="note" style="margin-top:16px">✓ tags show what's already in your <b>EDM Style Library</b>. Every trending style on this page except the regional-fusion sounds (Indonesian Breakbeat, Vinahouse, etc.) is already a full Track Builder preset — Gqom was the one gap, added on request.</p>
-          </div>
-        </section>
-
-        <section>
-          <div class="sec-head"><span class="sec-num">03</span><h3>Platform Snapshot</h3><span class="hint">Spotify · YouTube · Apple Music · Beatport</span></div>
-          <div class="sec-body">
-            <div class="platform-grid">
-              <div class="platform-card">
-                <div class="platform-head"><span class="platform-ico">♫</span><h4>Spotify</h4></div>
-                <p>Editorial and fan-run playlists lean toward crossover, vocal-forward dance-pop as much as club music — heavy rotation names include KSHMR, David Guetta, Tiësto, Hardwell, Mau P, SIDEPIECE, James Hype, Timmy Trumpet, Disco Lines, and Kaskade. Spotify is where dance music's mainstream/pop-crossover face lives.</p>
-              </div>
-              <div class="platform-card">
-                <div class="platform-head"><span class="platform-ico">▶</span><h4>YouTube</h4></div>
-                <p>Mirrors Spotify's mainstream leaning, plus a strong short-form/TikTok pipeline — a lot of 2026 EDM virality traces back to TikTok clips before it ever hits a chart. Also notable: a "2026 is the new 2016" nostalgia trend has been circulating, resurfacing early-2010s EDM aesthetics (Chainsmokers-era) alongside the genuinely new sounds.</p>
-              </div>
-              <div class="platform-card">
-                <div class="platform-head"><span class="platform-ico">🍎</span><h4>Apple Music</h4></div>
-                <p>Curation leans festival-anthem: Electro House, Big Room, and "Future Rave" show up heavily in Apple's own Top Dance Music 2026 playlist framing — slightly more mainstage-pop than Beatport's club-and-DJ focus.</p>
-              </div>
-              <div class="platform-card">
-                <div class="platform-head"><span class="platform-ico">◆</span><h4>Beatport</h4></div>
-                <p>The DJ/producer source of truth — this is where Tech House and Afro House's dominance shows up hardest and earliest, since it tracks what's actually being bought and played by working DJs rather than what's going viral. If you want to know what's <i>really</i> big in clubs before it hits Spotify, Beatport's genre charts are the leading indicator.</p>
-              </div>
-            </div>
-            <p class="note">Read across all four: Beatport tells you what DJs are playing right now. Spotify/Apple tell you what's crossing into the mainstream. YouTube/TikTok tell you what's about to.</p>
-          </div>
-        </section>
-
-        <section>
-          <div class="sec-head"><span class="sec-num">04</span><h3>Wider Currents</h3><span class="hint">what's shaping the scene beyond genre</span></div>
-          <div class="sec-body">
-            <div class="info-cards">
-              <div class="info-card">
-                <h4>Genre fusion is the safe bet</h4>
-                <p>Across multiple 2026 breakdowns, blending two genres' strengths (e.g. Melodic Techno's harmonic structure over Afro House's drums) keeps coming up as the most reliable path to a track that lands in more than one scene's sets.</p>
-              </div>
-              <div class="info-card">
-                <h4>AI production tools, mainstream now</h4>
-                <p>AI-assisted production (beat-making, sound design, mastering) is described as a "game-changer" across 2026 industry coverage — not a novelty anymore, standard tooling for producers at every level.</p>
-              </div>
-              <div class="info-card">
-                <h4>Festival economics under strain</h4>
-                <p>Rising costs and squeezed discretionary income are pressuring festivals that compete purely on headliner names. Events built around a strong specific identity (genre, city, curation) are described as more resilient than generic multi-genre lineups.</p>
-              </div>
-              <div class="info-card">
-                <h4>Christian EDM (CEDM), an emerging niche</h4>
-                <p>A small but real niche — AXIOM Label Group and others betting that 2026's younger, more religious EDM-listening demographic wants professional-grade dance music that speaks to their values. Early days; not yet close to mainstream.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <div class="sec-head"><span class="sec-num">05</span><h3>Sources</h3><span class="hint">what this page is built from</span></div>
-          <div class="sec-body">
-            <ul class="trend-sources">
-              <li><a href="https://edm.com/industry/edm-fastest-growing-genre-first-half-2026/" target="_blank" rel="noopener">EDM.com — "EDM Was America's Fastest-Growing Genre in H1 2026"</a> (Luminate Midyear Report)</li>
-              <li><a href="https://www.edmsauce.com/2026/03/27/top-edm-subgenres-dominating-2026-and-the-best-tracks-in-each/" target="_blank" rel="noopener">EDMsauce — "Top EDM Subgenres Dominating 2026"</a></li>
-              <li><a href="https://www.edmsauce.com/2026/03/27/edm-trends-predictions-mid-year-2026-whats-actually-happening/" target="_blank" rel="noopener">EDMsauce — "EDM Trends &amp; Predictions Mid-Year 2026"</a> (Coachella lineup data via Beatportal)</li>
-              <li><a href="https://edmidentity.com/2025/12/20/state-of-edm-in-2026/" target="_blank" rel="noopener">EDM Identity — "The State Of EDM In 2026" (industry voices: NGHTMRE, Wax Motif)</a></li>
-              <li><a href="https://www.stereofox.com/articles/fastest-rising-electronic-music-genres/" target="_blank" rel="noopener">Stereofox — "Fastest-Rising Electronic Music Genres in 2026"</a> (IMS Business Report)</li>
-              <li><a href="https://wearecrossfader.co.uk/blog/dance-music-trends-2026/" target="_blank" rel="noopener">We Are Crossfader — "Dance Music Trends for 2026"</a> (SoundCloud data)</li>
-              <li><a href="https://imusician.pro/en/resources/blog/beatport-genres" target="_blank" rel="noopener">iMusician — "A Producer's Guide to Beatport Genres"</a></li>
-              <li><a href="https://presetground.com/blogs/news/top-afro-house-tracks-2026" target="_blank" rel="noopener">Presetground — "Top 20 Afro House Tracks of 2026"</a></li>
-              <li><a href="https://en.wikipedia.org/wiki/List_of_Billboard_number-one_dance_songs_of_2026" target="_blank" rel="noopener">Wikipedia — Billboard number-one dance songs of 2026</a></li>
-            </ul>
-            <p class="note">This is a research snapshot, not a live feed — a static HTML file can't fetch real-time chart data on its own. When you want a fresh read, just ask Claude to re-research this page; genre momentum shifts meaningfully every few months.</p>
-          </div>
-        </section>
-      </div>
-    </div>
-
-
+<div id="panel-trends" class="tool-panel"><div class="wrap"><header class="tool-head"><div class="brand"><p class="kicker">THE LISTENING ROOM / 2026</p><h2>Follow the sound.</h2><p>A researched snapshot to inspire your next finish.</p></div></header><div class="trend-asof">Reviewed October 5, 2026 · source covers January–June 2026 · not live charts</div><section><div class="sec-body"><p>These are market signals, not a ranking or a recipe. Mastering notes below are studio guidance, separate from the reported trends.</p><div class="chips" id="trendGenreChips"><button class="chip on" data-filter="all">All signals</button><button class="chip" data-filter="established">Established</button><button class="chip" data-filter="rising">In focus</button></div><div class="trend-genre-grid" id="trendGenreGrid"><article class="trend-card" data-cat="established"><span class="trend-signal">Still the club backbone</span><h3>Tech house & house</h3><p>Beatport’s midyear review describes tech house leading and house remaining central.</p><p class="mastering-note"><b>At the mastering desk</b><br>Keep kick and bass distinct; compare groove and punch before pushing level.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Rhythm in focus</span><h3>Afro & Latin electronic</h3><p>Afro house, Latin electronic and Brazilian funk feature prominently in the review.</p><p class="mastering-note"><b>At the mastering desk</b><br>Leave percussion room to breathe; keep sub energy centered.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Swing travels</span><h3>UK garage & bassline</h3><p>The review highlights renewed UK garage activity on US dance floors.</p><p class="mastering-note"><b>At the mastering desk</b><br>Preserve shuffled transients; avoid flattening the snare and bass movement.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Breaks stay in rotation</span><h3>Jungle & drum & bass</h3><p>Jungle and drum & bass appear among the active scenes in Beatport’s review.</p><p class="mastering-note"><b>At the mastering desk</b><br>Control harsh cymbals gently and keep fast kick and snare attacks alive.</p></article><article class="trend-card" data-cat="established"><span class="trend-signal">Bigger-room presence</span><h3>Melodic house & techno</h3><p>Beatport describes melodic house and techno reaching bigger rooms.</p><p class="mastering-note"><b>At the mastering desk</b><br>Check wide pads in mono; protect the kick from low-mid buildup.</p></article><article class="trend-card" data-cat="established"><span class="trend-signal">Peak-time intensity</span><h3>Hard techno & psy-techno</h3><p>Harder, faster sounds remain part of the review’s peak-time picture.</p><p class="mastering-note"><b>At the mastering desk</b><br>Keep distortion intentional. Loudness cannot repair a clipped source.</p></article></div><p class="note">Source: <a href="https://www.beatportal.com/articles/1489584-the-top-selling-tracks-artists-and-labels-of-2026-mid-year-review" target="_blank" rel="noopener">Beatportal · 2026 midyear review · June 29, 2026</a>. Review again when newer sales data is published.</p></div></section></div></div>
     <div id="panel-mcvox" class="tool-panel">
       <div class="wrap">
         <header class="tool-head">
@@ -2225,7 +2044,7 @@
     cheat: document.getElementById('panel-cheat'),
     trends: document.getElementById('panel-trends'),
   };
-  const titles = { builder:'Track Builder', soundcloud:'SoundCloud Desc', mcvox:'MC Vocals', master:'Master Room', djedit:'DJ Edit', styles:'EDM Style Library', saved:'Saved Tracks', cheat:'Genre Cheat-Sheet' };
+  const titles = { builder:'Track Builder', soundcloud:'SoundCloud Desc', mcvox:'MC Vocals', master:'Master Room', djedit:'DJ Edit', styles:'EDM Style Library', saved:'Saved Tracks', cheat:'Genre Cheat-Sheet', trends:'Genre Trends' };
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('backdrop');
 
@@ -3323,8 +3142,10 @@ window.STYLES=[
     // De-harsh vocal: targets the 3–4k digital edge on AI vocals/leads without dulling air.
     sunodeharsh:{hp:30, low:0.5, mud:-0.5,deess:55, harsh:6,   pres:-1,  air:1.5, glue:2,   width:104, space:12, sat:5,  lufs:-9,  ceil:-1}
   };
-  const CTRLS=['hp','low','mud','deess','harsh','pres','air','glue','width','space','sat','lufs','ceil'];
+  const CTRLS=['bassMono','tilt','fadeIn','fadeOut','hp','low','mud','deess','harsh','pres','air','glue','width','space','sat','lufs','ceil'];
+  Object.values(PRESETS).forEach(p=>Object.assign(p,{bassMono:0,tilt:0,fadeIn:0,fadeOut:0}));
   const fmtMap={
+    bassMono:v=>v ? v+' Hz' : 'off', tilt:v=>(v>0?'+':'')+v+' dB', fadeIn:v=>v+' ms', fadeOut:v=>v+' ms',
     hp:v=>Math.round(v)+' Hz',
     low:v=>(v>=0?'+':'')+v.toFixed(1)+' dB',
     mud:v=>(v>0?'+':'')+v.toFixed(1)+' dB',
@@ -3724,6 +3545,25 @@ window.STYLES=[
     const air=ctx.createBiquadFilter(); air.type='highshelf'; air.frequency.value=11000; air.gain.value=p.air;
     input.connect(hp); hp.connect(low); low.connect(mud); mud.connect(harsh); harsh.connect(pres); pres.connect(air);
     let node=air;
+    if(p.tilt){
+      const lo=ctx.createBiquadFilter(), hi=ctx.createBiquadFilter();
+      lo.type='lowshelf'; lo.frequency.value=400; lo.gain.value=-p.tilt;
+      hi.type='highshelf'; hi.frequency.value=4000; hi.gain.value=p.tilt;
+      node.connect(lo); lo.connect(hi); node=hi;
+    }
+    if(p.bassMono>0){
+      // Preserve the mid signal; high-pass only the side signal.
+      const split=ctx.createChannelSplitter(2), mid=ctx.createGain(), side=ctx.createGain();
+      const l=ctx.createGain(), r=ctx.createGain(), sl=ctx.createGain(), sr=ctx.createGain();
+      l.gain.value=r.gain.value=sl.gain.value=.5; sr.gain.value=-.5;
+      node.connect(split); split.connect(l,0); split.connect(r,1); l.connect(mid); r.connect(mid);
+      split.connect(sl,0); split.connect(sr,1); sl.connect(side); sr.connect(side);
+      const hpSide=ctx.createBiquadFilter(); hpSide.type='highpass'; hpSide.frequency.value=p.bassMono; hpSide.Q.value=.707; side.connect(hpSide);
+      const inv=ctx.createGain(); inv.gain.value=-1; hpSide.connect(inv);
+      const left=ctx.createGain(), right=ctx.createGain(), merge=ctx.createChannelMerger(2);
+      mid.connect(left); hpSide.connect(left); mid.connect(right); inv.connect(right);
+      left.connect(merge,0,0); right.connect(merge,0,1); node=merge;
+    }
 
     // De-fizz / de-ess — dynamic control of the 6.5–9 kHz hiss band where Suno's
     // AI shimmer/fizz lives. We split that band out, compress it hard, and blend
@@ -4007,6 +3847,14 @@ window.STYLES=[
     let n=0; for(let i=0;i<ch.length;i+=step){ sum+=ch[i]*ch[i]; n++; }
     return Math.sqrt(sum/n);
   }
+  $('#healthBtn').addEventListener('click',()=>{
+    if(!audioBuffer) return;
+    const m=measure(audioBuffer), a=audioBuffer.getChannelData(0), b=audioBuffer.getChannelData(Math.min(1,audioBuffer.numberOfChannels-1));
+    let ab=0, aa=0, bb=0, clipped=0;
+    for(let i=0;i<a.length;i++){ ab+=a[i]*b[i]; aa+=a[i]*a[i]; bb+=b[i]*b[i]; if(Math.abs(a[i])>=.999||Math.abs(b[i])>=.999) clipped++; }
+    const corr=ab/(Math.sqrt(aa*bb)||1);
+    $('#healthReport').textContent='SOURCE MIX · '+(clipped ? clipped+' near-full-scale samples: inspect for clipping.' : 'No full-scale samples detected.')+' Stereo correlation '+corr.toFixed(2)+(corr<0 ? ': check cancellation in mono.' : ': positive mono compatibility.')+' Crest '+m.crest.toFixed(1)+' dB'+(m.crest<6 ? ': limited dynamics; use a gentle preset.' : ': room for dynamics.')+' Estimated loudness '+m.lufs.toFixed(1)+' LUFS.';
+  });
   function measure(buf){
     const chs=[]; for(let c=0;c<buf.numberOfChannels;c++) chs.push(buf.getChannelData(c));
     let sumSq=0, peak=0, n=chs[0].length;
@@ -4464,6 +4312,12 @@ window.STYLES=[
     out.connect(off.destination);
     src.start();
     const rendered=await off.startRendering();
+    // Enforce sample ceiling after processing; this is not a true-peak limiter.
+    const ceiling=Math.pow(10,p.ceil/20); let peak=0;
+    for(let c=0;c<rendered.numberOfChannels;c++){ const a=rendered.getChannelData(c); for(let i=0;i<a.length;i++) peak=Math.max(peak,Math.abs(a[i])); }
+    const trim=peak>ceiling ? ceiling/peak : 1;
+    const fi=Math.round((p.fadeIn||0)*rendered.sampleRate/1000), fo=Math.round((p.fadeOut||0)*rendered.sampleRate/1000);
+    for(let c=0;c<rendered.numberOfChannels;c++){ const a=rendered.getChannelData(c); for(let i=0;i<a.length;i++) a[i]*=trim*Math.min(1,fi?i/fi:1,fo?(a.length-1-i)/fo:1); }
     return {rendered, m:measure(rendered)};
   }
   function downloadBuffer(rendered, name){
@@ -5862,5 +5716,5 @@ window.STYLES=[
 })();
 </script>
 
-</body>
+<script src="studio.js"></script></body>
 </html>
