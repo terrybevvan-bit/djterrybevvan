@@ -128,6 +128,13 @@ input[type=text],input[type=number],textarea,select{font-size:17px;line-height:1
 #panel-master #secCompare{background:transparent;border:0;margin:0;border-radius:0}
 #panel-master #secCompare .health-check{padding:18px;border-radius:0;background:transparent}
 #panel-master #secCompare .note{font-size:14px}
+#panel-master .cmp-seek-controls{margin:18px 0}
+#panel-master .cmp-seek-controls label{display:block;margin-bottom:10px;color:var(--ink-dim);font-size:14px}
+#panel-master .cmp-seek-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#panel-master .cmp-seek-row span{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+#panel-master #cmpSeek{display:block;position:static;opacity:1;flex:1;min-width:80px;height:32px;margin:0;accent-color:var(--amber);cursor:pointer;touch-action:pan-y}
+#panel-master .cmp-seek-controls .hint{margin-top:10px;white-space:normal}
+#panel-master #laneRaw,#panel-master #laneMst{cursor:pointer}
 #panel-master .pb-spectrum{display:none}
 #panel-master .pb-meters{border-bottom:0;border-radius:0}
 #panel-master .master-export-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}

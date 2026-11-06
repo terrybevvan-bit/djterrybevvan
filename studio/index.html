@@ -1755,6 +1755,17 @@
               <button class="btn ab" id="cmpStopBtn" disabled="">■ Stop</button>
               <span class="abnote" id="cmpPlayNote">Both play from the same spot — flip between them to hear the lift</span>
             </div>
+            <div class="cmp-seek-controls">
+              <label for="cmpSeek">Comparison position</label>
+              <div class="cmp-seek-row">
+                <button type="button" class="btn ab" id="cmpBackBtn" disabled aria-label="Seek comparison back 10 seconds">−10s</button>
+                <span id="cmpCurrent">0:00</span>
+                <input type="range" id="cmpSeek" min="0" max="0" step="0.1" value="0" disabled aria-label="Comparison position" aria-valuetext="0:00">
+                <span id="cmpDuration">0:00</span>
+                <button type="button" class="btn ab" id="cmpForwardBtn" disabled aria-label="Seek comparison forward 10 seconds">+10s</button>
+              </div>
+              <p class="hint">Drag to any part of the song, or click either waveform. Raw and mastered stay at the same position.</p>
+            </div>
             <div class="cmp-stats" id="cmpStats" style="display:none">
               <div class="cmp-cell">
                 <div class="cl">Loudness · LUFS</div>
@@ -4712,6 +4723,9 @@ window.STYLES=[
   function resetComparison(){
     stopCompare();
     masteredBuffer=null; lastPeaks=null;
+    $('#cmpSeek').disabled=true; $('#cmpSeek').max=0;
+    $('#cmpBackBtn').disabled=true; $('#cmpForwardBtn').disabled=true;
+    $('#cmpDuration').textContent='0:00'; updateComparePosition(0);
     $('#playRawBtn').disabled=true; $('#playMstBtn').disabled=true; $('#cmpStopBtn').disabled=true;
     $('#cmpStats').style.display='none';
     $('#rawEmpty').style.display=''; $('#mstEmpty').style.display='';
@@ -4731,6 +4745,9 @@ window.STYLES=[
     try{ res=await renderBuffer(audioBuffer,p); }
     catch(err){ $('#cmpNote').textContent='Render failed: '+err.message; $('#cmpRenderBtn').disabled=false; return; }
     masteredBuffer=res.rendered;
+    $('#cmpSeek').max=masteredBuffer.duration; $('#cmpSeek').disabled=false;
+    $('#cmpBackBtn').disabled=false; $('#cmpForwardBtn').disabled=false;
+    $('#cmpDuration').textContent=fmtTime(masteredBuffer.duration); updateComparePosition(0);
     const rawM=measure(audioBuffer), mstM=res.m;
     const rawPk=peaksOf(audioBuffer), mstPk=peaksOf(masteredBuffer);
     lastPeaks={rawPk, mstPk};
@@ -4820,10 +4837,37 @@ window.STYLES=[
   $('#playRawBtn').addEventListener('click', ()=>playCompare('raw'));
   $('#playMstBtn').addEventListener('click', ()=>playCompare('mst'));
   $('#cmpStopBtn').addEventListener('click', stopCompare);
-  function playCompare(which){
+  $('#cmpSeek').addEventListener('input',e=>seekCompare(+e.target.value));
+  $('#cmpBackBtn').addEventListener('click',()=>seekCompare(comparePosition()-10));
+  $('#cmpForwardBtn').addEventListener('click',()=>seekCompare(comparePosition()+10));
+  ['laneRaw','laneMst'].forEach(id=>$('#'+id).addEventListener('click',e=>{
+    if(!masteredBuffer)return;
+    const rect=e.currentTarget.getBoundingClientRect();
+    if(rect.width)seekCompare((e.clientX-rect.left)/rect.width*masteredBuffer.duration);
+  }));
+  function comparePosition(){
+    return cmpPlaying ? cmpCtx.currentTime-cmpStartedAt : cmpOffset;
+  }
+  function updateComparePosition(seconds){
+    const duration=masteredBuffer?.duration||0;
+    const position=Math.max(0,Math.min(duration,seconds));
+    $('#cmpSeek').value=position; $('#cmpSeek').setAttribute('aria-valuetext',fmtTime(position)+' of '+fmtTime(duration));
+    $('#cmpCurrent').textContent=fmtTime(position);
+    const left=(duration?position/duration*100:0)+'%';
+    $('#phRaw').style.left=left; $('#phMst').style.left=left;
+  }
+  function seekCompare(seconds){
+    if(!masteredBuffer)return;
+    const position=Math.max(0,Math.min(masteredBuffer.duration,seconds));
+    if(cmpPlaying&&position<masteredBuffer.duration){playCompare(cmpWhich,position);return;}
+    if(cmpPlaying)stopCompare();
+    cmpOffset=position; updateComparePosition(position);
+    $('#cmpStopBtn').disabled=position===0;
+  }
+  function playCompare(which,seekTo){
     if(!masteredBuffer) return;
-    let offset=cmpOffset;
-    if(cmpPlaying){ offset = cmpCtx.currentTime - cmpStartedAt; stopCompareSource(); }
+    let offset=seekTo===undefined?comparePosition():seekTo;
+    stopCompareSource();
     if(!cmpCtx) cmpCtx=new AC();
     if(cmpCtx.state==='suspended') cmpCtx.resume();
     const buf = which==='raw' ? audioBuffer : masteredBuffer;
@@ -4843,26 +4887,21 @@ window.STYLES=[
     cmpTick();
   }
   function stopCompareSource(){
-    if(cmpSource){ try{cmpSource.stop()}catch(e){} cmpSource.disconnect(); cmpSource=null; }
+    if(cmpSource){ cmpSource.onended=null; try{cmpSource.stop()}catch(e){} cmpSource.disconnect(); cmpSource=null; }
     cancelAnimationFrame(cmpRaf);
   }
   function stopCompare(){
-    if(cmpPlaying){ cmpOffset=(cmpCtx.currentTime-cmpStartedAt)%(masteredBuffer?masteredBuffer.duration:1); }
     stopCompareSource();
     cmpPlaying=false; cmpWhich=null; cmpOffset=0;
     $('#playRawBtn').textContent='▶ Play Raw'; $('#playMstBtn').textContent='▶ Play Mastered';
     $('#cmpStopBtn').disabled=true;
     $('#laneRaw').classList.remove('playing'); $('#laneMst').classList.remove('playing');
-    $('#phRaw').style.left='0'; $('#phMst').style.left='0';
+    updateComparePosition(0);
     $('#cmpPlayNote').textContent='Both play from the same spot — flip between them to hear the lift';
   }
   function cmpTick(){
     if(!cmpPlaying) return;
-    const buf = cmpWhich==='raw' ? audioBuffer : masteredBuffer;
-    const t = cmpCtx.currentTime - cmpStartedAt;
-    const frac = Math.max(0,Math.min(1, t/buf.duration));
-    const ph = cmpWhich==='raw' ? $('#phRaw') : $('#phMst');
-    ph.style.left = (frac*100)+'%';
+    updateComparePosition(comparePosition());
     cmpRaf=requestAnimationFrame(cmpTick);
   }
 

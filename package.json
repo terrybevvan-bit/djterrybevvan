@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/cleanup.test.cjs && node tests/studio-assets.test.cjs"
+    "test": "node tests/cleanup.test.cjs && node tests/studio-assets.test.cjs && node tests/comparison.test.cjs"
   },
   "dependencies": {
     "@vercel/functions": "^3.6.2"
