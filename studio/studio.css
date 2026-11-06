@@ -124,6 +124,13 @@ input[type=text],input[type=number],textarea,select{font-size:17px;line-height:1
 #panel-master #cleanupStatus{padding:14px 16px;background:#ffffff04;border-radius:8px;margin:16px 0}
 #panel-master .player-bar{position:static;top:auto;box-shadow:none;border:0;border-radius:0;background:transparent;margin:0}
 #panel-master #masterListen>.sec-body{padding:8px 0 0}
+#panel-master .listen-cleanup-summary{margin:12px 24px 18px;padding:16px;border:1px solid var(--edge);border-radius:10px;background:#ffffff04;line-height:1.6}
+#panel-master .listen-cleanup-summary strong{display:block;font-size:16px;color:var(--ink-dim)}
+#panel-master .listen-cleanup-summary[data-state=on]{border-color:var(--cyan);background:#7edac50a}
+#panel-master .listen-cleanup-summary[data-state=on] strong{color:var(--cyan)}
+#panel-master .listen-cleanup-summary[data-state=original] strong{color:var(--amber)}
+#panel-master .listen-cleanup-summary span{display:block;margin-top:4px;font-size:14px;color:var(--ink)}
+#panel-master .listen-cleanup-summary p{margin:8px 0 0;font-size:14px;color:var(--ink-dim)}
 #panel-master #masterListen>.sec-body>.opt-block{margin:20px 24px 24px}
 #panel-master #secCompare{background:transparent;border:0;margin:0;border-radius:0}
 #panel-master #secCompare .health-check{padding:18px;border-radius:0;background:transparent}

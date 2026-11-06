@@ -1514,7 +1514,7 @@
 <span class="sec-num">03</span>
 <div>
 <h3>Clean up noise &amp; artifacts</h3>
-<p class="step-description">Start gently. Stronger cleanup removes more, but can also soften musical detail.</p>
+<p class="step-description">Cleanup works on your source before the mastering preset. Start gently: stronger cleanup can also soften musical detail. The previews below are optional checks; your selected cleanup is included automatically in the master.</p>
 </div>
 </div>
 <div class="sec-body">
@@ -1576,6 +1576,11 @@
 </div>
 </div>
 <div class="sec-body">
+<div id="listenCleanupSummary" class="listen-cleanup-summary" data-state="off" role="status" aria-live="polite" aria-atomic="true">
+  <strong id="listenCleanupState">Cleanup off</strong>
+  <span id="listenCleanupAmounts">Noise 0% · Shimmer 0% · Click repair 0%</span>
+  <p id="listenCleanupNote">Mastered playback and exports use the mastering preset without noise cleanup.</p>
+</div>
 <div id="playerBar" class="player-bar">
 
 
@@ -3678,6 +3683,22 @@ window.STYLES=[
       $('#'+id).classList.toggle('on',selected);$('#'+id).setAttribute('aria-pressed',String(selected));
     });
     panel.querySelectorAll('#presetChips .chip, #presetChipsSuno .chip').forEach(chip=>chip.setAttribute('aria-pressed',String(chip.classList.contains('on'))));
+    updateListenCleanup();
+  }
+  function updateListenCleanup(){
+    const values=['noise','shimmer','click'].map(id=>+$('#'+id).value);
+    const enabled=values.some(value=>value>0);
+    const match=Object.entries(CLEANUP_STRENGTHS).find(([,preset])=>values.every((value,i)=>value===preset[i]));
+    const strength=match?$('#'+match[0]).textContent.trim():'Custom';
+    $('#listenCleanupSummary').dataset.state=bypass?'original':enabled?'on':'off';
+    $('#listenCleanupState').textContent=bypass
+      ? (enabled?'Original selected · cleanup bypassed ('+strength+' selected for master)':'Original selected · cleanup off')
+      : enabled?'Cleanup on · '+strength:'Cleanup off';
+    $('#listenCleanupAmounts').textContent=`Noise ${values[0]}% · Shimmer ${values[1]}% · Click repair ${values[2]}%`;
+    $('#listenCleanupNote').textContent=bypass
+      ? (enabled?'Original bypasses cleanup and mastering. Switch to Mastered to hear the full result. Exports still include your selected cleanup and preset.':'Original bypasses mastering. Exports still use your mastering preset; cleanup is off.')
+      : enabled?'Mastered playback and exports apply cleanup first, then your mastering preset. Previewing cleanup separately is optional.'
+      :'Mastered playback and exports use the mastering preset without noise cleanup.';
   }
   Object.entries(CLEANUP_STRENGTHS).forEach(([id,values])=>$('#'+id).addEventListener('click',()=>{
     const source=chainSourceBase;
@@ -3967,6 +3988,7 @@ window.STYLES=[
     $('#abBtn').classList.toggle('raw',bypass);
     $('#abLabel').textContent=bypass?'RAW':'MASTERED';
     $('#abNote').textContent=bypass?'tap to hear MASTERED':'tap to hear RAW';
+    updateListenCleanup();
     if(bypass){ $('#pbEngineNote').textContent='▸ Playing the raw, unmastered file.'; $('#pbEngineNote').classList.remove('exact'); }
     else updateEngineNote();
     if(playing) rebuildLive();
