@@ -5,5 +5,15 @@
       "src": "/",
       "dest": "/DJ_Terry_Bevvan_Website.html"
     }
-  ]
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/song-creator/generate.ts": {
+      "maxDuration": 240
+    },
+    "api/song-creator/chat.ts": {
+      "maxDuration": 120
+    }
+  }
 }

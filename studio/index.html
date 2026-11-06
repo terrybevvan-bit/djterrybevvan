@@ -755,7 +755,7 @@
       <div class="navitem on" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
       <div class="navitem" data-tool="soundcloud"><span class="ico">☁</span><span class="lbl">SoundCloud Desc</span></div>
       <div class="navitem" data-tool="mcvox"><span class="ico">🎤</span><span class="lbl">MC Vocals</span></div>
-      <a class="studio-link melodic-link" href="https://terry-melodic-studio.b1maxv52.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Melodic Studio<small>Generate lyrics</small></span><span aria-hidden="true">↗</span></a>
+      <div class="navitem" data-tool="songcreator"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Song Creator</span></div>
       <div class="grp-label">Library</div>
       <div class="navitem" data-tool="styles"><span class="ico">◇</span><span class="lbl">EDM Style Library</span></div>
       <div class="navitem" data-tool="saved"><span class="ico">◈</span><span class="lbl">Saved Tracks</span><span class="badge" id="savedCount">0</span></div>
@@ -1353,6 +1353,9 @@
       </div>
     </div>
 
+    <div id="panel-songcreator" class="tool-panel">
+      <iframe id="songCreatorFrame" title="Song Creator — Bevvan’s Studio" data-src="/studio/song-creator/index.html" allow="clipboard-write" style="display:block;width:100%;height:calc(100dvh - 16px);min-height:640px;border:0;border-radius:12px;background:#0c121a"></iframe>
+    </div>
     <div id="panel-master" class="tool-panel on">
 <div class="wrap narrow master-flow">
 <header class="tool-head">
@@ -2345,6 +2348,7 @@
 (function(){
   const items = Array.from(document.querySelectorAll('.navitem'));
   const panels = {
+    songcreator: document.getElementById('panel-songcreator'),
     builder: document.getElementById('panel-builder'),
     lyriclab: document.getElementById('panel-lyriclab'),
     soundcloud: document.getElementById('panel-soundcloud'),
@@ -2364,9 +2368,13 @@
 
   window.TerryStudio = {
     switchTo(tool){
+      if(tool==='songcreator'){
+        const frame=document.getElementById('songCreatorFrame');
+        if(!frame.hasAttribute('src'))frame.src=frame.dataset.src;
+      }
       items.forEach(i => i.classList.toggle('on', i.dataset.tool === tool));
       Object.keys(panels).forEach(k => panels[k].classList.toggle('on', k === tool));
-      document.getElementById('mobileTitle').textContent = titles[tool] || '';
+      document.getElementById('mobileTitle').textContent = tool==='songcreator'?'Song Creator':titles[tool] || '';
       window.scrollTo({top:0, behavior:'smooth'});
       closeMobile();
       // let tools know they became visible (mastering canvases need width)

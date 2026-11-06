@@ -1,70 +1,14 @@
 import { next } from '@vercel/functions';
+import { studioAuthError } from './lib/studio-auth';
 
-declare const process: {
-  env: Record<string, string | undefined>;
-};
-
-const PROTECTED_PATH_PREFIXES = ['/admin', '/studio'];
-const REALM = 'DJ Terry Bevvan Admin';
-
-function unauthorized(message = 'Authentication required') {
-  return new Response(message, {
-    status: 401,
-    headers: {
-      'WWW-Authenticate': `Basic realm="${REALM}", charset="UTF-8"`,
-      'Cache-Control': 'no-store',
-    },
-  });
-}
-
-function parseBasicAuth(header: string | null) {
-  if (!header?.startsWith('Basic ')) return null;
-
-  try {
-    const decoded = atob(header.slice(6));
-    const separator = decoded.indexOf(':');
-    if (separator === -1) return null;
-
-    return {
-      username: decoded.slice(0, separator),
-      password: decoded.slice(separator + 1),
-    };
-  } catch {
-    return null;
-  }
-}
+const PROTECTED_PATH_PREFIXES = ['/admin', '/studio', '/api/song-creator'];
 
 export default function middleware(request: Request) {
-  const url = new URL(request.url);
-  const protectsProtectedArea = PROTECTED_PATH_PREFIXES.some(
-    (prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`),
-  );
-
-  if (!protectsProtectedArea) {
-    return next();
-  }
-
-  const expectedUsername = process.env.ADMIN_USER || 'admin';
-  const expectedPassword = process.env.ADMIN_PASSWORD;
-
-  if (!expectedPassword) {
-    return new Response('ADMIN_PASSWORD is not configured.', {
-      status: 500,
-      headers: { 'Cache-Control': 'no-store' },
-    });
-  }
-
-  const credentials = parseBasicAuth(request.headers.get('authorization'));
-  if (
-    credentials?.username !== expectedUsername ||
-    credentials.password !== expectedPassword
-  ) {
-    return unauthorized();
-  }
-
-  return next();
+  const pathname = new URL(request.url).pathname;
+  const protectedPath = PROTECTED_PATH_PREFIXES.some(prefix => pathname === prefix || pathname.startsWith(prefix + '/'));
+  return protectedPath ? studioAuthError(request) || next() : next();
 }
 
 export const config = {
-  matcher: ['/admin', '/admin/:path*', '/studio', '/studio/:path*'],
+  matcher: ['/admin', '/admin/:path*', '/studio', '/studio/:path*', '/api/song-creator', '/api/song-creator/:path*'],
 };

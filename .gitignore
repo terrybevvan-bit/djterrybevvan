@@ -1,2 +1,6 @@
 .vercel
 node_modules/
+studio/song-creator/
+.env*
+dist/
+.studio-work/
