@@ -1592,6 +1592,24 @@
         <section id="secChain" class="disabled-section">
           <div class="sec-head"><span class="sec-num">03</span><h3>Mastering Chain</h3><span class="hint">fine-tune · click a control &amp; use ← → arrows</span></div>
           <div class="sec-body" style="padding-top:0">
+            <div class="finishing-tools" style="margin-top:16px">
+              <h3>Restoration · before mastering</h3>
+              <p class="hint">Local spectral cleanup · quiet-passage noise profile · up to 7 dB reduction per frequency · original timing and stereo preserved.</p>
+              <div class="controls">
+                <div class="ctl"><div class="top"><label for="noise">Noise reduction</label><span class="val" id="noiseV">0%</span></div><input type="range" id="noise" min="0" max="100" value="0"><div class="desc">Reduce steady hiss and background static. Start at 25–40%; quiet music can be mistaken for noise.</div></div>
+                <div class="ctl"><div class="top"><label for="shimmer">Shimmer reduction</label><span class="val" id="shimmerV">0%</span></div><input type="range" id="shimmer" min="0" max="100" value="0"><div class="desc">Extra spectral reduction above 4.5 kHz for fizzy high-frequency residue. Listen for lost cymbal detail.</div></div>
+                <div class="ctl"><div class="top"><label for="click">Isolated click repair</label><span class="val" id="clickV">0%</span></div><input type="range" id="click" min="0" max="100" value="0"><div class="desc">Interpolate isolated single-sample spikes. This does not repair sustained distortion or clipping.</div></div>
+              </div>
+              <div class="action-row" style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+                <button type="button" class="chain-tab" id="cleanupGentle">Gentle cleanup</button>
+                <button type="button" class="chain-tab" id="cleanupOff">Bypass cleanup</button>
+                <button type="button" class="chain-tab" id="cleanupListen">Preview cleaned audio</button>
+                <button type="button" class="chain-tab" id="cleanupRemoved">Preview removed sound</button>
+              </div>
+              <p class="hint" id="cleanupStatus" role="status" aria-live="polite">Cleanup bypassed. Previews play before EQ, compression and loudness changes.</p>
+              <audio id="cleanupAudio" controls hidden style="width:100%;margin:12px 0" aria-label="Cleanup audition"></audio>
+              <p class="hint">If you hear vocals, drums or melody in the removed sound, reduce the settings. Cleanup is included in exact playback, comparison renders and all exports; it cannot reconstruct missing musical detail.</p>
+            </div>
             <div class="chain-tabs" id="chainTabs">
               <button class="chain-tab on" data-tab="eq">EQ &amp; Tone</button>
               <button class="chain-tab" data-tab="dyn">Dynamics &amp; Width</button>
@@ -1617,9 +1635,9 @@
                   <div class="desc"><b>What:</b> bell at ~300 Hz. <b>Norm:</b> 0 to −2. <b>If</b> the mix sounds boxy, muddy or cluttered, <b>then</b> cut −1.5 to −3. Rarely boost here.</div>
                 </div>
                 <div class="ctl">
-                  <div class="top"><span>◆ De-fizz / de-ess <span style="color:var(--cyan)">(Suno hiss)</span></span><span class="val" id="deessV">0%</span></div>
+                  <div class="top"><span>◆ De-fizz tone <span style="color:var(--cyan)">(Suno hiss)</span></span><span class="val" id="deessV">0%</span></div>
                   <input type="range" id="deess" min="0" max="100" step="1" value="0">
-                  <div class="desc"><b>What:</b> clamps the 6.5–9 kHz hiss band where Suno's shimmer lives. <b>Norm:</b> 0 unless hissy. <b>If</b> you hear sizzle/fizz on top, <b>then</b> raise to 40–70. Overdone = dull.</div>
+                  <div class="desc"><b>What:</b> gently lowers the top end above 6.5 kHz, up to 7 dB. Use Restoration above for selective spectral cleanup. <b>Norm:</b> 0 unless hissy. <b>If</b> you hear sizzle/fizz on top, <b>then</b> raise to 40–70. Overdone = dull.</div>
                 </div>
                 <div class="ctl">
                   <div class="top"><span>◆ Harshness notch <span style="color:var(--cyan)">(3.2k edge)</span></span><span class="val" id="harshV">off</span></div>
@@ -3143,9 +3161,10 @@ window.STYLES=[
     // De-harsh vocal: targets the 3–4k digital edge on AI vocals/leads without dulling air.
     sunodeharsh:{hp:30, low:0.5, mud:-0.5,deess:55, harsh:6,   pres:-1,  air:1.5, glue:2,   width:104, space:12, sat:5,  lufs:-9,  ceil:-1}
   };
-  const CTRLS=['bassMono','tilt','fadeIn','fadeOut','hp','low','mud','deess','harsh','pres','air','glue','width','space','sat','lufs','ceil'];
-  Object.values(PRESETS).forEach(p=>Object.assign(p,{bassMono:0,tilt:0,fadeIn:0,fadeOut:0}));
+  const CTRLS=['noise','shimmer','click','bassMono','tilt','fadeIn','fadeOut','hp','low','mud','deess','harsh','pres','air','glue','width','space','sat','lufs','ceil'];
+  Object.values(PRESETS).forEach(p=>Object.assign(p,{noise:0,shimmer:0,click:0,bassMono:0,tilt:0,fadeIn:0,fadeOut:0}));
   const fmtMap={
+    noise:v=>Math.round(v)+'%', shimmer:v=>Math.round(v)+'%', click:v=>Math.round(v)+'%',
     bassMono:v=>v ? v+' Hz' : 'off', tilt:v=>(v>0?'+':'')+v+' dB', fadeIn:v=>v+' ms', fadeOut:v=>v+' ms',
     hp:v=>Math.round(v)+' Hz',
     low:v=>(v>=0?'+':'')+v.toFixed(1)+' dB',
@@ -3169,7 +3188,7 @@ window.STYLES=[
   }
   CTRLS.forEach(id=>{
     const el=$('#'+id);
-    el.addEventListener('input',()=>{ refreshLabel(id); exactBuffer=null; markChainEdited(); if(id==='lufs'){ lastMstCrest=null; updateLoudAdvice(); } else if(id==='ceil'){ updateLoudAdvice(); } if(playing) rebuildLive(); });
+    el.addEventListener('input',()=>{ refreshLabel(id); exactBuffer=null; markChainEdited(); if(id==='lufs'){ lastMstCrest=null; updateLoudAdvice(); } else if(id==='ceil'){ updateLoudAdvice(); } if(playing){ if(['noise','shimmer','click'].includes(id)) stopPlayback(); else rebuildLive(); } });
     refreshLabel(id);
   });
 
@@ -3238,6 +3257,7 @@ window.STYLES=[
   });
   function applyPreset(key){
     const p=PRESETS[key]; if(!p) return;
+    clearCleanupAudition();
     CTRLS.forEach(id=>{ $('#'+id).value=p[id]; refreshLabel(id); });
     lastMstCrest=null; updateLoudAdvice(); exactBuffer=null;
     if(playing) rebuildLive();
@@ -3420,6 +3440,7 @@ window.STYLES=[
   });
   function clearQueue(){
     if(batchRunning) return;
+    clearCleanupAudition();
     queue=[]; currentIdx=-1; audioBuffer=null;
     if(playing) stopPlayback();
     resetComparison();
@@ -3447,6 +3468,7 @@ window.STYLES=[
     srcName=it.name.replace(/\.[^.]+$/,'')||'track';
     try{
       if(!it.buffer) it.buffer=await decode(it.file);
+      clearCleanupAudition();
       audioBuffer=it.buffer; dur=audioBuffer.duration; exactBuffer=null;
       $('#fName').textContent=it.name;
       $('#fMeta').textContent=`${audioBuffer.sampleRate/1000} kHz · ${audioBuffer.numberOfChannels}ch · ${fmtTime(dur)} · ${(it.size/1048576).toFixed(1)} MB`;
@@ -3483,6 +3505,7 @@ window.STYLES=[
     const item={file:null, name:h.name+'.wav', size:approxSize, buffer:b, status:'queued'};
     queue.push(item);
     currentIdx=queue.length-1;
+    clearCleanupAudition();
     audioBuffer=b; dur=b.duration; srcName=h.name;
     $('#fName').textContent=item.name;
     $('#fMeta').textContent=`${b.sampleRate/1000} kHz · ${b.numberOfChannels}ch · ${fmtTime(dur)} · from DJ Edit`;
@@ -3499,6 +3522,70 @@ window.STYLES=[
   window.addEventListener('djEditHandoff', receiveDjEdit);
 
   // ---------- CHAIN BUILDER ----------
+  const cleanupCache=new WeakMap();
+  const cleanupEnabled=p=>!!(p.noise||p.shimmer||p.click);
+  async function cleanBuffer(buf,p){
+    if(!cleanupEnabled(p))return buf;
+    const key=JSON.stringify([p.noise,p.shimmer,p.click]);
+    const cached=cleanupCache.get(buf);
+    if(cached?.key===key)return cached.promise;
+    const promise=new Promise((resolve,reject)=>{
+      const worker=new Worker('cleanup-worker.js');
+      const timer=setTimeout(()=>{worker.terminate();reject(Error('Cleanup timed out. Try a shorter track.'));},600000);
+      const finish=()=>{clearTimeout(timer);worker.terminate();};
+      worker.onerror=()=>{finish();reject(Error('Cleanup worker could not run. Reload and try again.'));};
+      worker.onmessage=({data})=>{
+        if(data.progress!==undefined){$('#cleanupStatus').textContent='Spectral cleanup: '+data.progress+'%';return;}
+        finish();
+        if(data.error){reject(Error(data.error));return;}
+        const cleaned=new AudioBuffer({length:buf.length,numberOfChannels:buf.numberOfChannels,sampleRate:buf.sampleRate});
+        data.channels.forEach((a,c)=>cleaned.copyToChannel(a,c));
+        $('#cleanupStatus').textContent='Cleanup ready · '+data.repaired+' channel-samples repaired. Audition the removed sound to check for lost music.';
+        resolve(cleaned);
+      };
+      const channels=Array.from({length:buf.numberOfChannels},(_,c)=>buf.getChannelData(c).slice().buffer);
+      worker.postMessage({channels,sampleRate:buf.sampleRate,params:{noise:p.noise,shimmer:p.shimmer,click:p.click}},channels);
+    });
+    cleanupCache.set(buf,{key,promise});
+    try{return await promise;}catch(error){if(cleanupCache.get(buf)?.promise===promise)cleanupCache.delete(buf);throw error;}
+  }
+  let cleanupUrl=null,cleanupAudition=0;
+  function clearCleanupAudition(){
+    cleanupAudition++;const player=$('#cleanupAudio');player.pause();player.removeAttribute('src');player.hidden=true;
+    if(cleanupUrl){URL.revokeObjectURL(cleanupUrl);cleanupUrl=null;}
+  }
+  ['noise','shimmer','click'].forEach(id=>$('#'+id).addEventListener('input',()=>{
+    clearCleanupAudition();$('#cleanupStatus').textContent=cleanupEnabled(readParams())?'Cleanup settings changed. Render a preview to hear the result.':'Cleanup bypassed.';
+  }));
+  $('#cleanupGentle').addEventListener('click',()=>{
+    applyChainParams({...readParams(),noise:30,shimmer:25,click:25});clearCleanupAudition();
+    $('#cleanupStatus').textContent='Gentle cleanup selected. Preview cleaned and removed sound before exporting.';
+  });
+  $('#cleanupOff').addEventListener('click',()=>{applyChainParams({...readParams(),noise:0,shimmer:0,click:0});clearCleanupAudition();$('#cleanupStatus').textContent='Cleanup bypassed.';});
+  async function auditionCleanup(removed){
+    if(!audioBuffer){$('#cleanupStatus').textContent='Load an audio file first.';return;}
+    clearCleanupAudition();const generation=cleanupAudition,original=audioBuffer;
+    if(playing)stopPlayback();
+    $('#cleanupStatus').textContent='Preparing cleanup preview…';
+    try{
+      const clean=await cleanBuffer(original,readParams());
+      if(generation!==cleanupAudition||original!==audioBuffer)return;
+      let result=clean;
+      if(removed){
+        result=new AudioBuffer({length:original.length,numberOfChannels:original.numberOfChannels,sampleRate:original.sampleRate});
+        for(let c=0;c<original.numberOfChannels;c++){
+          const a=original.getChannelData(c),b=clean.getChannelData(c),out=result.getChannelData(c);
+          for(let i=0;i<a.length;i++)out[i]=a[i]-b[i];
+        }
+      }
+      cleanupUrl=URL.createObjectURL(new Blob([encodeWAV(result,24)],{type:'audio/wav'}));
+      const player=$('#cleanupAudio');player.src=cleanupUrl;player.hidden=false;
+      $('#cleanupStatus').textContent=removed?'Removed sound · original minus cleaned, at original level. Music here means settings may be too strong.':'Cleaned audio · before mastering, at original level.';
+      await player.play();
+    }catch(error){if(generation===cleanupAudition)$('#cleanupStatus').textContent='Preview failed: '+error.message;}
+  }
+  $('#cleanupListen').addEventListener('click',()=>auditionCleanup(false));
+  $('#cleanupRemoved').addEventListener('click',()=>auditionCleanup(true));
   function readParams(){
     const p={}; CTRLS.forEach(id=>p[id]=parseFloat($('#'+id).value));
     // multiband params
@@ -3566,24 +3653,12 @@ window.STYLES=[
       left.connect(merge,0,0); right.connect(merge,0,1); node=merge;
     }
 
-    // De-fizz / de-ess — dynamic control of the 6.5–9 kHz hiss band where Suno's
-    // AI shimmer/fizz lives. We split that band out, compress it hard, and blend
-    // it back so loud fizz gets clamped but normal top-end passes through.
-    const deessAmt = p.deess||0;
-    if(deessAmt>0){
-      // main path minus a chunk of the fizz band
-      const bandSplit=ctx.createBiquadFilter(); bandSplit.type='highpass'; bandSplit.frequency.value=6500; bandSplit.Q.value=0.7;
-      const bandComp=ctx.createDynamicsCompressor();
-      // more amount => lower threshold + higher ratio => more aggressive fizz clamping
-      bandComp.threshold.value = -24 - deessAmt*0.35;   // -24 .. -59
-      bandComp.knee.value=4;
-      bandComp.ratio.value = 3 + deessAmt*0.14;          // 3 .. 17
-      bandComp.attack.value=0.001; bandComp.release.value=0.05;
-      const bandGain=ctx.createGain(); bandGain.gain.value = -(deessAmt/100)*0.9; // phase-invert to subtract
-      node.connect(bandSplit); bandSplit.connect(bandComp); bandComp.connect(bandGain);
-      const deMix=ctx.createGain();
-      node.connect(deMix); bandGain.connect(deMix);
-      node=deMix;
+    // Predictable tonal reduction without subtracting a phase-shifted compressed branch.
+    // Selective, time-varying noise reduction lives in the spectral cleanup worker.
+    if(p.deess>0){
+      const shelf=ctx.createBiquadFilter(); shelf.type='highshelf';
+      shelf.frequency.value=6500; shelf.gain.value=-p.deess*.07;
+      node.connect(shelf); node=shelf;
     }
 
     // Saturation (unchanged)
@@ -3672,16 +3747,20 @@ window.STYLES=[
   async function ensureExactRender(p){
     const key=paramKey(p);
     if(exactBuffer && exactKey===key) return exactBuffer;
-    const res=await renderBuffer(audioBuffer, p);   // SAME engine as the download
-    exactBuffer=res.rendered; exactKey=key;
-    return exactBuffer;
+    const original=audioBuffer;
+    const res=await renderBuffer(original, p);   // SAME engine as the download
+    if(original===audioBuffer && paramKey(readParams())===key){exactBuffer=res.rendered; exactKey=key;}
+    return res.rendered;
   }
 
+  let playbackGeneration=0;
   function startPlayback(offset){
+    const generation=++playbackGeneration;
     if(!liveCtx) liveCtx=new AC();
     if(liveCtx.state==='suspended') liveCtx.resume();
     const p=readParams();
-    const exactMode = $('#pbExact').checked && !bypass;
+    $('#cleanupAudio').pause();
+    const exactMode = ($('#pbExact').checked || cleanupEnabled(p)) && !bypass;
 
     // analyser taps whatever we're actually hearing to drive the live meters
     liveAnalyser=liveCtx.createAnalyser(); liveAnalyser.fftSize=2048;
@@ -3692,7 +3771,14 @@ window.STYLES=[
       if(!exactBuffer || exactKey!==paramKey(p)){
         // render on demand, then start
         $('#pbEngineNote').textContent='Rendering exact file…';
-        ensureExactRender(p).then(()=>{ if(playing){} startExactSource(offset); });
+        playing=true; startedAt=liveCtx.currentTime-offset; $('#playBtn').textContent='❚❚';
+        ensureExactRender(p).then(rendered=>{
+          if(generation!==playbackGeneration || !playing)return;
+          exactBuffer=rendered;startExactSource(offset);
+        }).catch(error=>{
+          if(generation!==playbackGeneration)return;
+          stopPlayback();$('#pbEngineNote').textContent='Render failed: '+error.message;
+        });
         return;
       }
       startExactSource(offset);
@@ -3727,6 +3813,7 @@ window.STYLES=[
     tick();
   }
   function pauseInternal(){
+    playbackGeneration++;
     if(sourceNode){ try{sourceNode.stop()}catch(e){} sourceNode.disconnect(); }
     const t=liveCtx?(liveCtx.currentTime-startedAt):0;
     return Math.max(0,Math.min(dur,t));
@@ -3757,7 +3844,7 @@ window.STYLES=[
   });
   function updateEngineNote(){
     const n=$('#pbEngineNote'); if(!n) return;
-    if($('#pbExact').checked){
+    if($('#pbExact').checked || cleanupEnabled(readParams())){
       n.innerHTML='✓ <b>Exact render</b> — this is the actual file that will download, sample-for-sample.';
       n.classList.add('exact');
     } else {
@@ -4231,6 +4318,8 @@ window.STYLES=[
     return p;
   }
   function applyChainParams(p){
+    clearCleanupAudition();
+    ['noise','shimmer','click'].forEach(id=>{ if(p[id]===undefined) p={...p,[id]:0}; });
     CTRLS.forEach(id=>{ if(p[id]!==undefined){ $('#'+id).value=p[id]; refreshLabel(id); } });
     if(p.mbEnable!==undefined){
       $('#mbEnable').checked=p.mbEnable;
@@ -4306,6 +4395,7 @@ window.STYLES=[
   $('#batchBtn').addEventListener('click', masterBatch);
 
   async function renderBuffer(buf, p){
+    buf=await cleanBuffer(buf,p);
     const off=new OfflineAudioContext(buf.numberOfChannels, buf.length, buf.sampleRate);
     const src=off.createBufferSource(); src.buffer=buf;
     const {out,loud}=buildChain(off, src, p);
