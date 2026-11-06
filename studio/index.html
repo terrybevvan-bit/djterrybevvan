@@ -2099,7 +2099,7 @@
           <div class="brand">
             <p class="kicker">Stored locally on this machine</p>
             <h2>Saved Tracks <span>/ Library</span></h2>
-            <p>Every prompt you save from the Track Builder lands here. Load one back into the builder to tweak and re-build, copy its fields straight out, or export it as a .txt.</p>
+            <p>Songs and ideas saved from Song Creator and Track Builder stay on this browser after a refresh. Reopen a song to edit it, copy its fields, or download a text backup. Clearing browser data removes this local library.</p>
           </div>
           <div class="completion">
             <div class="pct" id="libCount" style="color:var(--amber)">0</div>
@@ -2111,7 +2111,7 @@
           <div class="sec-head"><span class="sec-num">◈</span><h3>Your Tracks</h3><span class="hint" id="libHint">newest first</span></div>
           <div class="sec-body">
             <div id="libGrid" class="lib-grid"></div>
-            <div id="libEmpty" class="lib-empty">No saved tracks yet.<br>Build a prompt in the Track Builder and hit <b>◈ Save to Library</b>.</div>
+            <div id="libEmpty" class="lib-empty">No saved tracks yet.<br>Use <b>Save to Saved Tracks</b> in Song Creator, or save a prompt from Track Builder.</div>
           </div>
         </section>
       </div>
@@ -2251,7 +2251,19 @@
     </div>
 
 
-<div id="panel-trends" class="tool-panel"><div class="wrap"><header class="tool-head"><div class="brand"><p class="kicker">THE LISTENING ROOM / 2026</p><h2>Follow the sound.</h2><p>A researched snapshot to inspire your next finish.</p></div></header><div class="trend-asof">Reviewed October 5, 2026 · source covers January–June 2026 · not live charts</div><section><div class="sec-body"><p>These are market signals, not a ranking or a recipe. Mastering notes below are studio guidance, separate from the reported trends.</p><div class="chips" id="trendGenreChips"><button class="chip on" data-filter="all">All signals</button><button class="chip" data-filter="established">Established</button><button class="chip" data-filter="rising">In focus</button></div><div class="trend-genre-grid" id="trendGenreGrid"><article class="trend-card" data-cat="established"><span class="trend-signal">Still the club backbone</span><h3>Tech house & house</h3><p>Beatport’s midyear review describes tech house leading and house remaining central.</p><p class="mastering-note"><b>At the mastering desk</b><br>Keep kick and bass distinct; compare groove and punch before pushing level.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Rhythm in focus</span><h3>Afro & Latin electronic</h3><p>Afro house, Latin electronic and Brazilian funk feature prominently in the review.</p><p class="mastering-note"><b>At the mastering desk</b><br>Leave percussion room to breathe; keep sub energy centered.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Swing travels</span><h3>UK garage & bassline</h3><p>The review highlights renewed UK garage activity on US dance floors.</p><p class="mastering-note"><b>At the mastering desk</b><br>Preserve shuffled transients; avoid flattening the snare and bass movement.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Breaks stay in rotation</span><h3>Jungle & drum & bass</h3><p>Jungle and drum & bass appear among the active scenes in Beatport’s review.</p><p class="mastering-note"><b>At the mastering desk</b><br>Control harsh cymbals gently and keep fast kick and snare attacks alive.</p></article><article class="trend-card" data-cat="established"><span class="trend-signal">Bigger-room presence</span><h3>Melodic house & techno</h3><p>Beatport describes melodic house and techno reaching bigger rooms.</p><p class="mastering-note"><b>At the mastering desk</b><br>Check wide pads in mono; protect the kick from low-mid buildup.</p></article><article class="trend-card" data-cat="established"><span class="trend-signal">Peak-time intensity</span><h3>Hard techno & psy-techno</h3><p>Harder, faster sounds remain part of the review’s peak-time picture.</p><p class="mastering-note"><b>At the mastering desk</b><br>Keep distortion intentional. Loudness cannot repair a clipped source.</p></article></div><p class="note">Source: <a href="https://www.beatportal.com/articles/1489584-the-top-selling-tracks-artists-and-labels-of-2026-mid-year-review" target="_blank" rel="noopener">Beatportal · 2026 midyear review · June 29, 2026</a>. Review again when newer sales data is published.</p></div></section></div></div>
+<div id="panel-trends" class="tool-panel"><div class="wrap">
+<header class="tool-head"><div class="brand"><p class="kicker">THE LISTENING ROOM</p><h2>Follow the sound.</h2><p>Research genre momentum before your next session. Compare the evidence, then follow your own sound.</p></div></header>
+<div class="trend-asof" id="trendAsOf">Loading researched snapshot...</div>
+<section><div class="sec-body">
+<div class="trends-refresh-row"><button type="button" class="btn primary" id="trendRefresh">Refresh with AI</button><span class="note">Uses your session AI connection. OpenAI API and web-search usage applies. Refresh only when you want new research.</span></div>
+<details id="trendsConnection" class="opt-block"><summary>AI connection for this session</summary><div class="trends-key-row"><label for="trendsKey">OpenAI API key</label><input id="trendsKey" type="password" autocomplete="off" placeholder="Use your existing connection or enter a key"><button type="button" class="btn ghost" id="trendsClearKey">Clear key</button></div><p class="note">Shared with Song Creator during this open session. The key is never saved.</p></details>
+<p id="trendStatus" class="note" role="status" aria-live="polite"></p>
+<p id="trendSummary"></p><p class="note" id="trendCoverage"></p>
+<p class="note">These are market signals, not a definitive ranking. Production ideas are studio advice, separate from the reported evidence.</p>
+<div class="chips" id="trendGenreChips"><button type="button" class="chip on" data-filter="all" aria-pressed="true">All signals</button><button type="button" class="chip" data-filter="established" aria-pressed="false">Established</button><button type="button" class="chip" data-filter="rising" aria-pressed="false">In focus</button></div>
+<div class="trend-genre-grid" id="trendGenreGrid"></div>
+<h3>Sources and data periods</h3><ul id="trendSources" class="trend-source-list"></ul>
+</div></section></div></div>
     <div id="panel-styles" class="tool-panel">
       <div class="wrap">
         <header class="tool-head">
@@ -2282,6 +2294,8 @@
 </div>
 
 <div class="toast" id="toast">Done</div>
+<script src="/studio/track-store.js"></script>
+<script src="/studio/session.js"></script>
 
 <script>
 /* ============================================================
@@ -2353,21 +2367,16 @@ window.studioCopy = function(text){
   }
 };
 
-/* Shared persistent store for saved tracks (localStorage) */
-window.TrackStore = (function(){
-  const KEY = 'terry_saved_tracks_v1';
-  function read(){ try { return JSON.parse(localStorage.getItem(KEY)||'[]'); } catch(e){ return []; } }
-  function write(arr){ try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch(e){} }
-  return {
-    all: read,
-    add(track){ const arr=read(); track.id='t'+Date.now()+Math.random().toString(36).slice(2,6); track.savedAt=Date.now(); arr.unshift(track); write(arr); updateCount(); return track.id; },
-    remove(id){ write(read().filter(t=>t.id!==id)); updateCount(); },
-    get(id){ return read().find(t=>t.id===id); },
-    count(){ return read().length; }
-  };
-  function updateCount(){ const el=document.getElementById('savedCount'); if(el) el.textContent=read().length; }
-})();
-document.getElementById('savedCount').textContent = window.TrackStore.count();
+function updateSavedCount(){document.getElementById('savedCount').textContent=window.TrackStore.count();}
+updateSavedCount();window.addEventListener('tracks-changed',updateSavedCount);window.addEventListener('storage',updateSavedCount);
+window.openSavedSong=function(track){
+  window.pendingSongCreatorTrack=track;
+  window.TerryStudio.switchTo('songcreator');
+  const frame=document.getElementById('songCreatorFrame');
+  if(typeof frame.contentWindow.loadSongCreatorTrack==='function'){
+    delete window.pendingSongCreatorTrack;frame.contentWindow.loadSongCreatorTrack(track);
+  }
+};
 
 /* ---- shared style library data (used by Builder + EDM Library) ---- */
 window.STYLES=[
@@ -4987,7 +4996,7 @@ window.STYLES=[
         <div class="lc-date">${fmtDate(t.savedAt)}</div>
         <div class="lc-concept">${esc(t.concept)||'<span style="color:var(--ink-faint)">no concept line</span>'}</div>
         <div class="lc-actions">
-          <button class="load" data-act="load">↑ Load into Builder</button>
+          <button class="load" data-act="load">${t.source==='song-creator'?'Open in Song Creator':'Load into Builder'}</button>
           <button data-act="style">Copy Style</button>
           <button data-act="lyrics">Copy Lyrics</button>
           <button data-act="txt">.txt</button>
@@ -5002,13 +5011,14 @@ window.STYLES=[
     const track=window.TrackStore.get(id); if(!track) return;
     const act=btn.dataset.act;
     if(act==='load'){
-      if(window.loadTrackIntoBuilder) window.loadTrackIntoBuilder(track);
+      if(track.source==='song-creator')window.openSavedSong(track);
+      else if(window.loadTrackIntoBuilder) window.loadTrackIntoBuilder(track);
     } else if(act==='style'){
       window.studioCopy(track.style||'').then(()=>flash(btn,'Copied ✓'));
     } else if(act==='lyrics'){
       window.studioCopy(track.lyrics||'').then(()=>flash(btn,'Copied ✓'));
     } else if(act==='txt'){
-      const full=`# ${track.title}\n\n=== SUNO STYLE FIELD ===\n${track.style||''}\n\n=== SUNO LYRICS FIELD ===\n${track.lyrics||''}\n\n=== REFERENCE ===\n${track.ref||''}`;
+      const full=`# ${track.title}\n\n=== SUNO STYLE FIELD ===\n${track.style||''}\n\n=== SUNO LYRICS FIELD ===\n${track.lyrics||''}\n\n=== REFERENCE ===\n${track.ref||''}\n\n=== COVER BRIEF ===\n${track.cover||''}\n\n=== IDEA ===\n${track.concept||''}`;
       const blob=new Blob([full],{type:'text/plain'}); const a=document.createElement('a');
       a.href=URL.createObjectURL(blob); a.download=(track.title||'track').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')+'.txt'; a.click();
     } else if(act==='del'){
@@ -5020,6 +5030,8 @@ window.STYLES=[
   function flash(btn,txt){ const o=btn.textContent; btn.textContent=txt; btn.classList.add('copied'); window.studioToast('Copied'); setTimeout(()=>{ btn.textContent=o; btn.classList.remove('copied'); },1300); }
 
   window.addEventListener('toolshown', e=>{ if(e.detail.tool==='saved') render(); });
+  window.addEventListener('tracks-changed',render);
+  window.addEventListener('storage',render);
   render();
 })();
 </script>
@@ -5074,25 +5086,7 @@ window.STYLES=[
 </script>
 
 <!-- ================= GENRE TRENDS ================= -->
-<script>
-(function(){
-  const panel=document.getElementById('panel-trends');
-  if(!panel) return;
-  const chips=panel.querySelector('#trendGenreChips');
-  const cards=panel.querySelectorAll('#trendGenreGrid .trend-card');
-  if(chips){
-    chips.addEventListener('click', e=>{
-      const chip=e.target.closest('.chip'); if(!chip) return;
-      chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      const f=chip.dataset.filter;
-      cards.forEach(card=>{
-        card.classList.toggle('hide', f!=='all' && card.dataset.cat!==f);
-      });
-    });
-  }
-})();
-</script>
+<script src="/studio/genre-trends.js"></script>
 
 <!-- ================= EDM STYLE LIBRARY ================= -->
 <script>

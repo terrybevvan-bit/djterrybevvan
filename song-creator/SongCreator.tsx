@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import type { SavedCreatorTrack } from './lib/browser-store';
 import { Music2, RefreshCw, Sparkles, ArrowUpRight, Copy, RotateCcw, ImagePlus, Download, KeyRound, Waves, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,27 +23,51 @@ export default function Home() {
       return { ...previous, [genre]: drawIdeas(genre, current?.used || profile.seeds, current?.ideas || profile.seeds) };
     });
   }
-  const drafts = useRef<Partial<Record<Genre, {idea:string; song:Song|null; art:string; tab:string}>>>({});
-  const [idea, setIdea] = useState(""); const [key, setKey] = useState(""); const [connect, setConnect] = useState(false);
+  const drafts = useRef<Partial<Record<Genre, {idea:string; song:Song|null; art:string; tab:string; savedId:string|null}>>>({});
+  const [savedId,setSavedId]=useState<string|null>(null);
+  const [idea, setIdea] = useState(""); const key=useSyncExternalStore(window.StudioSession.subscribe,window.StudioSession.getKey); const setKey=window.StudioSession.setKey; const [connect, setConnect] = useState(false);
   const [tab, setTab] = useState("lyrics"); const [song, setSong] = useState<Song | null>(null); const [art, setArt] = useState("");
   const [busy, setBusy] = useState(""); const [notice, setNotice] = useState(""); const [error, setError] = useState("");
   const controller = useRef<AbortController | null>(null); const sequence = useRef(0);
   const style = song?.style || djStyle(profile.style, introBars);
   const brief = writingBrief(genre, idea, introBars);
   const cover = song?.cover || coverBrief(genre, idea);
+  useEffect(()=>{
+    window.loadSongCreatorTrack=track=>{
+      sequence.current++;controller.current?.abort();
+      const mode=Object.hasOwn(profiles,track.genreKey)?track.genreKey as Genre:'melodic';
+      setGenre(mode);setIntroBars(track.introBars===32?32:16);setIdea(track.concept||'');
+      setSong(track.hasSong===false?null:{title:track.title,lyrics:track.lyrics,style:track.style,cover:track.cover||''});
+      setSavedId(track.id||null);setArt('');setTab('lyrics');setBusy('');setError('');setChatSession(n=>n+1);
+      setNotice('Loaded from Saved Tracks. Your API key is still session-only.');
+    };
+    const pending=window.parent.pendingSongCreatorTrack;
+    if(pending){delete window.parent.pendingSongCreatorTrack;window.loadSongCreatorTrack(pending);}
+    return ()=>{delete window.loadSongCreatorTrack;};
+  },[]);
+  function saveTrack(){
+    setError('');setNotice('');
+    try{
+      const track:SavedCreatorTrack={id:savedId||undefined,source:'song-creator',hasSong:!!song,
+        title:song?.title||idea.slice(0,60)||'Untitled',lyrics:song?.lyrics||'',style,cover,
+        concept:idea,genre:profile.name,genreKey:genre,introBars};
+      const id=window.TrackStore.save(track);setSavedId(id);
+      setNotice('Saved to Saved Tracks on this browser. It will survive a refresh. Download cover images separately.');
+    }catch{setError('Could not save on this browser. Storage may be full or unavailable. Your song is still here; download a copy before refreshing.');}
+  }
   function switchGenre(next: Genre) {
     if(next === genre || busy) return;
-    drafts.current[genre] = {idea, song, art, tab};
+    drafts.current[genre] = {idea, song, art, tab, savedId};
     const draft = drafts.current[next];
     sequence.current++; controller.current?.abort();
-    setChatSession(n=>n+1); setGenre(next); setIdea(draft?.idea || ""); setSong(draft?.song || null); setArt(draft?.art || ""); setTab(draft?.tab || "lyrics"); setError(""); setNotice("");
+    setChatSession(n=>n+1); setGenre(next); setIdea(draft?.idea || ""); setSong(draft?.song || null); setArt(draft?.art || ""); setTab(draft?.tab || "lyrics"); setSavedId(draft?.savedId||null); setError(""); setNotice("");
   }
   function selectIdea(next: string) {
     sequence.current++; controller.current?.abort();
-    setChatSession(n=>n+1); setIdea(next); setSong(null); setArt(""); setBusy(""); setError(""); setNotice(""); setTab("lyrics");
+    setChatSession(n=>n+1); setIdea(next); setSong(null); setSavedId(null); setArt(""); setBusy(""); setError(""); setNotice(""); setTab("lyrics");
   }
   async function copy(text: string, message = "Copied to clipboard.") { setNotice(""); setError(""); try { await navigator.clipboard.writeText(text); setNotice(message); } catch { setError("Copy is unavailable here. Select the text and copy it manually."); } }
-  function reset() { setChatSession(n=>n+1); sequence.current++; controller.current?.abort(); setIdea(""); setSong(null); setArt(""); setBusy(""); setNotice(""); setError(""); setTab("lyrics"); }
+  function reset() { setChatSession(n=>n+1); sequence.current++; controller.current?.abort(); setIdea(""); setSong(null); setSavedId(null); setArt(""); setBusy(""); setNotice(""); setError(""); setTab("lyrics"); }
   async function generate(kind: "song" | "art") {
     if (busy) return;
     setError(""); setNotice("");
@@ -58,7 +83,7 @@ export default function Home() {
       }
       if (!res.ok) throw new Error(data.error || "Generation failed. Please try again.");
       if (id !== sequence.current) return;
-      if (kind === "song") { setChatSession(n=>n+1); setSong(data); setArt(""); setTab("lyrics"); } else setArt(data.image);
+      if (kind === "song") { setChatSession(n=>n+1); setSong(data); setSavedId(null); setArt(""); setTab("lyrics"); } else setArt(data.image);
       setNotice(kind === "song" ? "Your song is ready. Edit any of the text below." : "Your cover is ready to download.");
     } catch (e) { if (id === sequence.current && !(e instanceof DOMException && e.name === "AbortError")) setError(e instanceof Error ? e.message : "Could not generate. Please try again."); }
     finally { if (id === sequence.current) setBusy(""); }
@@ -89,6 +114,7 @@ export default function Home() {
       </aside>
       <section className="output"><div className="output-heading"><div><div className="eyebrow">THE SESSION</div><h2>{song ? song.title : "Your next track"}</h2></div><Button variant="ghost" onClick={reset}><RotateCcw/>New song</Button></div>
       {song && <div className="suno-copy"><Button onClick={copyForSuno} disabled={!!busy || !song.title.trim() || !song.style.trim() || !song.lyrics.trim()}><Copy/>{notice === "Copied for Suno." ? "Copied for Suno" : "Copy for Suno"}</Button><p>Title + style + lyrics, including your edits. Paste into a chat with Suno connected. In Suno Custom mode, use the matching fields.</p></div>}
+      <div className="song-save"><Button variant="outline" disabled={!!busy||(!song&&!idea.trim())} onClick={saveTrack}>{savedId?'Update saved track':'Save to Saved Tracks'}</Button><p>Keep your song or idea on this browser after refreshing. Reopen it from Saved Tracks. Your API key is never saved.</p></div>
       <div aria-live="polite">{error && <p className="message error" role="alert">{error}</p>}{notice && <p className="message">{notice}</p>}</div>
       <Tabs value={tab} onValueChange={setTab}><TabsList className="studio-tabs"><TabsTrigger value="lyrics">01 &nbsp; Lyrics</TabsTrigger><TabsTrigger value="style">02 &nbsp; Style prompt</TabsTrigger><TabsTrigger value="cover">03 &nbsp; Cover art</TabsTrigger></TabsList>
       <TabsContent value="lyrics">{song ? <div className="written"><div className="actions"><Button variant="outline" onClick={() => copy(song.lyrics)}><Copy/>Copy lyrics</Button><Button variant="ghost" onClick={downloadText}><Download/>Download song</Button></div><label htmlFor="title">Track title</label><Input id="title" value={song.title} onChange={e => edit("title",e.target.value)}/><label htmlFor="lyrics" className="sr-only">Lyrics</label><Textarea id="lyrics" className="lyrics" value={song.lyrics} onChange={e => edit("lyrics",e.target.value)}/></div> : <div className="empty"><span className="empty-icon"><Music2 size={33} strokeWidth={1}/></span><div className="eyebrow">WORDS INTO WAVES</div><h3>{busy === "song" ? "Finding the words…" : "Every track begins somewhere."}</h3><p>{busy === "song" ? `Writing original ${profile.name} lyrics, a style prompt and a cover concept from your idea.` : "Leave your idea in the idea field. Your lyrics, hook and arrangement will take shape here."}</p><div className="structure"><span>DJ INTRO</span><i/><span>STORY</span><i/><span>RELEASE</span><i/><span>DJ OUTRO</span></div></div>}</TabsContent>

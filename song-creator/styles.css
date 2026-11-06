@@ -182,4 +182,6 @@ button,a,input,textarea { touch-action:manipulation; } button { cursor:pointer; 
 .chat-send {margin-top:12px;}
 .chat-handoff {margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
 #chat-message {min-height:100px;}
+.song-save{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 25px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.song-save p{flex:1;min-width:180px;margin:0;font-size:13px;line-height:1.6;color:var(--muted-foreground)}
 @media(max-width:760px) {.studio-chat {padding:22px 16px;}.chat-heading {align-items:flex-start;}.chat-message.user {margin-left:10px;}}

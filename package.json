@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/cleanup.test.cjs && node tests/studio-assets.test.cjs && node tests/comparison.test.cjs && tsx --test tests/song-creator.test.ts",
+    "test": "node tests/cleanup.test.cjs && node tests/studio-assets.test.cjs && node tests/comparison.test.cjs && node tests/track-store.test.cjs && tsx --test tests/song-creator.test.ts tests/trends.test.ts",
     "build": "vite build --config song-creator/vite.config.mts && node scripts/package-site.mjs",
     "typecheck": "tsc -p song-creator/tsconfig.json"
   },
