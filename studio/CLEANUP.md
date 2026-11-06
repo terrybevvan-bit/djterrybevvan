@@ -27,4 +27,6 @@ Conceptual reference inspected: https://musiccleanerpro.musictechtools.xyz/ (Mus
 
 Run `npm test` with Node.js. Tests cover bypass, silence/short buffers, FFT reconstruction, bounded stationary-noise reduction, stereo coherence, isolated impulse repair and preservation of longer transients.
 
+Studio asset URL checks cover `/studio`, `/studio/` and `/studio/index.html`. Styles, scripts and audio workers use `/studio/` paths so a missing trailing slash cannot break cleanup previews or MP3 exports.
+
 Browser verification in Chrome covered loading a WAV, setting gentle cleanup, playing clean/residual audio, exact master playback, WAV export and bypass. Synthetic checks do not replace listening tests on representative music.

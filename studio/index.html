@@ -739,7 +739,7 @@
     button.btn { font-size: 16px; }
   }
 </style>
-<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="/studio/studio.css">
 </head>
 <body>
 <div class="app">
@@ -3392,7 +3392,7 @@ window.STYLES=[
 </script>
 
 <!-- ================= MASTER ROOM LOGIC ================= -->
-<script src="cleanup-audition.js"></script>
+<script src="/studio/cleanup-audition.js"></script>
 <script>
 (function(){
   const panel = document.getElementById('panel-master');
@@ -3706,7 +3706,7 @@ window.STYLES=[
     const cached=cleanupCache.get(buf);
     if(cached?.key===key)return cached.promise;
     const promise=new Promise((resolve,reject)=>{
-      const worker=new Worker('cleanup-worker.js');
+      const worker=new Worker('/studio/cleanup-worker.js');
       const timer=setTimeout(()=>{worker.terminate();reject(Error('Cleanup timed out. Try a shorter track.'));},600000);
       const finish=()=>{clearTimeout(timer);worker.terminate();};
       worker.onerror=()=>{finish();reject(Error('Cleanup worker could not run. Reload and try again.'));};
@@ -4618,7 +4618,7 @@ window.STYLES=[
       source.connect(off.destination); source.start(); buffer=await off.startRendering();
     }
     return new Promise((resolve,reject)=>{
-      const worker=new Worker('mp3-worker.js');
+      const worker=new Worker('/studio/mp3-worker.js');
       const finish=()=>worker.terminate();
       worker.onmessage=({data})=>{finish();data.error?reject(new Error(data.error)):resolve(data.blob);};
       worker.onerror=()=>{finish();reject(new Error('MP3 encoder could not run. Please try again or choose WAV.'));};
@@ -6028,5 +6028,5 @@ window.STYLES=[
 })();
 </script>
 
-<script src="studio.js"></script></body>
+<script src="/studio/studio.js"></script></body>
 </html>
