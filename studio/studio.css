@@ -81,3 +81,70 @@ input[type=text],input[type=number],textarea,select{font-size:17px;line-height:1
 .sb-nav{flex-shrink:0}
 /* Keep actionable labels readable instead of forcing them into all caps. */
 .pb-ab,.pb-exact-lbl,.pb-meter-lbl,.vu-label,.chain-tab,.fs-btn,button.btn{text-transform:none;letter-spacing:0}
+
+/* Master Room: one continuous preset → cleanup → listen → export flow. */
+#panel-master [hidden]{display:none!important}
+#panel-master .master-flow{max-width:1180px}
+#panel-master .master-step{margin:0 0 24px;background:var(--panel);border:1px solid var(--edge);border-radius:16px;overflow:hidden;scroll-margin-top:24px}
+#panel-master .master-step>.sec-head{padding:24px;align-items:flex-start;gap:16px;border-bottom:1px solid var(--edge)}
+#panel-master .master-step>.sec-head .sec-num{color:var(--cyan);padding-top:3px;flex-shrink:0}
+#panel-master .master-step>.sec-body{padding:24px}
+#panel-master .step-description{font-size:16px;line-height:1.6;color:var(--ink-dim);margin:6px 0 0;max-width:65ch}
+#panel-master .preset-group-label{margin:24px 0 12px;font-size:17px;font-weight:600}
+#panel-master .preset-group-label:first-child{margin-top:0}
+#panel-master #presetChips{grid-template-columns:repeat(3,minmax(0,1fr))}
+#panel-master #presetChips .chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-height:96px;padding:18px;text-align:left}
+#panel-master #presetChips .chip strong{font-size:17px;font-weight:600}
+#panel-master #presetChips .chip small{font-size:14px;color:var(--ink-dim);line-height:1.5}
+#panel-master #presetChipsSuno,#panel-master #myPresetChips{display:flex;flex-wrap:wrap;gap:10px}
+#panel-master #presetChipsSuno .chip,#panel-master #myPresetChips .chip{font-size:15px;padding:12px 16px;border-radius:9px;white-space:normal;min-width:0}
+#panel-master .saved-preset-group{border-top:1px solid var(--edge);margin-top:24px;padding-top:20px}
+#panel-master .saved-preset-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+#panel-master .saved-preset-heading h4{margin:0}
+#panel-master #myPresetsLabel{display:none!important}
+#panel-master #myPresetsCount{font-size:14px;color:var(--ink-dim)}
+#panel-master .preset-save-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;padding:0;background:transparent;border:0}
+#panel-master .preset-save-lbl{flex:1 0 100%;font-size:14px;color:var(--ink-dim)}
+#panel-master #presetSaveName{flex:1 1 200px;min-width:0;max-width:none}
+#panel-master .master-optional{margin-top:20px}
+#panel-master .opt-block>summary{font-size:16px;padding:16px;cursor:pointer}
+#panel-master .opt-sub{font-size:14px}
+#panel-master .restoration-tools{margin:0!important}
+#panel-master .cleanup-strengths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 22px}
+#panel-master .cleanup-strengths button,#panel-master .cleanup-preview-actions button{background:#ffffff05;border:1px solid var(--edge);border-radius:9px;padding:12px 16px;min-height:48px;color:var(--ink-dim);font-size:16px}
+#panel-master .cleanup-strengths button.on{background:var(--amber-dim);border-color:var(--amber);color:var(--ink)}
+#panel-master .restoration-tools .controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#panel-master .restoration-tools .ctl{padding:18px}
+#panel-master .restoration-tools .ctl .top{align-items:flex-start;justify-content:space-between;font-size:16px}
+#panel-master .restoration-tools .ctl .desc{font-size:14px;margin-top:12px;line-height:1.6}
+#panel-master .restoration-tools input[type=range]{display:block;position:static;opacity:1;width:100%;height:28px;margin:18px 0 4px;cursor:pointer;touch-action:pan-y;accent-color:var(--amber)}
+#panel-master .cleanup-preview-actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 16px}
+#panel-master .cleanup-preview-actions button{flex:1 1 220px}
+#panel-master .restoration-tools .hint{display:block;color:var(--ink-dim);font-size:15px;line-height:1.7;white-space:normal;max-width:none}
+#panel-master #cleanupStatus{padding:14px 16px;background:#ffffff04;border-radius:8px;margin:16px 0}
+#panel-master .player-bar{position:static;top:auto;box-shadow:none;border:0;border-radius:0;background:transparent;margin:0}
+#panel-master #masterListen>.sec-body{padding:8px 0 0}
+#panel-master #masterListen>.sec-body>.opt-block{margin:20px 24px 24px}
+#panel-master #secCompare{background:transparent;border:0;margin:0;border-radius:0}
+#panel-master #secCompare .health-check{padding:18px;border-radius:0;background:transparent}
+#panel-master #secCompare .note{font-size:14px}
+#panel-master .pb-spectrum{display:none}
+#panel-master .pb-meters{border-bottom:0;border-radius:0}
+#panel-master .master-export-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#panel-master .master-export-actions .pb-fmt{width:auto;min-width:180px;flex:1 1 180px;margin:0}
+#panel-master .master-export-actions .pb-master-btn{flex:1 1 180px;margin:0;min-height:48px;font-size:16px;border-radius:9px}
+#panel-master .progress-wrap{margin:16px 0 0}
+@media(max-width:800px){
+ #panel-master #presetChips{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #panel-master .restoration-tools .controls{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+ #panel-master .master-step>.sec-head,#panel-master .master-step>.sec-body{padding:18px}
+ #panel-master #presetChips{grid-template-columns:1fr}
+ #panel-master .cleanup-strengths{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #panel-master .master-export-actions{flex-direction:column;align-items:stretch}
+ #panel-master .master-export-actions .pb-fmt,#panel-master .master-export-actions .pb-master-btn{flex:auto;width:100%;min-width:0}
+ #panel-master .pb-transport{gap:10px}
+ #panel-master .pb-ab-wrap{margin-left:0}
+ #panel-master .ref-match-row,#panel-master .ai-master-row{flex-wrap:wrap}
+}

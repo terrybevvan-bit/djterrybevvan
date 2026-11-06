@@ -1,13 +1,13 @@
 # Master Room restoration
 
-Open **Master Room → Shape your sound → Restoration** after loading a file.
+Master Room is one continuous page: **Add your track → Choose your mastering preset → Clean up noise & artifacts → Listen → Export**. There are no editing tabs or rotary dials. Factory and saved presets remain available; automatic mastering, reference matching and waveform comparison are optional sections on the same page.
 
-1. Select **Gentle cleanup** (30% noise reduction, 25% shimmer reduction, 25% click repair).
+1. Choose a mastering preset, then a cleanup strength: **Off** (0/0/0), **Gentle** (30/25/25), **Balanced** (50/45/40), or **Strong** (75/65/60), in noise/shimmer/click percentages. The three ordinary sliders allow small cleanup adjustments. Stronger settings can remove more music; audition the residual.
 2. Preview the cleaned audio, then the removed sound. Both play before mastering. Removed sound has an optional listening boost (enabled by default, capped at +24 dB), with original RMS level and applied boost displayed. This changes only the audition. Lower the cleanup settings if the residual contains musical detail you want to keep. Bypassed cleanup and negligible residuals show an explanation instead of a silent player.
-3. Use the main player to hear the complete master. Restoration automatically uses exact rendering even when the exact-render checkbox is off. Adjusting a restoration knob pauses the main player; press play to render the new settings.
+3. Use the main player to hear the complete master. It automatically uses the same rendering path as export, before output encoding. Adjusting a cleanup slider pauses the main player; press play to render the new settings. No preview-mode checkbox is needed.
 4. Export as usual. Restoration runs before the mastering chain for comparisons, WAV/MP3 exports and batch exports. It does not modify the source file.
 
-All restoration controls default to bypass. Factory mastering presets bypass restoration; custom presets save its settings. Older custom presets load with restoration bypassed.
+All restoration controls default to bypass. Switching a factory mastering preset preserves the chosen cleanup settings. Custom presets save the complete mastering and cleanup combination; older custom presets load with cleanup bypassed. Existing browser storage keys are unchanged.
 
 ## Processing
 
@@ -15,7 +15,7 @@ An independent local Web Worker uses a 2048-sample Hann window, a 512-sample hop
 
 Noise reduction applies across the spectrum. Shimmer reduction adds attenuation above 4.5 kHz, reaching full strength at 7 kHz. Isolated click repair interpolates single-sample outliers when both neighbours agree; it deliberately avoids broader transients. Removed sound is the original minus the complete cleanup result, including click repair. Listening boost uses one gain across all channels, capped at +24 dB with a -12 dBFS target peak. Already loud residuals stay at unity gain. Near-zero numerical residue is not amplified.
 
-The existing De-fizz tone knob now applies a high shelf above 6.5 kHz, up to a 7 dB cut. It replaces the previous subtraction of a phase-shifted, compressed branch. Selective noise reduction is handled by Restoration.
+The preset-driven De-fizz stage applies a high shelf above 6.5 kHz, up to a 7 dB cut. It replaces the previous subtraction of a phase-shifted, compressed branch. Selective noise reduction is handled by the cleanup section. Preset parameters remain intact in the processing engine, without manual EQ/dynamics dials in the interface.
 
 ## Limits
 

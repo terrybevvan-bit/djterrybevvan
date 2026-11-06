@@ -1354,111 +1354,346 @@
     </div>
 
     <div id="panel-master" class="tool-panel on">
-      <div class="wrap narrow">
-        <header class="tool-head">
+<div class="wrap narrow master-flow">
+<header class="tool-head">
           <div class="brand">
             <p class="kicker">MASTER ROOM / TERRY BEVVAN</p>
-            <h2>Make it <em>release ready.</em></h2>
-            <p>Your sound, finished. Load your mix, find your preset, and give every detail its space.</p>
+            <h2>Your mix. <em>Clean &amp; finished.</em>
+</h2>
+            <p>Load a track, pick a preset, clean it up, and listen. Everything is here on one page.</p>
           </div>
-          <button class="fs-btn" id="masterFsBtn" title="Full screen"><span id="fsIcon">⛶</span><span id="fsLabel">Full Screen</span></button>
+          <button class="fs-btn" id="masterFsBtn" title="Full screen">
+<span id="fsIcon">⛶</span>
+<span id="fsLabel">Full Screen</span>
+</button>
         </header>
-
-        <!-- 01 LOAD -->
-        <section class="load-compact">
+<section class="load-compact master-step" id="masterLoad">
+<div class="sec-head">
+<span class="sec-num">01</span>
+<div>
+<h3>Add your track</h3>
+<p class="step-description">Drop one mix or add several for a batch.</p>
+</div>
+</div>
           <div class="sec-body">
             <div id="drop" class="drop-slim">
-              <span class="drop-slim-txt">＋ Add your mix <small>Drop audio or browse files · WAV, MP3, FLAC · batch supported</small></span>
+              <span class="drop-slim-txt">＋ Add your mix <small>Drop audio or browse files · WAV, MP3, FLAC · batch supported</small>
+</span>
             </div>
-            <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" multiple>
+            <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" multiple="">
             <div class="loaded" id="loaded">
               <span class="fn" id="fName">—</span>
               <span class="meta" id="fMeta">—</span>
             </div>
-            <div id="queue"></div>
+            <div id="queue">
+</div>
           </div>
         </section>
-
-        <!-- ============ PINNED PLAYER BAR (the ONE player) ============ -->
-        <div id="playerBar" class="player-bar">
-          <div class="pb-brand">
-            <div><span class="pb-brand-name">MASTER ROOM <span>02</span></span><br><span class="pb-brand-sub">Listen. Refine. Release.</span></div>
-            <div class="pb-brand-export">
-              <button class="pb-load-btn" id="pbLoadBtn" title="Load one or more tracks">⇪ Load</button>
-              <select id="fmt" class="pb-fmt mini" title="Output format" aria-label="Master export format">
-                <option value="wav24">WAV ? 24-bit</option>
-                <option value="wav16">WAV ? 16-bit</option>
-                <option value="mp3">MP3 ? 320 kbps</option>
-              </select>
-              <button class="pb-master-btn" id="masterBtn" disabled title="Master the current track and download in the selected format">Export master ↗</button>
-              <button class="pb-master-btn ghost" id="batchBtn" disabled title="Master every track in the queue">Export batch</button>
+<section id="secTarget" class="master-step">
+<div class="sec-head">
+<span class="sec-num">02</span>
+<div>
+<h3>Choose your mastering preset</h3>
+<p class="step-description">Choose the finish you want. Your cleanup choices stay in place when you switch mastering presets.</p>
+</div>
+</div>
+<div class="sec-body">
+<h4 class="preset-group-label">Mastering</h4>
+<div class="chips" id="presetChips">
+              <span class="chip on" data-key="transparent" role="button" tabindex="0">
+<strong>Transparent</strong>
+<small>Natural tone · gentle loudness</small>
+</span>
+              <span class="chip" data-key="stream" role="button" tabindex="0">
+<strong>Streaming</strong>
+<small>Streaming · polished and present</small>
+</span>
+              <span class="chip" data-key="club" role="button" tabindex="0">
+<strong>Club / DJ</strong>
+<small>Club / DJ · louder and punchier</small>
+</span>
+              <span class="chip" data-key="deep" role="button" tabindex="0">
+<strong>Deep / Warm</strong>
+<small>Deep / Warm · fuller low end</small>
+</span>
+              <span class="chip" data-key="liquid" role="button" tabindex="0">
+<strong>Liquid / Open</strong>
+<small>Liquid / Open · airy and spacious</small>
+</span>
             </div>
-          </div>
-          <div class="progress-wrap" id="progWrap">
-            <div class="plabel" id="pLabel">Rendering…</div>
-            <div class="pbar"><i id="pFill"></i></div>
-          </div>
+<h4 class="preset-group-label">Character &amp; repair presets</h4>
+<div class="chips" id="presetChipsSuno">
+                  <span class="chip cyan" data-key="sunorescue">Suno Rescue (full fix)</span>
+                  <span class="chip cyan" data-key="sunofizz">De-Fizz (kill hiss)</span>
+                  <span class="chip cyan" data-key="sunodeharsh">De-Harsh (tame edge)</span>
+                  <span class="chip cyan" data-key="sunowide">Wide &amp; Wet (add space)</span>
+                </div>
+<div class="saved-preset-group">
+<div class="saved-preset-heading">
+<h4 class="preset-group-label">Your saved presets</h4>
+<span class="opt-sub" id="myPresetsCount">— none saved yet</span>
+</div>
+<div class="preset-group-label" id="myPresetsLabel" style="display:none">Your presets <span class="pg-sub">— click to load, × to delete</span>
+</div>
+<div class="chips" id="myPresetChips">
+</div>
+<p class="note" id="myPresetsEmpty">Your saved presets stay on this browser. Save your current mastering and cleanup combination below.</p>
+<div class="preset-save-row" id="presetSaveRow">
+                  <span class="preset-save-lbl">Save this mastering + cleanup combination</span>
+                  <input type="text" id="presetSaveName" placeholder="Name your preset" maxlength="40">
+                  <button class="btn primary" id="presetSaveBtn" style="font-size:13px;padding:9px 16px">Save Preset</button>
+                </div>
+</div>
+<details class="opt-block master-optional">
+<summary>Automatic mastering &amp; reference matching <span class="opt-sub">Optional</span>
+</summary>
+<div class="opt-body">
+<h4>Automatic mastering</h4>
+<div class="ai-master-row">
+                  <button class="btn primary" id="aiMasterBtn" style="font-size:16px">✦ Analyze &amp; Set Chain</button>
+                  <div class="ai-master-opts">
+                    <label class="field" style="max-width:180px">
+<span class="cap">Target loudness</span>
+                      <select id="aiTarget">
+                        <option value="-7">Club / DJ (−7 LUFS)</option>
+                        <option value="-9" selected="">Streaming (−9 LUFS)</option>
+                        <option value="-10">Warm / Deep (−10 LUFS)</option>
+                        <option value="-11">Open / Dynamic (−11 LUFS)</option>
+                        <option value="-14">Broadcast (−14 LUFS)</option>
+                      </select>
+                    </label>
+                    <label class="field" style="max-width:150px">
+<span class="cap">Character</span>
+                      <select id="aiChar">
+                        <option value="balanced" selected="">Balanced</option>
+                        <option value="warm">Warm</option>
+                        <option value="bright">Bright / Open</option>
+                        <option value="punchy">Punchy / Loud</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+<div id="aiReport" class="ai-report" style="display:none">
+</div>
+<h4>Match a reference track</h4>
+<div class="ref-match-row">
+                  <div id="refDrop" class="ref-drop">
+                    <div class="ref-drop-main">⇪ Drop a reference track</div>
+                    <div class="ref-drop-sub">a commercial song whose tone you want — WAV / MP3 / FLAC</div>
+                  </div>
+                  <input type="file" id="refFile" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" style="display:none">
+                </div>
+<div id="refLoaded" class="ref-loaded" style="display:none">
+                  <span class="ref-name" id="refName">—</span>
+                  <label class="field" style="max-width:170px">
+<span class="cap">Match strength <span id="refStrengthV">75%</span>
+</span>
+                    <input type="range" id="refStrength" min="20" max="100" step="5" value="75">
+                  </label>
+                </div>
+<label class="field preset-pick-field" hidden="">
+<span class="cap">— or load a saved preset —</span>
+                  <select id="presetPickSelect">
+<option value="">— none saved yet —</option>
+</select>
+                </label>
+<div class="ref-match-controls">
+                  <button class="btn primary" id="refMatchBtn" style="font-size:15px;padding:11px 18px" disabled="">✦ Match</button>
+                  <button class="btn ghost" id="refClearBtn" style="font-size:13px;padding:11px 14px">Clear</button>
+                </div>
+<div id="refReport" class="ai-report" style="display:none;border-color:var(--violet)">
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="secChain" class="master-step">
+<div class="sec-head">
+<span class="sec-num">03</span>
+<div>
+<h3>Clean up noise &amp; artifacts</h3>
+<p class="step-description">Start gently. Stronger cleanup removes more, but can also soften musical detail.</p>
+</div>
+</div>
+<div class="sec-body">
+<div class="restoration-tools" style="margin-top:16px">
+<div class="cleanup-strengths">
+<button type="button" class="chain-tab" id="cleanupOff">Off</button>
+<button type="button" class="chain-tab" id="cleanupGentle">Gentle</button>
+<button type="button" id="cleanupBalanced" class="chain-tab">Balanced</button>
+<button type="button" id="cleanupStrong" class="chain-tab">Strong</button>
+</div>
+
+
+              <div class="controls">
+                <div class="ctl">
+<div class="top">
+<label for="noise">Noise reduction</label>
+<span class="val" id="noiseV">0%</span>
+</div>
+<input type="range" id="noise" min="0" max="100" value="0">
+<div class="desc">Steady hiss and background static.</div>
+</div>
+                <div class="ctl">
+<div class="top">
+<label for="shimmer">Shimmer reduction</label>
+<span class="val" id="shimmerV">0%</span>
+</div>
+<input type="range" id="shimmer" min="0" max="100" value="0">
+<div class="desc">High-frequency fizz and shimmering residue.</div>
+</div>
+                <div class="ctl">
+<div class="top">
+<label for="click">Isolated click repair</label>
+<span class="val" id="clickV">0%</span>
+</div>
+<input type="range" id="click" min="0" max="100" value="0">
+<div class="desc">Isolated single-sample clicks.</div>
+</div>
+              </div>
+<div class="cleanup-preview-actions">
+<button type="button" class="chain-tab" id="cleanupListen">Listen to cleaned track</button>
+<button type="button" class="chain-tab" id="cleanupRemoved">Hear what was removed</button>
+</div>
+
+              <label class="hint" style="display:block;margin:12px 0">
+<input type="checkbox" id="cleanupBoost" checked=""> Boost quiet removed sound for listening (up to +24 dB, preview only). Applied when you click Preview removed sound.</label>
+              <p class="hint" id="cleanupStatus" role="status" aria-live="polite">Cleanup bypassed. Previews play before EQ, compression and loudness changes.</p>
+              <audio id="cleanupAudio" controls="" hidden="" style="width:100%;margin:12px 0" aria-label="Cleanup audition">
+</audio>
+              <p class="hint">If you hear music you want to keep in the removed sound, lower the cleanup strength. Audio stays on your device.</p>
+            </div>
+</div>
+</section>
+<section id="masterListen" class="master-step">
+<div class="sec-head">
+<span class="sec-num">04</span>
+<div>
+<h3>Listen before you export</h3>
+<p class="step-description">Play your finished track. Use the Original / Mastered switch to compare with your source.</p>
+</div>
+</div>
+<div class="sec-body">
+<div id="playerBar" class="player-bar">
+
+
           <div id="playerBarBody" class="disabled-section">
           <div class="pb-transport">
-            <button class="pb-skip" id="skipBackBtn" disabled title="Back 10 seconds">⏪<span>10</span></button>
-            <button class="pb-play" id="playBtn" disabled>▶</button>
-            <button class="pb-skip" id="skipFwdBtn" disabled title="Forward 10 seconds"><span>10</span>⏩</button>
+            <button class="pb-skip" id="skipBackBtn" disabled="" title="Back 10 seconds">⏪<span>10</span>
+</button>
+            <button class="pb-play" id="playBtn" disabled="">▶</button>
+            <button class="pb-skip" id="skipFwdBtn" disabled="" title="Forward 10 seconds">
+<span>10</span>⏩</button>
             <div class="pb-ab-wrap">
-              <button class="pb-ab" id="abBtn" disabled><span class="pb-ab-dot"></span><span id="abLabel">MASTERED</span></button>
+              <button class="pb-ab" id="abBtn" disabled="">
+<span class="pb-ab-dot">
+</span>
+<span id="abLabel">MASTERED</span>
+</button>
               <span class="pb-ab-hint" id="abNote">tap to hear RAW</span>
             </div>
-            <label class="pb-exact" id="pbExactWrap" title="Play the exact offline-rendered file — identical to what downloads">
-              <input type="checkbox" id="pbExact"><span class="pb-exact-box"></span>
+            <label class="pb-exact" id="pbExactWrap" title="Play the exact offline-rendered file — identical to what downloads" hidden="">
+              <input type="checkbox" id="pbExact" checked="">
+<span class="pb-exact-box">
+</span>
               <span class="pb-exact-lbl">exact render</span>
             </label>
-            <div class="pb-time"><span id="tCur">0:00</span> / <span id="tDur">0:00</span></div>
+            <div class="pb-time">
+<span id="tCur">0:00</span> / <span id="tDur">0:00</span>
+</div>
           </div>
 
           <div class="pb-chainsrc" id="pbChainSource">
-            <span class="pb-chainsrc-dot"></span>
-            <span id="pbChainSourceText">No starting point chosen yet — pick one in ① Start below</span>
+            <span class="pb-chainsrc-dot">
+</span>
+            <span id="pbChainSourceText">Preset: Transparent · gentle mastering</span>
           </div>
 
           <div class="pb-wave-wrap">
-            <canvas id="pbWaveBase"></canvas>
-            <canvas id="pbWaveFg"></canvas>
-            <div class="pb-wave-playhead" id="pbWavePlayhead"></div>
+            <canvas id="pbWaveBase">
+</canvas>
+            <canvas id="pbWaveFg">
+</canvas>
+            <div class="pb-wave-playhead" id="pbWavePlayhead">
+</div>
             <div class="pb-wave-empty" id="pbWaveEmpty">waveform appears once a track loads</div>
-            <input type="range" id="seek" min="0" max="1000" value="0" disabled class="pb-wave-seek">
+            <input type="range" id="seek" min="0" max="1000" value="0" disabled="" class="pb-wave-seek">
           </div>
 
-          <div class="pb-engine-note" id="pbEngineNote">▸ Live preview — realtime chain. Tick <b>exact render</b> to hear the master before export encoding.</div>
+          <div class="pb-engine-note" id="pbEngineNote">Preview uses the same mastering render as your export.</div>
 
           <div class="pb-meters">
             <div class="vu-meter">
               <span class="vu-label">Loudness estimate</span>
               <svg viewBox="0 0 200 115" preserveAspectRatio="xMidYMid meet">
-                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#3a2f10" stroke-width="2"/>
-                <path d="M 20 100 A 80 80 0 0 1 100 20" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55"/>
-                <path d="M 100 20 A 80 80 0 0 1 150 40" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55"/>
-                <path d="M 150 40 A 80 80 0 0 1 180 100" fill="none" stroke="#ff3e33" stroke-width="3" opacity=".55"/>
+                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#3a2f10" stroke-width="2">
+</path>
+                <path d="M 20 100 A 80 80 0 0 1 100 20" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55">
+</path>
+                <path d="M 100 20 A 80 80 0 0 1 150 40" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55">
+</path>
+                <path d="M 150 40 A 80 80 0 0 1 180 100" fill="none" stroke="#ff3e33" stroke-width="3" opacity=".55">
+</path>
               </svg>
-              <div class="vu-needle" id="mLufsNeedle"></div>
-              <div class="vu-pivot-cap"></div>
-              <div class="vu-readout"><span class="num idle" id="mLufs">—</span><span class="unit">LUFS</span></div>
+              <div class="vu-needle" id="mLufsNeedle">
+</div>
+              <div class="vu-pivot-cap">
+</div>
+              <div class="vu-readout">
+<span class="num idle" id="mLufs">—</span>
+<span class="unit">LUFS</span>
+</div>
             </div>
             <div class="vu-meter">
               <span class="vu-label">Sample peak</span>
               <svg viewBox="0 0 200 115" preserveAspectRatio="xMidYMid meet">
-                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#3a2f10" stroke-width="2"/>
-                <path d="M 20 100 A 80 80 0 0 1 130 25" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55"/>
-                <path d="M 130 25 A 80 80 0 0 1 165 55" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55"/>
-                <path d="M 165 55 A 80 80 0 0 1 180 100" fill="none" stroke="#ff3e33" stroke-width="3" opacity=".55"/>
+                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#3a2f10" stroke-width="2">
+</path>
+                <path d="M 20 100 A 80 80 0 0 1 130 25" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55">
+</path>
+                <path d="M 130 25 A 80 80 0 0 1 165 55" fill="none" stroke="#d6ff3f" stroke-width="3" opacity=".55">
+</path>
+                <path d="M 165 55 A 80 80 0 0 1 180 100" fill="none" stroke="#ff3e33" stroke-width="3" opacity=".55">
+</path>
               </svg>
-              <div class="vu-needle" id="mPeakNeedle"></div>
-              <div class="vu-pivot-cap"></div>
-              <div class="vu-readout"><span class="num idle" id="mPeak">—</span><span class="unit">dB</span></div>
+              <div class="vu-needle" id="mPeakNeedle">
+</div>
+              <div class="vu-pivot-cap">
+</div>
+              <div class="vu-readout">
+<span class="num idle" id="mPeak">—</span>
+<span class="unit">dB</span>
+</div>
             </div>
             <div class="pb-meter pb-dyn-cell">
-              <div class="pb-meter-top"><span class="pb-meter-lbl">DYNAMICS</span><span class="pb-meter-val"><span class="num idle" id="mCrest">—</span> <span class="unit">dB</span></span></div>
+              <div class="pb-meter-top">
+<span class="pb-meter-lbl">DYNAMICS</span>
+<span class="pb-meter-val">
+<span class="num idle" id="mCrest">—</span> <span class="unit">dB</span>
+</span>
+</div>
               <div class="led-ladder-wrap">
                 <div class="led-ladder" id="crestLadder">
-                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
                 </div>
                 <div class="led-ladder-lbl">crest · squashed ◂ ▸ dynamic</div>
               </div>
@@ -1467,333 +1702,379 @@
           </div>
 
           <div class="pb-spectrum">
-            <canvas id="spectrumCanvas"></canvas>
+            <canvas id="spectrumCanvas">
+</canvas>
             <span class="pb-spec-tag" id="spectrumHint">frequency spectrum</span>
           </div>
 
           <!-- VST internal tabs -->
-          <div class="vst-tabs" id="vstTabs">
-            <button class="vst-tab on" data-vtab="secTarget">01 · Presets</button>
-            <button class="vst-tab" data-vtab="secChain">02 · Shape your sound</button>
-            <button class="vst-tab" data-vtab="secCompare">03 · Check & compare</button>
-          </div>
-          <div class="vst-body" id="vstBody"><!-- sections relocated here by JS --></div>
+
+
           </div>
         </div>
+<details class="opt-block">
+<summary>Track health &amp; waveform comparison <span class="opt-sub">Optional</span>
+</summary>
+<section id="secCompare" class="disabled-section master-optional">
+<div class="health-check">
+<h3>Before you release</h3>
+<button class="btn ghost" id="healthBtn">Check track health</button>
+<div id="healthReport" role="status">Check clipping, stereo compatibility, and dynamics in your source mix.</div>
+<p class="note">Loudness is an RMS-based estimate. Peak readings are sample peaks; verify integrated LUFS and true peak in a dedicated meter for delivery specifications.</p>
+</div>
 
-        <!-- 02 TARGET -->
-        <section id="secTarget" class="disabled-section">
-          <div class="sec-head"><span class="sec-num">02</span><h3>Pick a Starting Point</h3><span class="hint">one click loads the whole chain — then fine-tune in the tabs</span></div>
           <div class="sec-body">
-            <p class="flow-help">Pick a sound you love. Your presets load the whole chain; fine-tune only when you need to. Saved presets stay right here.</p>
-
-            <div class="preset-group-label">① Manual presets <span class="pg-sub">— predictable, no surprises. Transparent is the gentlest.</span></div>
-            <div class="chips" id="presetChips">
-              <span class="chip on" data-key="transparent">Transparent (gentle)</span>
-              <span class="chip" data-key="stream">Streaming (−9)</span>
-              <span class="chip" data-key="club">Club / DJ (−7)</span>
-              <span class="chip" data-key="deep">Deep / Warm (−10)</span>
-              <span class="chip" data-key="liquid">Liquid / Open (−11)</span>
-            </div>
-            <p class="note"><b>Transparent</b> barely touches the tone — light glue, a touch of air, safe loudness. It's the "don't ruin it" option and a great default. The others push louder and add more character. All of them just preload the tabs — nothing is final until you Master.</p>
-
-            <details class="opt-block">
-              <summary>② AI Auto-Master <span class="opt-sub">— analyzes your track and sets the chain (gentle by default)</span></summary>
-              <div class="opt-body">
-                <div class="ai-master-row">
-                  <button class="btn primary" id="aiMasterBtn" style="font-size:16px">✦ Analyze &amp; Set Chain</button>
-                  <div class="ai-master-opts">
-                    <label class="field" style="max-width:180px"><span class="cap">Target loudness</span>
-                      <select id="aiTarget">
-                        <option value="-7">Club / DJ (−7 LUFS)</option>
-                        <option value="-9" selected>Streaming (−9 LUFS)</option>
-                        <option value="-10">Warm / Deep (−10 LUFS)</option>
-                        <option value="-11">Open / Dynamic (−11 LUFS)</option>
-                        <option value="-14">Broadcast (−14 LUFS)</option>
-                      </select>
-                    </label>
-                    <label class="field" style="max-width:150px"><span class="cap">Character</span>
-                      <select id="aiChar">
-                        <option value="balanced" selected>Balanced</option>
-                        <option value="warm">Warm</option>
-                        <option value="bright">Bright / Open</option>
-                        <option value="punchy">Punchy / Loud</option>
-                      </select>
-                    </label>
-                  </div>
-                </div>
-                <div id="aiReport" class="ai-report" style="display:none"></div>
-                <p class="note">The AI now measures your track against the natural tonal curve of well-made music and only corrects <i>real</i> problems — it won't thin out a track that's already balanced. It's tuned gentle. If it ever sounds off, click <b>Transparent</b> above to reset to the safe baseline.</p>
-              </div>
-            </details>
-
-            <details class="opt-block">
-              <summary>③ Match reference or load a preset <span class="opt-sub">— pull tone from a song, or reload a saved chain</span></summary>
-              <div class="opt-body">
-                <div class="ref-match-row">
-                  <div id="refDrop" class="ref-drop">
-                    <div class="ref-drop-main">⇪ Drop a reference track</div>
-                    <div class="ref-drop-sub">a commercial song whose tone you want — WAV / MP3 / FLAC</div>
-                  </div>
-                  <input type="file" id="refFile" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" style="display:none">
-                </div>
-                <div id="refLoaded" class="ref-loaded" style="display:none">
-                  <span class="ref-name" id="refName">—</span>
-                  <label class="field" style="max-width:170px"><span class="cap">Match strength <span id="refStrengthV">75%</span></span>
-                    <input type="range" id="refStrength" min="20" max="100" step="5" value="75">
-                  </label>
-                </div>
-
-                <label class="field preset-pick-field"><span class="cap">— or load a saved preset —</span>
-                  <select id="presetPickSelect"><option value="">— none saved yet —</option></select>
-                </label>
-
-                <div class="ref-match-controls">
-                  <button class="btn primary" id="refMatchBtn" style="font-size:15px;padding:11px 18px" disabled>✦ Match</button>
-                  <button class="btn ghost" id="refClearBtn" style="font-size:13px;padding:11px 14px">Clear</button>
-                </div>
-
-                <div id="refReport" class="ai-report" style="display:none;border-color:var(--violet)"></div>
-                <p class="note">Drop a reference track then hit <b>✦ Match</b> to pull your tone toward it — or pick a saved preset from the dropdown and hit the same button to reload that exact chain. 100% match strength mirrors the reference; lower blends toward it.</p>
-
-                <div class="preset-save-row" id="presetSaveRow">
-                  <span class="preset-save-lbl">💾 Like this chain? Save it as a preset —</span>
-                  <input type="text" id="presetSaveName" placeholder="e.g. 'Amandla Reference Match'" maxlength="40">
-                  <button class="btn primary" id="presetSaveBtn" style="font-size:13px;padding:9px 16px">Save Preset</button>
-                </div>
-              </div>
-            </details>
-
-            <details class="opt-block">
-              <summary>④ Your saved presets <span class="opt-sub" id="myPresetsCount">— none saved yet</span></summary>
-              <div class="opt-body">
-                <div class="preset-group-label" id="myPresetsLabel" style="display:none">Your presets <span class="pg-sub">— click to load, × to delete</span></div>
-                <div class="chips" id="myPresetChips"></div>
-                <p class="note" id="myPresetsEmpty">Save a chain from any tab above — after a reference match, an AI master, or your own manual tweaks — and it'll show up here, stored locally on this machine.</p>
-              </div>
-            </details>
-
-            <details class="opt-block">
-              <summary>◆ Suno artifact cleanup <span class="opt-sub">— target-fix AI hiss, harshness, narrowness</span></summary>
-              <div class="opt-body">
-                <div class="chips" id="presetChipsSuno">
-                  <span class="chip cyan" data-key="sunorescue">Suno Rescue (full fix)</span>
-                  <span class="chip cyan" data-key="sunofizz">De-Fizz (kill hiss)</span>
-                  <span class="chip cyan" data-key="sunodeharsh">De-Harsh (tame edge)</span>
-                  <span class="chip cyan" data-key="sunowide">Wide &amp; Wet (add space)</span>
-                </div>
-                <p class="note"><b>Only reach for these if the track actually has the problem.</b> <b>Suno Rescue</b> de-fizzes hiss, notches the harsh 3k edge, widens, and adds space. <b>De-Fizz</b> = high-end hiss only. <b>De-Harsh</b> = the 3–4k digital edge on vocals/leads. <b>Wide &amp; Wet</b> opens narrow, dry exports. If your track sounds fine, skip this — these are repairs, not polish.</p>
-              </div>
-            </details>
-          </div>
-        </section>
-
-        <!-- 03 CHAIN — TABBED -->
-        <section id="secChain" class="disabled-section">
-          <div class="sec-head"><span class="sec-num">03</span><h3>Mastering Chain</h3><span class="hint">fine-tune · click a control &amp; use ← → arrows</span></div>
-          <div class="sec-body" style="padding-top:0">
-            <div class="finishing-tools" style="margin-top:16px">
-              <h3>Restoration · before mastering</h3>
-              <p class="hint">Local spectral cleanup · quiet-passage noise profile · up to 7 dB reduction per frequency · original timing and stereo preserved.</p>
-              <div class="controls">
-                <div class="ctl"><div class="top"><label for="noise">Noise reduction</label><span class="val" id="noiseV">0%</span></div><input type="range" id="noise" min="0" max="100" value="0"><div class="desc">Reduce steady hiss and background static. Start at 25–40%; quiet music can be mistaken for noise.</div></div>
-                <div class="ctl"><div class="top"><label for="shimmer">Shimmer reduction</label><span class="val" id="shimmerV">0%</span></div><input type="range" id="shimmer" min="0" max="100" value="0"><div class="desc">Extra spectral reduction above 4.5 kHz for fizzy high-frequency residue. Listen for lost cymbal detail.</div></div>
-                <div class="ctl"><div class="top"><label for="click">Isolated click repair</label><span class="val" id="clickV">0%</span></div><input type="range" id="click" min="0" max="100" value="0"><div class="desc">Interpolate isolated single-sample spikes. This does not repair sustained distortion or clipping.</div></div>
-              </div>
-              <div class="action-row" style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
-                <button type="button" class="chain-tab" id="cleanupGentle">Gentle cleanup</button>
-                <button type="button" class="chain-tab" id="cleanupOff">Bypass cleanup</button>
-                <button type="button" class="chain-tab" id="cleanupListen">Preview cleaned audio</button>
-                <button type="button" class="chain-tab" id="cleanupRemoved">Preview removed sound</button>
-              </div>
-              <label class="hint" style="display:block;margin:12px 0"><input type="checkbox" id="cleanupBoost" checked> Boost quiet removed sound for listening (up to +24 dB, preview only). Applied when you click Preview removed sound.</label>
-              <p class="hint" id="cleanupStatus" role="status" aria-live="polite">Cleanup bypassed. Previews play before EQ, compression and loudness changes.</p>
-              <audio id="cleanupAudio" controls hidden style="width:100%;margin:12px 0" aria-label="Cleanup audition"></audio>
-              <p class="hint">If you hear vocals, drums or melody in the removed sound, reduce the settings. Cleanup is included in exact playback, comparison renders and all exports; it cannot reconstruct missing musical detail.</p>
-            </div>
-            <div class="chain-tabs" id="chainTabs">
-              <button class="chain-tab on" data-tab="eq">EQ &amp; Tone</button>
-              <button class="chain-tab" data-tab="dyn">Dynamics &amp; Width</button>
-              <button class="chain-tab" data-tab="out">Output &amp; Loudness</button>
-            </div>
-
-            <div class="finishing-tools"><h3>The finishing touches</h3><div class="controls"><div class="ctl"><div class="top"><span>Mono bass</span><span class="val" id="bassMonoV">0 Hz</span></div><input aria-label="Mono bass" type="range" id="bassMono" min="0" max="250" step="10" value="0"><div class="desc">Center the bass below this frequency for a more stable low end. Zero bypasses.</div></div><div class="ctl"><div class="top"><span>Tonal tilt</span><span class="val" id="tiltV">0 dB</span></div><input aria-label="Tonal tilt" type="range" id="tilt" min="-3" max="3" step="0.25" value="0"><div class="desc">A broad balance: warmer to the left, brighter to the right.</div></div><div class="ctl"><div class="top"><span>Fade in</span><span class="val" id="fadeInV">0 ms</span></div><input aria-label="Fade in" type="range" id="fadeIn" min="0" max="100" step="5" value="0"><div class="desc">Smooth the opening edge without a long fade. Applied to the exact render and export.</div></div><div class="ctl"><div class="top"><span>Fade out</span><span class="val" id="fadeOutV">0 ms</span></div><input aria-label="Fade out" type="range" id="fadeOut" min="0" max="2000" step="50" value="0"><div class="desc">Finish cleanly and avoid abrupt endings. Applied to the exact render and export.</div></div></div><p class="note">All finishing tools start bypassed. Fade controls are heard with “exact render” enabled.</p></div><!-- TAB: EQ -->
-            <div class="chain-pane on" data-pane="eq">
-              <div class="controls">
-                <div class="ctl">
-                  <div class="top"><span>Low-cut / rumble filter</span><span class="val" id="hpV">30 Hz</span></div>
-                  <input type="range" id="hp" min="10" max="80" step="1" value="30">
-                  <div class="desc"><b>What:</b> removes sub-rumble below the kick. <b>Norm:</b> 25–35 Hz. <b>If</b> the low end feels loose or woolly, <b>then</b> raise toward 40. Leave low for deep/sub-heavy tracks.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Sub / low weight</span><span class="val" id="lowV">+0.0 dB</span></div>
-                  <input type="range" id="low" min="-6" max="6" step="0.5" value="0">
-                  <div class="desc"><b>What:</b> shelf at ~90 Hz — the body of the kick and bass. <b>Norm:</b> 0 to +2. <b>If</b> it sounds thin, <b>then</b> nudge up +1 to +2. <b>If</b> boomy, pull down.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Low-mid mud cut</span><span class="val" id="mudV">0.0 dB</span></div>
-                  <input type="range" id="mud" min="-6" max="3" step="0.5" value="0">
-                  <div class="desc"><b>What:</b> bell at ~300 Hz. <b>Norm:</b> 0 to −2. <b>If</b> the mix sounds boxy, muddy or cluttered, <b>then</b> cut −1.5 to −3. Rarely boost here.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>◆ De-fizz tone <span style="color:var(--cyan)">(Suno hiss)</span></span><span class="val" id="deessV">0%</span></div>
-                  <input type="range" id="deess" min="0" max="100" step="1" value="0">
-                  <div class="desc"><b>What:</b> gently lowers the top end above 6.5 kHz, up to 7 dB. Use Restoration above for selective spectral cleanup. <b>Norm:</b> 0 unless hissy. <b>If</b> you hear sizzle/fizz on top, <b>then</b> raise to 40–70. Overdone = dull.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>◆ Harshness notch <span style="color:var(--cyan)">(3.2k edge)</span></span><span class="val" id="harshV">off</span></div>
-                  <input type="range" id="harsh" min="0" max="8" step="0.5" value="0">
-                  <div class="desc"><b>What:</b> narrow dip at ~3.2 kHz — the brittle digital edge on AI leads/vocals. <b>Norm:</b> 0–2. <b>If</b> leads sound piercing or fatiguing, <b>then</b> add 2–4.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Presence</span><span class="val" id="presV">+0.0 dB</span></div>
-                  <input type="range" id="pres" min="-4" max="6" step="0.5" value="0">
-                  <div class="desc"><b>What:</b> bell at ~3.5 kHz — vocal clarity and snare snap. <b>Norm:</b> 0 to +1.5. <b>If</b> vocals feel buried, <b>then</b> nudge up. Careful: too much = harsh.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Air / top shelf</span><span class="val" id="airV">+0.0 dB</span></div>
-                  <input type="range" id="air" min="-3" max="8" step="0.5" value="0">
-                  <div class="desc"><b>What:</b> high shelf at 11 kHz — sheen on hats and cymbals. <b>Norm:</b> 0 to +2. <b>If</b> the track feels dull/closed, <b>then</b> add +1 to +3. Too much = tinny.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB: DYNAMICS + WIDTH -->
-            <div class="chain-pane" data-pane="dyn">
-              <div class="controls">
-                <div class="ctl">
-                  <div class="top"><span>Glue compression</span><span class="val" id="glueV">2.0 : 1</span></div>
-                  <input type="range" id="glue" min="1" max="6" step="0.1" value="2">
-                  <div class="desc"><b>What:</b> bus compressor ratio — pulls the mix into one unit. <b>Norm:</b> 1.5–2.5:1. <b>If</b> the mix feels disjointed or loose, <b>then</b> raise a little. High ratios squash.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Stereo width</span><span class="val" id="widthV">100%</span></div>
-                  <input type="range" id="width" min="0" max="180" step="5" value="100">
-                  <div class="desc"><b>What:</b> mid/side widener (low end stays mono-safe). <b>Norm:</b> 100–120%. <b>If</b> it feels narrow, <b>then</b> push to 115–130. Over ~140 risks phase/mono issues.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>◆ Space / reverb <span style="color:var(--cyan)">(add air)</span></span><span class="val" id="spaceV">dry</span></div>
-                  <input type="range" id="space" min="0" max="100" step="1" value="0">
-                  <div class="desc"><b>What:</b> parallel plate reverb, high-passed so it won't muddy the lows. <b>Norm:</b> 0 for club. <b>If</b> a Suno export sounds bone-dry/flat, <b>then</b> add 15–35%.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Saturation / drive</span><span class="val" id="satV">0%</span></div>
-                  <input type="range" id="sat" min="0" max="100" step="1" value="0">
-                  <div class="desc"><b>What:</b> soft harmonic warmth — glues digital tops, adds analog feel. <b>Norm:</b> 5–15%. <b>If</b> the track feels sterile/cold, <b>then</b> add 10–20%. A little goes far.</div>
-                </div>
-              </div>
-              <div class="mb-inline">
-                <label class="mb-toggle">
-                  <input type="checkbox" id="mbEnable">
-                  <span class="mb-switch"></span>
-                  <span class="mb-toggle-label">Multiband dynamics</span>
-                  <span class="mb-toggle-hint" id="mbHint">off — using single broadband glue</span>
-                </label>
-                <div id="mbControls" class="mb-controls disabled-section" style="margin-top:16px">
-                  <div class="mb-crossover">
-                    <label class="field" style="max-width:180px"><span class="cap">Low / Mid split <span id="mbX1V">200 Hz</span></span>
-                      <input type="range" id="mbX1" min="80" max="500" step="10" value="200">
-                    </label>
-                    <label class="field" style="max-width:180px"><span class="cap">Mid / High split <span id="mbX2V">3000 Hz</span></span>
-                      <input type="range" id="mbX2" min="1500" max="8000" step="100" value="3000">
-                    </label>
-                  </div>
-                  <div class="mb-bands">
-                    <div class="mb-band">
-                      <div class="mb-band-head">LOW</div>
-                      <div class="mb-ctl"><span>Compress <b id="mbLowCompV">2.0:1</b></span><input type="range" id="mbLowComp" min="1" max="6" step="0.1" value="2"></div>
-                      <div class="mb-ctl"><span>Gain <b id="mbLowGainV">0.0 dB</b></span><input type="range" id="mbLowGain" min="-6" max="6" step="0.5" value="0"></div>
-                    </div>
-                    <div class="mb-band">
-                      <div class="mb-band-head">MID</div>
-                      <div class="mb-ctl"><span>Compress <b id="mbMidCompV">2.0:1</b></span><input type="range" id="mbMidComp" min="1" max="6" step="0.1" value="2"></div>
-                      <div class="mb-ctl"><span>Gain <b id="mbMidGainV">0.0 dB</b></span><input type="range" id="mbMidGain" min="-6" max="6" step="0.5" value="0"></div>
-                    </div>
-                    <div class="mb-band">
-                      <div class="mb-band-head">HIGH</div>
-                      <div class="mb-ctl"><span>Compress <b id="mbHighCompV">2.0:1</b></span><input type="range" id="mbHighComp" min="1" max="6" step="0.1" value="2"></div>
-                      <div class="mb-ctl"><span>Gain <b id="mbHighGainV">0.0 dB</b></span><input type="range" id="mbHighGain" min="-6" max="6" step="0.5" value="0"></div>
-                    </div>
-                  </div>
-                  <p class="note"><b>What:</b> compresses low/mid/high separately, so a loud kick doesn't duck your hats. <b>When:</b> leave off for most tracks — turn on only if the low end pumps the whole mix. AI sets it only when it detects a real imbalance.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB: OUTPUT -->
-            <div class="chain-pane" data-pane="out">
-              <div class="controls">
-                <div class="ctl">
-                  <div class="top"><span>Loudness target</span><span class="val" id="lufsV">-9 LUFS</span></div>
-                  <input type="range" id="lufs" min="-16" max="-5" step="0.5" value="-9">
-                  <div class="desc"><b>What:</b> how hard the limiter drives level. <b>Norm:</b> −7 club, −9 to −14 streaming. <b>If</b> it sounds crushed/lifeless, <b>then</b> lower (more negative) for dynamics. Louder isn't always better.</div>
-                </div>
-                <div class="ctl">
-                  <div class="top"><span>Ceiling (true-peak safety)</span><span class="val" id="ceilV">-1.0 dB</span></div>
-                  <input type="range" id="ceil" min="-2" max="-0.1" step="0.1" value="-1">
-                  <div class="desc"><b>What:</b> the absolute hard limit. <b>Norm:</b> −1.0 dB. <b>If</b> you're delivering to strict streaming specs, <b>then</b> −1.0 is safe everywhere. Don't go above −0.3.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 04 COMPARE -->
-        <section id="secCompare" class="disabled-section"><div class="health-check"><h3>Before you release</h3><button class="btn ghost" id="healthBtn">Check track health</button><div id="healthReport" role="status">Check clipping, stereo compatibility, and dynamics in your source mix.</div><p class="note">Loudness is an RMS-based estimate. Peak readings are sample peaks; verify integrated LUFS and true peak in a dedicated meter for delivery specifications.</p></div>
-          <div class="sec-head"><span class="sec-num">04</span><h3>Compare Raw vs Mastered</h3><span class="hint">frozen before/after with waveforms</span></div>
-          <div class="sec-body">
-            <p class="flow-help" style="margin-bottom:14px"><b>Two ways to listen, and they're different:</b> the <b>player up top</b> is live — it plays your track through the chain in real time and updates as you move sliders (use its A/B to flip raw ↔ mastered on the fly). <b>This section</b> renders a <b>frozen snapshot</b> of the mastered version and draws both waveforms so you can see the change and scrub them in sync. Use the top player while tweaking; build this once you want a locked before/after with visuals.</p>
+            <p class="flow-help" style="margin-bottom:14px">Build a comparison to see and hear the original beside the current master.</p>
             <div class="transport" style="margin-top:0">
-              <button class="btn primary" id="cmpRenderBtn" disabled>◎ Build Comparison Snapshot</button>
+              <button class="btn primary" id="cmpRenderBtn" disabled="">Build comparison</button>
               <span class="abnote" id="cmpNote">Renders the current chain so you can A/B it with waveforms</span>
             </div>
             <div class="wf-block" id="wfBlock" style="margin-top:16px">
               <div class="wf-lane raw" id="laneRaw">
                 <span class="wf-tag">Raw · original</span>
                 <span class="wf-nums" id="rawNums">—</span>
-                <canvas id="cvRaw"></canvas>
-                <div class="wf-ph" id="phRaw"></div>
+                <canvas id="cvRaw">
+</canvas>
+                <div class="wf-ph" id="phRaw">
+</div>
                 <div class="wf-empty" id="rawEmpty">Build the comparison to draw the waveforms</div>
               </div>
               <div class="wf-lane master" id="laneMst">
                 <span class="wf-tag">Mastered</span>
                 <span class="wf-nums" id="mstNums">—</span>
-                <canvas id="cvMst"></canvas>
-                <div class="wf-ph" id="phMst"></div>
+                <canvas id="cvMst">
+</canvas>
+                <div class="wf-ph" id="phMst">
+</div>
                 <div class="wf-empty" id="mstEmpty">Mastered waveform appears here</div>
               </div>
             </div>
             <div class="transport">
-              <button class="btn ab" id="playRawBtn" disabled>▶ Play Raw</button>
-              <button class="btn primary" id="playMstBtn" disabled>▶ Play Mastered</button>
-              <button class="btn ab" id="cmpStopBtn" disabled>■ Stop</button>
+              <button class="btn ab" id="playRawBtn" disabled="">▶ Play Raw</button>
+              <button class="btn primary" id="playMstBtn" disabled="">▶ Play Mastered</button>
+              <button class="btn ab" id="cmpStopBtn" disabled="">■ Stop</button>
               <span class="abnote" id="cmpPlayNote">Both play from the same spot — flip between them to hear the lift</span>
             </div>
             <div class="cmp-stats" id="cmpStats" style="display:none">
               <div class="cmp-cell">
                 <div class="cl">Loudness · LUFS</div>
-                <div class="rowline"><span class="k">Raw</span><span class="v raw" id="sRawLufs">—</span></div>
-                <div class="rowline"><span class="k">Mastered</span><span class="v mst" id="sMstLufs">—</span></div>
-                <div class="delta" id="dLufs"></div>
+                <div class="rowline">
+<span class="k">Raw</span>
+<span class="v raw" id="sRawLufs">—</span>
+</div>
+                <div class="rowline">
+<span class="k">Mastered</span>
+<span class="v mst" id="sMstLufs">—</span>
+</div>
+                <div class="delta" id="dLufs">
+</div>
               </div>
               <div class="cmp-cell">
                 <div class="cl">Sample Peak · dB</div>
-                <div class="rowline"><span class="k">Raw</span><span class="v raw" id="sRawPeak">—</span></div>
-                <div class="rowline"><span class="k">Mastered</span><span class="v mst" id="sMstPeak">—</span></div>
-                <div class="delta" id="dPeak"></div>
+                <div class="rowline">
+<span class="k">Raw</span>
+<span class="v raw" id="sRawPeak">—</span>
+</div>
+                <div class="rowline">
+<span class="k">Mastered</span>
+<span class="v mst" id="sMstPeak">—</span>
+</div>
+                <div class="delta" id="dPeak">
+</div>
               </div>
               <div class="cmp-cell">
                 <div class="cl">Dynamics · crest dB</div>
-                <div class="rowline"><span class="k">Raw</span><span class="v raw" id="sRawCrest">—</span></div>
-                <div class="rowline"><span class="k">Mastered</span><span class="v mst" id="sMstCrest">—</span></div>
-                <div class="delta" id="dCrest"></div>
+                <div class="rowline">
+<span class="k">Raw</span>
+<span class="v raw" id="sRawCrest">—</span>
+</div>
+                <div class="rowline">
+<span class="k">Mastered</span>
+<span class="v mst" id="sMstCrest">—</span>
+</div>
+                <div class="delta" id="dCrest">
+</div>
               </div>
             </div>
-            <p class="note" id="loudAdvice">Fuller and taller = the loudness you added. If it looks like a solid squared-off block, you're pushing loudness too hard — lower the target a dB or two in the Output tab.</p>
+            <p class="note" id="loudAdvice">Listen for clear transients and comfortable dynamics. Choose a gentler mastering preset if the result sounds crushed.</p>
           </div>
         </section>
-      </div>
-    </div>
+</details>
+</div>
+</section>
+<section id="masterExport" class="master-step">
+<div class="sec-head">
+<span class="sec-num">05</span>
+<div>
+<h3>Export your finished track</h3>
+<p class="step-description">Download the current master, or apply this mastering and cleanup combination to your whole queue.</p>
+</div>
+</div>
+<div class="sec-body">
+<div class="master-export-actions">
+              <button class="pb-load-btn" id="pbLoadBtn" title="Load one or more tracks" hidden="">⇪ Load</button>
+              <select id="fmt" class="pb-fmt mini" title="Output format" aria-label="Master export format">
+                <option value="wav24">WAV · 24-bit</option>
+                <option value="wav16">WAV · 16-bit</option>
+                <option value="mp3">MP3 · 320 kbps</option>
+              </select>
+              <button class="pb-master-btn" id="masterBtn" disabled="" title="Master the current track and download in the selected format">Export master ↗</button>
+              <button class="pb-master-btn ghost" id="batchBtn" disabled="" title="Master every track in the queue">Export batch</button>
+            </div>
+<div class="progress-wrap" id="progWrap">
+            <div class="plabel" id="pLabel">Rendering…</div>
+            <div class="pbar">
+<i id="pFill">
+</i>
+</div>
+          </div>
+</div>
+</section>
+<div id="masterEngineSettings" hidden="" aria-hidden="true">
+<div class="chain-tabs" id="chainTabs">
+              <button class="chain-tab on" data-tab="eq">EQ &amp; Tone</button>
+              <button class="chain-tab" data-tab="dyn">Dynamics &amp; Width</button>
+              <button class="chain-tab" data-tab="out">Output &amp; Loudness</button>
+            </div>
+<div class="finishing-tools">
+<h3>The finishing touches</h3>
+<div class="controls">
+<div class="ctl">
+<div class="top">
+<span>Mono bass</span>
+<span class="val" id="bassMonoV">0 Hz</span>
+</div>
+<input aria-label="Mono bass" type="range" id="bassMono" min="0" max="250" step="10" value="0">
+<div class="desc">Center the bass below this frequency for a more stable low end. Zero bypasses.</div>
+</div>
+<div class="ctl">
+<div class="top">
+<span>Tonal tilt</span>
+<span class="val" id="tiltV">0 dB</span>
+</div>
+<input aria-label="Tonal tilt" type="range" id="tilt" min="-3" max="3" step="0.25" value="0">
+<div class="desc">A broad balance: warmer to the left, brighter to the right.</div>
+</div>
+<div class="ctl">
+<div class="top">
+<span>Fade in</span>
+<span class="val" id="fadeInV">0 ms</span>
+</div>
+<input aria-label="Fade in" type="range" id="fadeIn" min="0" max="100" step="5" value="0">
+<div class="desc">Smooth the opening edge without a long fade. Applied to the exact render and export.</div>
+</div>
+<div class="ctl">
+<div class="top">
+<span>Fade out</span>
+<span class="val" id="fadeOutV">0 ms</span>
+</div>
+<input aria-label="Fade out" type="range" id="fadeOut" min="0" max="2000" step="50" value="0">
+<div class="desc">Finish cleanly and avoid abrupt endings. Applied to the exact render and export.</div>
+</div>
+</div>
+<p class="note">All finishing tools start bypassed. Fade controls are heard with “exact render” enabled.</p>
+</div>
+<div class="chain-pane on" data-pane="eq">
+              <div class="controls">
+                <div class="ctl">
+                  <div class="top">
+<span>Low-cut / rumble filter</span>
+<span class="val" id="hpV">30 Hz</span>
+</div>
+                  <input type="range" id="hp" min="10" max="80" step="1" value="30">
+                  <div class="desc">
+<b>What:</b> removes sub-rumble below the kick. <b>Norm:</b> 25–35 Hz. <b>If</b> the low end feels loose or woolly, <b>then</b> raise toward 40. Leave low for deep/sub-heavy tracks.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Sub / low weight</span>
+<span class="val" id="lowV">+0.0 dB</span>
+</div>
+                  <input type="range" id="low" min="-6" max="6" step="0.5" value="0">
+                  <div class="desc">
+<b>What:</b> shelf at ~90 Hz — the body of the kick and bass. <b>Norm:</b> 0 to +2. <b>If</b> it sounds thin, <b>then</b> nudge up +1 to +2. <b>If</b> boomy, pull down.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Low-mid mud cut</span>
+<span class="val" id="mudV">0.0 dB</span>
+</div>
+                  <input type="range" id="mud" min="-6" max="3" step="0.5" value="0">
+                  <div class="desc">
+<b>What:</b> bell at ~300 Hz. <b>Norm:</b> 0 to −2. <b>If</b> the mix sounds boxy, muddy or cluttered, <b>then</b> cut −1.5 to −3. Rarely boost here.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>◆ De-fizz tone <span style="color:var(--cyan)">(Suno hiss)</span>
+</span>
+<span class="val" id="deessV">0%</span>
+</div>
+                  <input type="range" id="deess" min="0" max="100" step="1" value="0">
+                  <div class="desc">
+<b>What:</b> gently lowers the top end above 6.5 kHz, up to 7 dB. Use Restoration above for selective spectral cleanup. <b>Norm:</b> 0 unless hissy. <b>If</b> you hear sizzle/fizz on top, <b>then</b> raise to 40–70. Overdone = dull.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>◆ Harshness notch <span style="color:var(--cyan)">(3.2k edge)</span>
+</span>
+<span class="val" id="harshV">off</span>
+</div>
+                  <input type="range" id="harsh" min="0" max="8" step="0.5" value="0">
+                  <div class="desc">
+<b>What:</b> narrow dip at ~3.2 kHz — the brittle digital edge on AI leads/vocals. <b>Norm:</b> 0–2. <b>If</b> leads sound piercing or fatiguing, <b>then</b> add 2–4.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Presence</span>
+<span class="val" id="presV">+0.0 dB</span>
+</div>
+                  <input type="range" id="pres" min="-4" max="6" step="0.5" value="0">
+                  <div class="desc">
+<b>What:</b> bell at ~3.5 kHz — vocal clarity and snare snap. <b>Norm:</b> 0 to +1.5. <b>If</b> vocals feel buried, <b>then</b> nudge up. Careful: too much = harsh.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Air / top shelf</span>
+<span class="val" id="airV">+0.0 dB</span>
+</div>
+                  <input type="range" id="air" min="-3" max="8" step="0.5" value="0">
+                  <div class="desc">
+<b>What:</b> high shelf at 11 kHz — sheen on hats and cymbals. <b>Norm:</b> 0 to +2. <b>If</b> the track feels dull/closed, <b>then</b> add +1 to +3. Too much = tinny.</div>
+                </div>
+              </div>
+            </div>
+<div class="chain-pane" data-pane="dyn">
+              <div class="controls">
+                <div class="ctl">
+                  <div class="top">
+<span>Glue compression</span>
+<span class="val" id="glueV">2.0 : 1</span>
+</div>
+                  <input type="range" id="glue" min="1" max="6" step="0.1" value="2">
+                  <div class="desc">
+<b>What:</b> bus compressor ratio — pulls the mix into one unit. <b>Norm:</b> 1.5–2.5:1. <b>If</b> the mix feels disjointed or loose, <b>then</b> raise a little. High ratios squash.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Stereo width</span>
+<span class="val" id="widthV">100%</span>
+</div>
+                  <input type="range" id="width" min="0" max="180" step="5" value="100">
+                  <div class="desc">
+<b>What:</b> mid/side widener (low end stays mono-safe). <b>Norm:</b> 100–120%. <b>If</b> it feels narrow, <b>then</b> push to 115–130. Over ~140 risks phase/mono issues.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>◆ Space / reverb <span style="color:var(--cyan)">(add air)</span>
+</span>
+<span class="val" id="spaceV">dry</span>
+</div>
+                  <input type="range" id="space" min="0" max="100" step="1" value="0">
+                  <div class="desc">
+<b>What:</b> parallel plate reverb, high-passed so it won't muddy the lows. <b>Norm:</b> 0 for club. <b>If</b> a Suno export sounds bone-dry/flat, <b>then</b> add 15–35%.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Saturation / drive</span>
+<span class="val" id="satV">0%</span>
+</div>
+                  <input type="range" id="sat" min="0" max="100" step="1" value="0">
+                  <div class="desc">
+<b>What:</b> soft harmonic warmth — glues digital tops, adds analog feel. <b>Norm:</b> 5–15%. <b>If</b> the track feels sterile/cold, <b>then</b> add 10–20%. A little goes far.</div>
+                </div>
+              </div>
+              <div class="mb-inline">
+                <label class="mb-toggle">
+                  <input type="checkbox" id="mbEnable">
+                  <span class="mb-switch">
+</span>
+                  <span class="mb-toggle-label">Multiband dynamics</span>
+                  <span class="mb-toggle-hint" id="mbHint">off — using single broadband glue</span>
+                </label>
+                <div id="mbControls" class="mb-controls disabled-section" style="margin-top:16px">
+                  <div class="mb-crossover">
+                    <label class="field" style="max-width:180px">
+<span class="cap">Low / Mid split <span id="mbX1V">200 Hz</span>
+</span>
+                      <input type="range" id="mbX1" min="80" max="500" step="10" value="200">
+                    </label>
+                    <label class="field" style="max-width:180px">
+<span class="cap">Mid / High split <span id="mbX2V">3000 Hz</span>
+</span>
+                      <input type="range" id="mbX2" min="1500" max="8000" step="100" value="3000">
+                    </label>
+                  </div>
+                  <div class="mb-bands">
+                    <div class="mb-band">
+                      <div class="mb-band-head">LOW</div>
+                      <div class="mb-ctl">
+<span>Compress <b id="mbLowCompV">2.0:1</b>
+</span>
+<input type="range" id="mbLowComp" min="1" max="6" step="0.1" value="2">
+</div>
+                      <div class="mb-ctl">
+<span>Gain <b id="mbLowGainV">0.0 dB</b>
+</span>
+<input type="range" id="mbLowGain" min="-6" max="6" step="0.5" value="0">
+</div>
+                    </div>
+                    <div class="mb-band">
+                      <div class="mb-band-head">MID</div>
+                      <div class="mb-ctl">
+<span>Compress <b id="mbMidCompV">2.0:1</b>
+</span>
+<input type="range" id="mbMidComp" min="1" max="6" step="0.1" value="2">
+</div>
+                      <div class="mb-ctl">
+<span>Gain <b id="mbMidGainV">0.0 dB</b>
+</span>
+<input type="range" id="mbMidGain" min="-6" max="6" step="0.5" value="0">
+</div>
+                    </div>
+                    <div class="mb-band">
+                      <div class="mb-band-head">HIGH</div>
+                      <div class="mb-ctl">
+<span>Compress <b id="mbHighCompV">2.0:1</b>
+</span>
+<input type="range" id="mbHighComp" min="1" max="6" step="0.1" value="2">
+</div>
+                      <div class="mb-ctl">
+<span>Gain <b id="mbHighGainV">0.0 dB</b>
+</span>
+<input type="range" id="mbHighGain" min="-6" max="6" step="0.5" value="0">
+</div>
+                    </div>
+                  </div>
+                  <p class="note">
+<b>What:</b> compresses low/mid/high separately, so a loud kick doesn't duck your hats. <b>When:</b> leave off for most tracks — turn on only if the low end pumps the whole mix. AI sets it only when it detects a real imbalance.</p>
+                </div>
+              </div>
+            </div>
+<div class="chain-pane" data-pane="out">
+              <div class="controls">
+                <div class="ctl">
+                  <div class="top">
+<span>Loudness target</span>
+<span class="val" id="lufsV">-9 LUFS</span>
+</div>
+                  <input type="range" id="lufs" min="-16" max="-5" step="0.5" value="-9">
+                  <div class="desc">
+<b>What:</b> how hard the limiter drives level. <b>Norm:</b> −7 club, −9 to −14 streaming. <b>If</b> it sounds crushed/lifeless, <b>then</b> lower (more negative) for dynamics. Louder isn't always better.</div>
+                </div>
+                <div class="ctl">
+                  <div class="top">
+<span>Ceiling (true-peak safety)</span>
+<span class="val" id="ceilV">-1.0 dB</span>
+</div>
+                  <input type="range" id="ceil" min="-2" max="-0.1" step="0.1" value="-1">
+                  <div class="desc">
+<b>What:</b> the absolute hard limit. <b>Norm:</b> −1.0 dB. <b>If</b> you're delivering to strict streaming specs, <b>then</b> −1.0 is safe everywhere. Don't go above −0.3.</div>
+                </div>
+              </div>
+            </div>
+</div>
+</div>
+</div>
     <div id="panel-saved" class="tool-panel">
       <div class="wrap">
         <header class="tool-head">
@@ -3219,15 +3500,15 @@ window.STYLES=[
     let msg='', color='';
     // crest-based advice takes priority once we've measured a mastered render
     if(lastMstCrest!=null){
-      if(lastMstCrest<5){ msg=`⚠ Crest is only ${lastMstCrest.toFixed(1)} dB — the master is squashed flat (a solid block). Lower the loudness target (toward −10 or below) to breathe life back in.`; color='var(--red)'; }
-      else if(lastMstCrest<7){ msg=`Crest ${lastMstCrest.toFixed(1)} dB — getting tight. Fine for loud club masters, but if it sounds lifeless, ease the target down 1–2 dB.`; color='var(--amber)'; }
+      if(lastMstCrest<5){ msg=`⚠ Crest is only ${lastMstCrest.toFixed(1)} dB — the master is squashed flat (a solid block). Try the Transparent or Liquid / Open preset for gentler mastering.`; color='var(--red)'; }
+      else if(lastMstCrest<7){ msg=`Crest ${lastMstCrest.toFixed(1)} dB — getting tight. Fine for loud club masters, but if it sounds lifeless, try the Transparent preset.`; color='var(--amber)'; }
       else if(lastMstCrest<11){ msg=`✓ Crest ${lastMstCrest.toFixed(1)} dB — healthy punch and loudness balance. This is a good place to be.`; color='var(--led)'; }
-      else { msg=`Crest ${lastMstCrest.toFixed(1)} dB — very dynamic, lots of headroom. If it feels too quiet for club play, you can push the target up a dB or two.`; color='var(--cyan)'; }
+      else { msg=`Crest ${lastMstCrest.toFixed(1)} dB — very dynamic, lots of headroom. If it feels too quiet for club play, try the Club / DJ preset.`; color='var(--cyan)'; }
     } else {
       // no comparison yet — advise from the target setting alone
       if(lufs>-7){ msg=`Target ${lufs.toFixed(1)} LUFS — very loud. Great for club/DJ, but watch for a squared-off block below. Build the comparison to check the crest.`; color='var(--amber)'; }
       else if(lufs>-10){ msg=`Target ${lufs.toFixed(1)} LUFS — solid streaming/club loudness. Build the comparison below to see how much dynamics survive.`; color='var(--ink-faint)'; }
-      else { msg=`Target ${lufs.toFixed(1)} LUFS — conservative and dynamic. Plenty of headroom; nudge up later if you want it louder. Build the comparison to verify.`; color='var(--ink-faint)'; }
+      else { msg=`Target ${lufs.toFixed(1)} LUFS — conservative and dynamic. Try Club / DJ if you want a louder finish. Build the comparison to verify.`; color='var(--ink-faint)'; }
     }
     el.innerHTML=msg; el.style.color=color;
   }
@@ -3260,7 +3541,9 @@ window.STYLES=[
   function applyPreset(key){
     const p=PRESETS[key]; if(!p) return;
     clearCleanupAudition();
-    CTRLS.forEach(id=>{ $('#'+id).value=p[id]; refreshLabel(id); });
+    // Tone presets and restoration are independent choices on the same page.
+    CTRLS.filter(id=>!['noise','shimmer','click'].includes(id)).forEach(id=>{ $('#'+id).value=p[id]; refreshLabel(id); });
+    reflectCleanupStrength();
     lastMstCrest=null; updateLoudAdvice(); exactBuffer=null;
     if(playing) rebuildLive();
   }
@@ -3270,7 +3553,7 @@ window.STYLES=[
     chip.classList.add('on');
     applyPreset(chip.dataset.key);
     const isSuno = chip.closest('#presetChipsSuno');
-    setChainSource((isSuno?'Suno Cleanup: ':'Preset: ')+'<b>'+chip.textContent.trim()+'</b>', isSuno?'suno':'manual');
+    setChainSource((isSuno?'Suno Cleanup: ':'Preset: ')+'<b>'+(chip.querySelector('strong')?.textContent||chip.textContent).trim()+'</b>', isSuno?'suno':'manual');
   }
   $('#presetChips').addEventListener('click',e=>{
     const chip=e.target.closest('.chip'); if(!chip) return;
@@ -3281,116 +3564,7 @@ window.STYLES=[
     selectPresetChip(chip);
   });
 
-  // ---------- CHAIN TABS ----------
-  $('#chainTabs').addEventListener('click',e=>{
-    const tab=e.target.closest('.chain-tab'); if(!tab) return;
-    const name=tab.dataset.tab;
-    panel.querySelectorAll('.chain-tab').forEach(t=>t.classList.toggle('on', t===tab));
-    panel.querySelectorAll('.chain-pane').forEach(p=>p.classList.toggle('on', p.dataset.pane===name));
-  });
-
-  // ---------- VST UNIT: fold the three sections into the player body as tabs ----------
-  (function initVstUnit(){
-    const body=$('#vstBody'); if(!body) return;
-    ['secTarget','secChain','secCompare'].forEach(id=>{
-      const sec=$('#'+id);
-      if(sec){ sec.classList.add('vst-pane'); body.appendChild(sec); }   // relocate into the unit
-    });
-    showVstPane('secTarget');
-    $('#vstTabs').addEventListener('click',e=>{
-      const tab=e.target.closest('.vst-tab'); if(!tab) return;
-      panel.querySelectorAll('.vst-tab').forEach(t=>t.classList.toggle('on', t===tab));
-      showVstPane(tab.dataset.vtab);
-    });
-  })();
-  function showVstPane(id){
-    ['secTarget','secChain','secCompare'].forEach(s=>{
-      const el=$('#'+s); if(el) el.style.display = (s===id?'block':'none');
-    });
-  }
-
-  // ---------- ARROW-KEY NUDGE on every slider ----------
-  // Range inputs already respond to arrows when focused; make focus obvious and
-  // ensure clicking a control's row focuses its slider so arrows work immediately.
-  panel.querySelectorAll('.ctl, .mb-ctl').forEach(row=>{
-    row.addEventListener('click',e=>{
-      if(e.target.tagName==='INPUT') return; // don't steal from the slider itself
-      const sl=row.querySelector('input[type=range]'); if(sl) sl.focus();
-    });
-  });
-
-  // ---------- HARDWARE KNOB SKIN: wraps each range input in a rotary dial ----------
-  // The native <input type=range> stays in the DOM (invisible, on top of the dial) so every
-  // existing listener, arrow-key nudge, and readParams() call keeps working untouched.
-  function skinKnob(input){
-    if(!input || input._knobSkinned) return; input._knobSkinned=true;
-    const min=parseFloat(input.min), max=parseFloat(input.max);
-    const mini = !!(input.closest('.mb-ctl') || input.closest('.ref-match-controls'));
-    const wrap=document.createElement('div'); wrap.className='knob'+(mini?' mini':'');
-    const plate=document.createElement('div'); plate.className='knob-plate';
-    const ticks=document.createElement('div'); ticks.className='knob-ticks';
-    for(let i=0;i<11;i++){
-      const t=document.createElement('i'); const ang=-135+i*27;
-      t.style.transform='rotate('+ang+'deg)'; if(i===0||i===10||i===5) t.classList.add('hot');
-      ticks.appendChild(t);
-    }
-    const ind=document.createElement('div'); ind.className='knob-indicator';
-    wrap.appendChild(plate); wrap.appendChild(ticks); wrap.appendChild(ind);
-
-    input.parentNode.insertBefore(wrap, input);
-    wrap.appendChild(input);
-    input.classList.add('knob-native');
-
-    function render(){
-      const v=Math.max(min,Math.min(max,parseFloat(input.value)||0));
-      const pct=(v-min)/(max-min||1);
-      ind.style.transform='translate(-50%,2px) rotate('+(-135+pct*270)+'deg)';
-    }
-    render();
-    input.addEventListener('input', render);
-    input.addEventListener('focus',()=>wrap.classList.add('focus'));
-    input.addEventListener('blur',()=>wrap.classList.remove('focus'));
-
-    let dragging=false, startY=0, startV=0;
-    function down(e){
-      dragging=true; wrap.classList.add('dragging');
-      startY=(e.touches?e.touches[0].clientY:e.clientY); startV=parseFloat(input.value);
-      input.focus();
-      window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
-      window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', up);
-      e.preventDefault();
-    }
-    function move(e){
-      if(!dragging) return;
-      const y=(e.touches?e.touches[0].clientY:e.clientY);
-      const dy=startY-y;
-      const range=max-min, sens=range/140;
-      let nv=startV+dy*sens; nv=Math.max(min,Math.min(max,nv));
-      const step=parseFloat(input.step)||1; nv=Math.round(nv/step)*step;
-      if(nv!==parseFloat(input.value)){ input.value=nv; input.dispatchEvent(new Event('input',{bubbles:true})); }
-      if(e.cancelable) e.preventDefault();
-    }
-    function up(){
-      dragging=false; wrap.classList.remove('dragging');
-      window.removeEventListener('mousemove',move); window.removeEventListener('mouseup',up);
-      window.removeEventListener('touchmove',move); window.removeEventListener('touchend',up);
-    }
-    plate.addEventListener('mousedown', down);
-    plate.addEventListener('touchstart', down, {passive:false});
-    wrap.addEventListener('wheel', e=>{
-      e.preventDefault();
-      const step=parseFloat(input.step)||1;
-      let nv=parseFloat(input.value)+(e.deltaY<0?step:-step); nv=Math.max(min,Math.min(max,nv));
-      input.value=nv; input.dispatchEvent(new Event('input',{bubbles:true}));
-    },{passive:false});
-    wrap.addEventListener('dblclick', ()=>{
-      const def=input.getAttribute('value')!==null? parseFloat(input.getAttribute('value')) : min;
-      input.value=def; input.dispatchEvent(new Event('input',{bubbles:true}));
-    });
-    wrap.title='drag up/down · scroll to nudge · double-click to reset';
-  }
-  panel.querySelectorAll('.ctl input[type=range], .mb-ctl input[type=range], .ref-match-controls input[type=range]')
-    .forEach(skinKnob);
+  // Master Room is a continuous page. Native sliders keep cleanup easy to adjust.
 
   // ---------- FILE LOAD + QUEUE ----------
   const drop=$('#drop'), fileInput=$('#fileInput');
@@ -3409,7 +3583,7 @@ window.STYLES=[
     files.forEach(f=>queue.push({file:f, name:f.name, size:f.size, buffer:null, status:'queued'}));
     renderQueue();
     if(currentIdx<0) selectQueueItem(queue.length-files.length);
-    if(!panel.querySelector('#presetChips .chip.on, #presetChipsSuno .chip.on')){ $('#presetChips .chip[data-key=transparent]').classList.add('on'); applyPreset('transparent'); setChainSource('Preset: <b>Transparent (gentle)</b> — default', 'manual'); }
+    if(!panel.querySelector('#presetChips .chip.on, #presetChipsSuno .chip.on, #myPresetChips .chip.on')){ $('#presetChips .chip[data-key=transparent]').classList.add('on'); applyPreset('transparent'); setChainSource('Preset: <b>Transparent (gentle)</b> — default', 'manual'); }
     $('#batchBtn').disabled = queue.length<1;
     window.studioToast(files.length>1 ? files.length+' files queued' : 'File added');
   }
@@ -3514,7 +3688,7 @@ window.STYLES=[
     $('#loaded').classList.add('show');
     ['playerBarBody','secTarget','secChain','secCompare'].forEach(s=>$('#'+s).classList.remove('disabled-section'));
     $('#playBtn').disabled=false; $('#skipBackBtn').disabled=false; $('#skipFwdBtn').disabled=false; $('#abBtn').disabled=false; $('#seek').disabled=false; $('#masterBtn').disabled=false; $('#cmpRenderBtn').disabled=false; $('#batchBtn').disabled=false;
-    if(!panel.querySelector('#presetChips .chip.on, #presetChipsSuno .chip.on')){ $('#presetChips .chip[data-key=transparent]').classList.add('on'); applyPreset('transparent'); setChainSource('Preset: <b>Transparent (gentle)</b> — default', 'manual'); }
+    if(!panel.querySelector('#presetChips .chip.on, #presetChipsSuno .chip.on, #myPresetChips .chip.on')){ $('#presetChips .chip[data-key=transparent]').classList.add('on'); applyPreset('transparent'); setChainSource('Preset: <b>Transparent (gentle)</b> — default', 'manual'); }
     resetComparison();
     $('#tDur').textContent=fmtTime(dur); $('#seek').value=0; $('#tCur').textContent='0:00'; pausedAt=0;
     renderQueue();
@@ -3559,11 +3733,25 @@ window.STYLES=[
   ['noise','shimmer','click'].forEach(id=>$('#'+id).addEventListener('input',()=>{
     clearCleanupAudition();$('#cleanupStatus').textContent=cleanupEnabled(readParams())?'Cleanup settings changed. Render a preview to hear the result.':'Cleanup bypassed.';
   }));
-  $('#cleanupGentle').addEventListener('click',()=>{
-    applyChainParams({...readParams(),noise:30,shimmer:25,click:25});clearCleanupAudition();
-    $('#cleanupStatus').textContent='Gentle cleanup selected. Preview cleaned and removed sound before exporting.';
-  });
-  $('#cleanupOff').addEventListener('click',()=>{applyChainParams({...readParams(),noise:0,shimmer:0,click:0});clearCleanupAudition();$('#cleanupStatus').textContent='Cleanup bypassed.';});
+  const CLEANUP_STRENGTHS={cleanupOff:[0,0,0],cleanupGentle:[30,25,25],cleanupBalanced:[50,45,40],cleanupStrong:[75,65,60]};
+  function reflectCleanupStrength(){
+    const values=['noise','shimmer','click'].map(id=>+$('#'+id).value);
+    Object.entries(CLEANUP_STRENGTHS).forEach(([id,preset])=>{
+      const selected=values.every((v,i)=>v===preset[i]);
+      $('#'+id).classList.toggle('on',selected);$('#'+id).setAttribute('aria-pressed',String(selected));
+    });
+    panel.querySelectorAll('#presetChips .chip, #presetChipsSuno .chip').forEach(chip=>chip.setAttribute('aria-pressed',String(chip.classList.contains('on'))));
+  }
+  Object.entries(CLEANUP_STRENGTHS).forEach(([id,values])=>$('#'+id).addEventListener('click',()=>{
+    const source=chainSourceBase;
+    const selected=panel.querySelector('#presetChips .chip.on, #presetChipsSuno .chip.on, #myPresetChips .chip.on');
+    applyChainParams({...readParams(),noise:values[0],shimmer:values[1],click:values[2]});
+    if(selected)selected.classList.add('on');
+    chainSourceBase=source;chainEdited=true;reflectChainSourceText();reflectCleanupStrength();
+    $('#cleanupStatus').textContent=id==='cleanupOff'?'Cleanup bypassed.':$('#'+id).textContent+' cleanup selected. Listen to the cleaned track and removed sound before exporting.';
+  }));
+  ['noise','shimmer','click'].forEach(id=>$('#'+id).addEventListener('input',reflectCleanupStrength));
+  reflectCleanupStrength();
   async function auditionCleanup(removed){
     if(!audioBuffer){$('#cleanupStatus').textContent='Load an audio file first.';return;}
     clearCleanupAudition();const generation=cleanupAudition,original=audioBuffer;
@@ -4337,6 +4525,7 @@ window.STYLES=[
     MB_PARAM_IDS.forEach(id=>{ if(p[id]!==undefined){ $('#'+id).value=p[id]; mbRefresh(id); } });
     lastMstCrest=null; updateLoudAdvice(); exactBuffer=null;
     panel.querySelectorAll('#presetChips .chip, #presetChipsSuno .chip, #myPresetChips .chip').forEach(c=>c.classList.remove('on'));
+    reflectCleanupStrength();
     if(playing) rebuildLive();
   }
   function renderMyPresets(){
@@ -4392,6 +4581,8 @@ window.STYLES=[
   $('#presetSaveName').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#presetSaveBtn').click(); });
   renderMyPresets();
   updateMatchBtnState();
+  applyPreset('transparent');
+  setChainSource('Preset: <b>Transparent</b> — gentle mastering', 'manual');
 
   $('#aiMasterBtn').addEventListener('click', aiAutoMaster);
   // redraw spectrum when tool re-shown
