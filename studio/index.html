@@ -752,10 +752,9 @@
     </div>
     <nav class="sb-nav">
       <div class="grp-label">Your studio</div>
+      <div class="navitem" data-tool="songcreator"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Song Creator</span></div>
       <div class="navitem on" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
       <div class="navitem" data-tool="soundcloud"><span class="ico">☁</span><span class="lbl">SoundCloud Desc</span></div>
-      <div class="navitem" data-tool="mcvox"><span class="ico">🎤</span><span class="lbl">MC Vocals</span></div>
-      <div class="navitem" data-tool="songcreator"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Song Creator</span></div>
       <div class="grp-label">Library</div>
       <div class="navitem" data-tool="styles"><span class="ico">◇</span><span class="lbl">EDM Style Library</span></div>
       <div class="navitem" data-tool="saved"><span class="ico">◈</span><span class="lbl">Saved Tracks</span><span class="badge" id="savedCount">0</span></div>
@@ -2248,68 +2247,6 @@
 
 
 <div id="panel-trends" class="tool-panel"><div class="wrap"><header class="tool-head"><div class="brand"><p class="kicker">THE LISTENING ROOM / 2026</p><h2>Follow the sound.</h2><p>A researched snapshot to inspire your next finish.</p></div></header><div class="trend-asof">Reviewed October 5, 2026 · source covers January–June 2026 · not live charts</div><section><div class="sec-body"><p>These are market signals, not a ranking or a recipe. Mastering notes below are studio guidance, separate from the reported trends.</p><div class="chips" id="trendGenreChips"><button class="chip on" data-filter="all">All signals</button><button class="chip" data-filter="established">Established</button><button class="chip" data-filter="rising">In focus</button></div><div class="trend-genre-grid" id="trendGenreGrid"><article class="trend-card" data-cat="established"><span class="trend-signal">Still the club backbone</span><h3>Tech house & house</h3><p>Beatport’s midyear review describes tech house leading and house remaining central.</p><p class="mastering-note"><b>At the mastering desk</b><br>Keep kick and bass distinct; compare groove and punch before pushing level.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Rhythm in focus</span><h3>Afro & Latin electronic</h3><p>Afro house, Latin electronic and Brazilian funk feature prominently in the review.</p><p class="mastering-note"><b>At the mastering desk</b><br>Leave percussion room to breathe; keep sub energy centered.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Swing travels</span><h3>UK garage & bassline</h3><p>The review highlights renewed UK garage activity on US dance floors.</p><p class="mastering-note"><b>At the mastering desk</b><br>Preserve shuffled transients; avoid flattening the snare and bass movement.</p></article><article class="trend-card" data-cat="rising"><span class="trend-signal">Breaks stay in rotation</span><h3>Jungle & drum & bass</h3><p>Jungle and drum & bass appear among the active scenes in Beatport’s review.</p><p class="mastering-note"><b>At the mastering desk</b><br>Control harsh cymbals gently and keep fast kick and snare attacks alive.</p></article><article class="trend-card" data-cat="established"><span class="trend-signal">Bigger-room presence</span><h3>Melodic house & techno</h3><p>Beatport describes melodic house and techno reaching bigger rooms.</p><p class="mastering-note"><b>At the mastering desk</b><br>Check wide pads in mono; protect the kick from low-mid buildup.</p></article><article class="trend-card" data-cat="established"><span class="trend-signal">Peak-time intensity</span><h3>Hard techno & psy-techno</h3><p>Harder, faster sounds remain part of the review’s peak-time picture.</p><p class="mastering-note"><b>At the mastering desk</b><br>Keep distortion intentional. Loudness cannot repair a clipped source.</p></article></div><p class="note">Source: <a href="https://www.beatportal.com/articles/1489584-the-top-selling-tracks-artists-and-labels-of-2026-mid-year-review" target="_blank" rel="noopener">Beatportal · 2026 midyear review · June 29, 2026</a>. Review again when newer sales data is published.</p></div></section></div></div>
-    <div id="panel-mcvox" class="tool-panel">
-      <div class="wrap">
-        <header class="tool-head">
-          <div class="brand">
-            <p class="kicker">Jungle / DnB MC vocal prompts · copy-paste ready</p>
-            <h2>MC Vocals <span>/ Jungle &amp; DnB</span></h2>
-            <p>Ready-to-paste Suno prompts for generating an MC vocal layer to stack over your track. Each one is written as its own Suno job — a vocals-only, mostly-instrumental prompt with the stabs baked in. Generate it, then layer it under your drums.</p>
-          </div>
-        </header>
-
-        <section>
-          <div class="sec-head"><span class="sec-num">01</span><h3>Set the Vibe</h3><span class="hint">tunes every prompt below</span></div>
-          <div class="sec-body">
-            <div class="grid g2">
-              <label class="field"><span class="cap">BPM</span>
-                <select id="mcBpm"><option value="170">170 (jungle/DnB)</option><option value="172">172</option><option value="174" selected>174 (classic DnB)</option><option value="160">160 (jungle)</option><option value="176">176</option></select>
-              </label>
-              <label class="field"><span class="cap">Flavour</span>
-                <select id="mcFlavour">
-                  <option value="dark">Dark / underground (early-2000s)</option>
-                  <option value="ragga">Ragga / dancehall junglist</option>
-                  <option value="hype">Rave hype / crowd-control</option>
-                  <option value="liquid">Liquid / smooth &amp; soulful</option>
-                  <option value="oldskool">Old-skool hardcore jungle (89–94)</option>
-                </select>
-              </label>
-            </div>
-            <label class="field" style="margin-top:16px"><span class="cap">Accent / delivery <span class="opt">(editable)</span></span>
-              <input type="text" id="mcAccent" placeholder="e.g. Jamaican patois, gruff, commanding">
-            </label>
-            <p class="note">Pick a flavour and the prompts below rewrite to match. Everything's editable after you copy. These are separate Suno generations — make the vocal, then stack it under your instrumental in your DAW or Suno's upload/layer.</p>
-          </div>
-        </section>
-
-        <div id="mcGrid" class="lib-grid" style="margin-top:16px"></div>
-
-        <section style="margin-top:16px">
-          <div class="sec-head"><span class="sec-num">★</span><h3>How to Layer It</h3><span class="hint">quick workflow</span></div>
-          <div class="sec-body">
-            <div class="info-cards">
-              <div class="info-card">
-                <h4>1 · Generate the vocal</h4>
-                <p>Copy any prompt, paste into Suno as a new song. Because it's a vocals-forward, sparse prompt over a matching drum feel, you get usable MC stabs with space around them.</p>
-              </div>
-              <div class="info-card">
-                <h4>2 · Isolate if needed</h4>
-                <p>Use Suno's stem/vocal split (or any stem tool) to pull just the vocal if the prompt gave you a bit of backing. You want the dry-ish MC phrases.</p>
-              </div>
-              <div class="info-card">
-                <h4>3 · Layer &amp; throw</h4>
-                <p>Drop the vocal under your track in the DAW. Add reverb + delay throws on the tails so stabs ring out. Keep them sparse — breakdown and the first bar of the drop.</p>
-              </div>
-              <div class="info-card">
-                <h4>4 · Match the key</h4>
-                <p>MC stabs are mostly rhythmic so key rarely clashes, but if a sung phrase sits oddly, nudge its pitch a semitone or two to sit with your track.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
     <div id="panel-styles" class="tool-panel">
       <div class="wrap">
         <header class="tool-head">
@@ -2352,7 +2289,6 @@
     builder: document.getElementById('panel-builder'),
     lyriclab: document.getElementById('panel-lyriclab'),
     soundcloud: document.getElementById('panel-soundcloud'),
-    mcvox: document.getElementById('panel-mcvox'),
     master: document.getElementById('panel-master'),
     djedit: document.getElementById('panel-djedit'),
     styles: document.getElementById('panel-styles'),
@@ -2360,7 +2296,7 @@
     cheat: document.getElementById('panel-cheat'),
     trends: document.getElementById('panel-trends'),
   };
-  const titles = { builder:'Track Builder', soundcloud:'SoundCloud Desc', mcvox:'MC Vocals', master:'Master Room', djedit:'DJ Edit', styles:'EDM Style Library', saved:'Saved Tracks', cheat:'Genre Cheat-Sheet', trends:'Genre Trends' };
+  const titles = { builder:'Track Builder', soundcloud:'SoundCloud Desc', master:'Master Room', djedit:'DJ Edit', styles:'EDM Style Library', saved:'Saved Tracks', cheat:'Genre Cheat-Sheet', trends:'Genre Trends' };
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('backdrop');
 
@@ -3124,24 +3060,6 @@ window.STYLES=[
     updateProgress();
     window.TerryStudio.switchTo('builder');
     window.studioToast(s.name+' style loaded');
-    $('#output').scrollIntoView({behavior:'smooth', block:'start'});
-  };
-
-  // ---- LOAD AN MC VOCAL PROMPT (called by MC Vocals tool) ----
-  window.applyMcPromptToBuilder = function(p){
-    // p = {name, style, lyrics, bpm}
-    $('#styleText').value = p.style || '';
-    $('#lyricsText').value = p.lyrics || '';
-    $('#output').classList.add('show');
-    $('#saveBtn').disabled=false;
-    $('#presetFlash').classList.remove('show');
-    const t=(p.name||'mc_vocal')+'';
-    $('#outTitle').textContent=('mc_'+t).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')+'.txt';
-    panel._loadedPrompt=true;
-    panel._lastBuild = { title:'MC — '+t, genreName:'MC Vocal', gKey:'', bpm:(p.bpm||'').toString().replace(/\D/g,''), concept:p.desc||'MC vocal layer', mix:'' };
-    updateProgress();
-    window.TerryStudio.switchTo('builder');
-    window.studioToast('MC prompt loaded — save or copy');
     $('#output').scrollIntoView({behavior:'smooth', block:'start'});
   };
 
@@ -5216,117 +5134,6 @@ window.STYLES=[
       if(window.applyStyleToBuilder) window.applyStyleToBuilder(s);
     }
   });
-
-  render();
-})();
-</script>
-
-<!-- ================= MC VOCALS — JUNGLE/DNB ================= -->
-<script>
-(function(){
-  const panel=document.getElementById('panel-mcvox');
-  const $=s=>panel.querySelector(s);
-
-  // flavour -> style descriptors + default accent + the stab pools
-  const FLAV={
-    dark: {
-      label:'dark underground', accent:'Jamaican patois, gruff, commanding, menacing',
-      style:'dark rolling drum & bass / jungle | sparse ragga MC vocal | heavy reverb and delay throws | menacing and hypnotic | mostly instrumental | vocal stabs only | no melody | no singing | underground warehouse energy',
-      stabs:['Murderation!','Warning!','Bad boy sound!','Sound killa!','Rewind!','Pull up!','Forward the riddim!','Bo! Bo! Bo!','Junglist massive!','Heavyweight!'] },
-    ragga: {
-      label:'ragga junglist', accent:'Jamaican patois, toasting, energetic dancehall delivery',
-      style:'ragga jungle | toasting MC vocal chops | dancehall energy | reverb and delay throws | sparse | mostly instrumental | no full verses | no pop chorus | classic junglist flavour',
-      stabs:['Big up! Big up!','Original junglist!','Inna di dance!','Selecta!','Wheel up!','Come on!','Ragga twins style!','Champion sound!','All the junglists!','Bo! Bo!'] },
-    hype: {
-      label:'rave hype', accent:'loud, commanding rave MC, crowd-control energy',
-      style:'rave MC hype vocal | crowd-control shouts | high-energy drum & bass | delay throws | sparse | mostly instrumental | no singing | festival rave energy',
-      stabs:['Make some noise!','Hands in the air!','Are you ready?!','Let me hear you!','Turn it up!','Lighters up!','Bass! How low can you go?','Move your body!','Here we go!','Come on!'] },
-    liquid: {
-      label:'liquid / soulful', accent:'smooth, half-sung, soulful, warm delivery',
-      style:'liquid drum & bass | smooth soulful vocal fragments | warm and uplifting | reverb and delay throws | sparse | mostly instrumental | short phrases | no pop chorus | flowing and atmospheric',
-      stabs:['Feel it… feel it…','Rise up','Take you higher','Let it roll','Deep inna the jungle','Hold on','Into the light','Never let go','Feel the rhythm','Flow'] },
-    oldskool: {
-      label:'old-skool hardcore jungle', accent:'raw 89–94 hardcore MC, energetic, chopped',
-      style:'old-skool hardcore jungle 1993 | chopped ragga MC stabs | amen breaks energy | time-stretch vocal chops | raw and energetic | sparse | mostly instrumental | no singing | rave tape flavour',
-      stabs:['Time stretch!','Champion sound!','Dance hall style!','Feel the rhythm!','Warning!','Bad boy!','Hardcore!','Junglist!','Booyaka!','Rewind selecta!'] }
-  };
-
-  function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-  // the six prompt "types" — how the stabs get arranged in a Suno job
-  function buildPrompts(bpm, flav, accent){
-    const f=FLAV[flav];
-    const s=f.stabs;
-    const styleLine=`${f.style} | ${bpm} BPM | accent: ${accent}`;
-    const pick=(n)=>s.slice(0,n);
-
-    return [
-      { name:'Drop Stabs', desc:'Short shouts to fire on the first bar of the drop.',
-        style:styleLine,
-        lyrics:`[Intro | drums only | no vocals]\n\n[Drop | MC vocal stabs | sparse | heavy delay throw]\n${pick(4).map(x=>x).join('\n')}\n\n[Groove | instrumental | vocal delay tails only]` },
-      { name:'Breakdown Toast', desc:'A longer toasting moment for the breakdown.',
-        style:styleLine,
-        lyrics:`[Breakdown | filtered atmosphere | MC toast | reverb and delay]\n${pick(3).join(' ... ')} ...\n${s[4]||''} ...\n(${(s[0]||'').toLowerCase()})\n\n[Build | vocal chops tighten | delay throw into drop]` },
-      { name:'Rewind / Pull-Up', desc:'The classic rewind call before a re-drop.',
-        style:styleLine,
-        lyrics:`[Pre-drop | MC vocal | reverb throw]\nRewind!\nPull up!\n${s[0]||'Come on!'}\n\n[Silence | half a beat]\n\n[Drop | biggest | drums only after the call]` },
-      { name:'Chopped One-Shots', desc:'Rhythmic syllable chops to slice into the break.',
-        style:`${styleLine} | chopped one-shot vocal samples | rhythmic | percussive`,
-        lyrics:`[Vocal one-shots | chopped | percussive | dry with short delay]\nBo! Bo! Bo!\nBrap brap brap!\nAh-ah-ah\n${s[0]||'Selecta!'}\nYeah-yeah-yeah` },
-      { name:'Full Hook Layer', desc:'A sparse hook that repeats through the track.',
-        style:styleLine,
-        lyrics:`[Intro | drums | no vocals for 16 bars]\n\n[Main | MC hook | sparse | delay throws]\n${s[0]||''}\n${s[1]||''}\n\n[Breakdown | main vocal moment]\n${s[2]||''}\n(${(s[0]||'').toLowerCase()})\n\n[Drop | hook chopped | mostly instrumental]` },
-      { name:'Ad-lib Bank', desc:'A loose bank of ad-libs to sprinkle anywhere.',
-        style:`${styleLine} | loose ad-libs | scattered | delay and reverb throws`,
-        lyrics:`[Ad-libs | sparse | scattered across the track | heavy delay throw]\n${s.slice(0,8).join('\n')}` }
-    ];
-  }
-
-  function render(){
-    const bpm=$('#mcBpm').value;
-    const flav=$('#mcFlavour').value;
-    const accent=$('#mcAccent').value.trim()||FLAV[flav].accent;
-    const prompts=buildPrompts(bpm, flav, accent);
-    $('#mcGrid').innerHTML=prompts.map((p,i)=>`
-      <div class="style-card" data-i="${i}">
-        <div class="st-top"><span class="st-name">${esc(p.name)}</span><span class="st-bpm">${bpm} BPM</span></div>
-        <div class="st-fam">${esc(FLAV[flav].label)} MC</div>
-        <div class="st-desc">${esc(p.desc)}</div>
-        <div class="st-string"><b style="color:var(--cyan)">STYLE:</b>\n${esc(p.style)}\n\n<b style="color:var(--led)">LYRICS:</b>\n${esc(p.lyrics)}</div>
-        <div class="st-actions">
-          <button class="st-copy" data-act="all">⧉ Copy Full Prompt</button>
-          <button class="st-build" data-act="builder" title="Load into Track Builder">→ Builder</button>
-          <button class="st-build" data-act="style">Style</button>
-          <button class="st-build" data-act="lyrics">Lyrics</button>
-        </div>
-      </div>`).join('');
-    // stash for copy
-    panel._prompts=prompts;
-  }
-
-  $('#mcGrid').addEventListener('click', e=>{
-    const btn=e.target.closest('button[data-act]'); if(!btn) return;
-    const card=e.target.closest('.style-card'); const p=panel._prompts[+card.dataset.i]; if(!p) return;
-    if(btn.dataset.act==='builder'){
-      if(window.applyMcPromptToBuilder) window.applyMcPromptToBuilder({name:p.name, style:p.style, lyrics:p.lyrics, bpm:$('#mcBpm').value, desc:p.desc});
-      return;
-    }
-    let text, msg;
-    if(btn.dataset.act==='style'){ text=p.style; msg='Style copied'; }
-    else if(btn.dataset.act==='lyrics'){ text=p.lyrics; msg='Lyrics copied'; }
-    else { text=`=== SUNO STYLE ===\n${p.style}\n\n=== SUNO LYRICS ===\n${p.lyrics}`; msg='Full prompt copied — paste into Suno'; }
-    window.studioCopy(text).then(()=>{
-      const o=btn.textContent; btn.textContent='Copied ✓'; btn.classList.add('copied'); window.studioToast(msg);
-      setTimeout(()=>{ btn.textContent=o; btn.classList.remove('copied'); },1400);
-    }).catch(()=>window.studioToast('Copy failed'));
-  });
-
-  ['#mcBpm','#mcFlavour'].forEach(sel=>$(sel).addEventListener('change',()=>{
-    // update the accent placeholder to match flavour, then re-render
-    $('#mcAccent').placeholder='e.g. '+FLAV[$('#mcFlavour').value].accent;
-    render();
-  }));
-  $('#mcAccent').addEventListener('input', render);
 
   render();
 })();
