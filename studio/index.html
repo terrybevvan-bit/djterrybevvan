@@ -1606,6 +1606,7 @@
                 <button type="button" class="chain-tab" id="cleanupListen">Preview cleaned audio</button>
                 <button type="button" class="chain-tab" id="cleanupRemoved">Preview removed sound</button>
               </div>
+              <label class="hint" style="display:block;margin:12px 0"><input type="checkbox" id="cleanupBoost" checked> Boost quiet removed sound for listening (up to +24 dB, preview only). Applied when you click Preview removed sound.</label>
               <p class="hint" id="cleanupStatus" role="status" aria-live="polite">Cleanup bypassed. Previews play before EQ, compression and loudness changes.</p>
               <audio id="cleanupAudio" controls hidden style="width:100%;margin:12px 0" aria-label="Cleanup audition"></audio>
               <p class="hint">If you hear vocals, drums or melody in the removed sound, reduce the settings. Cleanup is included in exact playback, comparison renders and all exports; it cannot reconstruct missing musical detail.</p>
@@ -3110,6 +3111,7 @@ window.STYLES=[
 </script>
 
 <!-- ================= MASTER ROOM LOGIC ================= -->
+<script src="cleanup-audition.js"></script>
 <script>
 (function(){
   const panel = document.getElementById('panel-master');
@@ -3566,21 +3568,27 @@ window.STYLES=[
     if(!audioBuffer){$('#cleanupStatus').textContent='Load an audio file first.';return;}
     clearCleanupAudition();const generation=cleanupAudition,original=audioBuffer;
     if(playing)stopPlayback();
+    if(removed&&!cleanupEnabled(readParams())){
+      $('#cleanupStatus').textContent='Nothing is being removed: cleanup is bypassed. Choose Gentle cleanup or raise a restoration control first.';return;
+    }
     $('#cleanupStatus').textContent='Preparing cleanup preview…';
     try{
       const clean=await cleanBuffer(original,readParams());
       if(generation!==cleanupAudition||original!==audioBuffer)return;
-      let result=clean;
+      let result=clean,removedInfo=null;
       if(removed){
-        result=new AudioBuffer({length:original.length,numberOfChannels:original.numberOfChannels,sampleRate:original.sampleRate});
-        for(let c=0;c<original.numberOfChannels;c++){
-          const a=original.getChannelData(c),b=clean.getChannelData(c),out=result.getChannelData(c);
-          for(let i=0;i<a.length;i++)out[i]=a[i]-b[i];
+        removedInfo=window.TerryCleanupAudition.prepareRemoved(
+          Array.from({length:original.numberOfChannels},(_,c)=>original.getChannelData(c)),
+          Array.from({length:clean.numberOfChannels},(_,c)=>clean.getChannelData(c)),$('#cleanupBoost').checked);
+        if(removedInfo.negligible){
+          $('#cleanupStatus').textContent='Almost no sound was removed at these settings (residual below audibility). Try Gentle cleanup or increase noise/shimmer reduction. There is no useful residual to preview.';return;
         }
+        result=new AudioBuffer({length:original.length,numberOfChannels:original.numberOfChannels,sampleRate:original.sampleRate});
+        removedInfo.channels.forEach((a,c)=>result.copyToChannel(a,c));
       }
       cleanupUrl=URL.createObjectURL(new Blob([encodeWAV(result,24)],{type:'audio/wav'}));
       const player=$('#cleanupAudio');player.src=cleanupUrl;player.hidden=false;
-      $('#cleanupStatus').textContent=removed?'Removed sound · original minus cleaned, at original level. Music here means settings may be too strong.':'Cleaned audio · before mastering, at original level.';
+      $('#cleanupStatus').textContent=removed?`Removed sound · original residual ${removedInfo.rmsDb.toFixed(1)} dBFS RMS · listening boost +${removedInfo.gainDb.toFixed(1)} dB (preview only). Music here means settings may be too strong. Silent passages can still be silent; seek into the song.`:'Cleaned audio · before mastering, at original level.';
       await player.play();
     }catch(error){if(generation===cleanupAudition)$('#cleanupStatus').textContent='Preview failed: '+error.message;}
   }

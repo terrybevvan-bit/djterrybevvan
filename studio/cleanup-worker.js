@@ -52,7 +52,11 @@ function cleanup(channels, sampleRate, params, progress=()=>{}) {
     candidates.push({start,power});
   }
   candidates.sort((a,b)=>a.power-b.power);
-  const chosen=candidates.slice(0,Math.max(1,Math.ceil(candidates.length*.12)));
+  // Digital silence and near-silent fades contain no useful noise estimate.
+  // Selecting them previously produced an all-zero profile and no cleanup.
+  const loudest=candidates.length?candidates[candidates.length-1].power:0;
+  const active=candidates.filter(frame=>frame.power>Math.max(n*audio.length*1e-12,loudest*1e-5));
+  const chosen=active.slice(0,Math.max(1,Math.ceil(active.length*.12)));
   const profile=new Float64Array(bins);
   for(const frame of chosen)for(const a of audio){
     const {re,im}=spectrum(a,frame.start);
