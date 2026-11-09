@@ -753,6 +753,7 @@
     <nav class="sb-nav">
       <div class="grp-label">Your studio</div>
       <div class="navitem" data-tool="songcreator"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Song Creator</span></div>
+      <div class="navitem" data-tool="prompts"><span class="ico">✦</span><span class="lbl">Prompt Mechanic</span></div>
       <div class="navitem on" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
       <div class="navitem" data-tool="soundcloud"><span class="ico">☁</span><span class="lbl">SoundCloud Desc</span></div>
       <div class="grp-label">Library</div>
@@ -1352,6 +1353,31 @@
       </div>
     </div>
 
+    <div id="panel-prompts" class="tool-panel"><div class="wrap">
+      <header class="tool-head"><div class="brand"><div class="kicker">Reference → sound → style</div><h2>Prompt <span>Mechanic</span></h2><p>Turn an artist, instrument or musical idea into a style prompt for Suno.</p></div></header>
+      <section><div class="sec-head"><span class="sec-num">01</span><h3>What sound are you after?</h3></div><div class="sec-body">
+        <form id="pmForm"><label class="field"><span class="cap">Artist, sound, instrument or musical reference</span><input id="pmReference" type="text" maxlength="2000" required placeholder="e.g. a bongo groove, a guitar riff, or a Justin Bieber type beat"></label><div class="output-bar"><button class="btn primary" type="submit">Create style prompt</button></div></form>
+        <p class="note">Try a starting point:</p><div class="chips">
+          <button class="chip" type="button" data-pm-example="Dry syncopated bongo drum loop, Afro house groove at 122 BPM, percussion only">Bongo groove</button>
+          <button class="chip" type="button" data-pm-example="Warm clean electric guitar riff, muted funk strumming, guitar only">Guitar riff</button>
+          <button class="chip" type="button" data-pm-example="Punchy four-on-the-floor house kick drum pattern at 126 BPM, kick only">House kick</button>
+          <button class="chip" type="button" data-pm-example="Justin Bieber type beat, instrumental pop and R&amp;B with a relaxed dance groove">Pop / R&amp;B beat</button>
+        </div>
+      </div></section>
+      <div class="grid g2">
+        <section><div class="sec-head"><span class="sec-num">02</span><h3>Your style prompt</h3></div><div class="sec-body">
+          <label class="field"><span class="cap">Suno Style · editable</span><textarea id="pmOutput" maxlength="1000" rows="10" placeholder="Your style appears here. You can also paste an existing prompt to refine."></textarea></label><p id="pmCount" class="note"></p>
+          <div class="output-bar"><button id="pmCopy" type="button" class="btn primary">Copy for Suno</button><button id="pmEdit" type="button" class="btn">Edit style</button></div>
+          <p class="note">Paste into Suno’s Style field. Artist references become musical descriptors. For instrument parts, enable Instrumental in Suno; results may still include other sounds.</p>
+        </div></section>
+        <section><div class="sec-head"><span class="sec-num">03</span><h3>Refine the sound</h3></div><div class="sec-body">
+          <label class="field"><span class="cap">What would you change?</span><textarea id="pmRefinement" maxlength="2000" rows="5" placeholder="More swing, warmer tone, less reverb, 124 BPM…"></textarea></label>
+          <div class="output-bar"><button id="pmRefine" type="button" class="btn">Refine prompt</button></div><p class="note">Refines your current style, including manual edits. Change the reference above and choose Create style prompt to start fresh.</p>
+        </div></section>
+      </div>
+      <p id="pmStatus" role="status" aria-live="polite">Enter a reference to get started.</p>
+      <section><div class="sec-body"><details id="pmConnection"><summary>AI connection</summary><p class="note">Shares your Song Creator connection. Your key stays in memory for this session. API usage is billed to your OpenAI account.</p><label class="field"><span class="cap">OpenAI API key</span><input id="pmKey" type="password" autocomplete="off" spellcheck="false" aria-label="OpenAI API key"></label><button id="pmClearKey" type="button" class="btn ghost" style="margin-top:12px">Disconnect AI</button></details></div></section>
+    </div></div>
     <div id="panel-songcreator" class="tool-panel">
       <iframe id="songCreatorFrame" title="Song Creator — Bevvan’s Studio" data-src="/studio/song-creator/index.html" allow="clipboard-write" style="display:block;width:100%;height:calc(100dvh - 16px);min-height:640px;border:0;border-radius:12px;background:#0c121a"></iframe>
     </div>
@@ -2304,6 +2330,7 @@
 (function(){
   const items = Array.from(document.querySelectorAll('.navitem'));
   const panels = {
+    prompts: document.getElementById('panel-prompts'),
     songcreator: document.getElementById('panel-songcreator'),
     builder: document.getElementById('panel-builder'),
     lyriclab: document.getElementById('panel-lyriclab'),
@@ -2329,7 +2356,7 @@
       }
       items.forEach(i => i.classList.toggle('on', i.dataset.tool === tool));
       Object.keys(panels).forEach(k => panels[k].classList.toggle('on', k === tool));
-      document.getElementById('mobileTitle').textContent = tool==='songcreator'?'Song Creator':titles[tool] || '';
+      document.getElementById('mobileTitle').textContent = tool==='prompts'?'Prompt Mechanic':tool==='songcreator'?'Song Creator':titles[tool] || '';
       window.scrollTo({top:0, behavior:'smooth'});
       closeMobile();
       // let tools know they became visible (mastering canvases need width)
@@ -5898,5 +5925,6 @@ window.STYLES=[
 })();
 </script>
 
+<script src="/studio/prompt-mechanic.js"></script>
 <script src="/studio/studio.js"></script></body>
 </html>
