@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0d1017" />
+  <title>Lyric Timestamp Studio</title>
+  <style>
+    :root { color-scheme: dark; --bg:#08090b; --panel:#121418; --panel2:#1a1d22; --stroke:#34383e; --text:#f7f2e8; --muted:#b8b3a8; --aqua:#d6ff3f; --accent:#34c4ff; --red:#ff968e; --radius:12px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:radial-gradient(ellipse 900px 370px at 20% -15%, #213343 0, transparent 75%),var(--bg); color:var(--text); font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+    button,input,select,textarea { font:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible { outline:2px solid var(--aqua); outline-offset:3px; }
+    .shell { max-width:1400px; margin:0 auto; padding:24px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:22px; }
+    .brand { display:flex; gap:13px; align-items:center; }
+    .brand-icon { background:linear-gradient(155deg,var(--aqua),#689ae9); width:42px;height:42px;display:grid;place-items:center; border-radius:13px; color:#0c1923; box-shadow:0 10px 28px #73e6d31c; }
+    .brand h1 { margin:0;font-size:21px;letter-spacing:-.045em; }
+    .brand p { margin:0;color:var(--muted);font-size:12px; }
+    .brand small { color:var(--muted); }
+    .status { display:flex;gap:7px;align-items:center;color:var(--muted);background:#151c26;border:1px solid var(--stroke);border-radius:999px;padding:6px 12px;font-size:12px;white-space:nowrap; }
+    .status i { height:7px;width:7px;border-radius:100%;background:var(--aqua);box-shadow:0 0 9px #73e6d344; }
+    .workspace { display:grid; grid-template-columns:370px minmax(0,1fr);gap:17px;align-items:start; }
+    .left { display:flex;flex-direction:column;gap:16px; }
+    .card { border:1px solid var(--stroke);background:var(--panel);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 30px #00000015; }
+    .cardpad { padding:20px; }
+    .section-heading { display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px; }
+    h2 { font-size:14px;letter-spacing:.005em;margin:0;font-weight:700; }
+    .sub { color:var(--muted);font-size:12px;line-height:1.55; }
+    .audio-drop { position:relative;display:flex;align-items:center;gap:12px;text-align:left;background:#202633;border:1px dashed #546071;border-radius:12px;padding:16px;width:100%;min-height:77px;transition:.2s; }
+    .audio-drop:hover,.audio-drop.drag { border-color:var(--aqua);background:#24363d; }
+    .drop-symbol { display:grid;place-items:center;flex:0 0 39px;width:39px;height:39px;border:1px solid #47505f;border-radius:10px;color:var(--aqua);font-size:20px; }
+    .audio-title {display:block;font-weight:650;max-width:244px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .audio-detail {display:block;color:var(--muted);font-size:12px;}
+    input[type=file] {display:none;}
+    .clock { display:flex;align-items:baseline;gap:3px;margin:21px 0 10px;font-variant-numeric:tabular-nums; }
+    .clock-current { font-size:40px;font-weight:730;letter-spacing:-.065em;line-height:1; }
+    .clock-small {font-size:21px;color:var(--aqua);font-weight:600;}
+    .clock-total { margin-left:auto;color:var(--muted);font-size:13px;font-weight:600; }
+    input[type=range] {accent-color:var(--aqua);width:100%;cursor:pointer;}
+    .player-bar {display:flex;align-items:center;gap:7px;margin-top:12px;}
+    .btn { background:var(--panel2);border:1px solid var(--stroke);color:var(--text);padding:10px 13px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:39px;font-weight:600;transition:.15s; }
+    .btn:hover:not(:disabled) {background:#293342;border-color:#526073;}
+    .btn:disabled {opacity:.43;cursor:not-allowed;}
+    .btn.primary {background:var(--aqua);color:#0d2429;border-color:var(--aqua);}
+    .btn.primary:hover:not(:disabled) {background:#a2f6e8;border-color:#a2f6e8;}
+    .btn.ghost {background:transparent;}
+    .btn.small {min-height:31px;padding:5px 10px;font-size:12px;}
+    #playPause {flex:1;}
+    .player-bar select { padding:9px 5px;border-radius:9px;background:var(--panel2);color:var(--text);border:1px solid var(--stroke); }
+    textarea { border:1px solid var(--stroke);background:#0e121a;color:var(--text);border-radius:10px; padding:12px;resize:vertical;width:100%;min-height:170px;line-height:1.5; }
+    textarea::placeholder { color:#778293; }
+    .hint {color:var(--muted);font-size:12px;margin:8px 0 13px;}
+    .row {display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .row > .grow { flex:1; }
+    .actions {display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .actions .btn {font-size:12px;white-space:nowrap;padding:10px 8px;}
+    .export-footer {display:flex;justify-content:space-between;align-items:center;gap:5px;margin-top:13px;}
+    .key { display:inline-block;padding:1px 5px;border:1px solid #47505f;background:#222937;border-radius:4px;font-family:ui-monospace,Consolas,monospace;color:#d7e1f2;font-size:11px; }
+    .right {min-width:0;position:sticky;top:17px;}
+    .righthead { padding:20px 22px 0; }
+    .right-top {display:flex;align-items:start;justify-content:space-between;gap:16px;}
+    .progress-meta {color:var(--muted);font-size:12px;white-space:nowrap;}
+    .progress-track {height:4px;background:#333b49;border-radius:99px;margin:15px 0 18px;overflow:hidden;}
+    .progress-fill {background:linear-gradient(90deg,var(--accent),var(--aqua));height:100%;width:0;transition:width .2s;}
+    .syncbar { display:flex;align-items:center;gap:12px;background:#1c2730;border:1px solid #355259;border-radius:12px;padding:12px;margin-bottom:18px; }
+    .syncbar .btn {flex:0 0 auto;font-size:13px;}
+    .syncbar-help {font-size:12px;color:#b3cbd0;line-height:1.4;}
+    .syncbar-help b {color:var(--text);font-weight:650;}
+    .lyric-scroll {max-height:calc(100vh - 258px);min-height:430px;overflow-y:auto;scrollbar-color:#3d4a59 transparent;padding:0 14px 15px;}
+    .lyric-line { display:grid;grid-template-columns:30px 88px minmax(0,1fr) 43px;align-items:center;gap:10px;padding:11px 12px;border:1px solid transparent;border-radius:10px;margin:3px 0;transition:.12s; }
+    .lyric-line:hover {background:#1e2531;}
+    .lyric-line.active {background:#203036;border-color:#3c7775;}
+    .lyric-line.done:not(.active) {background:#19212a;}
+    .lyric-num {font-size:11px;color:#738092;text-align:center;font-variant-numeric:tabular-nums;}
+    .lyric-line.active .lyric-num {color:var(--aqua);}
+    .stamp-time { font-size:12px;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#8997ac;font-variant-numeric:tabular-nums; }
+    .done .stamp-time {color:var(--aqua);}
+    .lyric-text { min-width:0;padding:4px 0;font-size:15px;line-height:1.48;word-break:break-word;cursor:text;border-radius:4px; }
+    .lyric-text[contenteditable=true] { background:#101923;box-shadow:0 0 0 1px var(--aqua);padding:4px 7px; }
+    .stamp-btn {height:34px;width:39px;padding:0;border:1px solid #45505f;border-radius:9px;background:#242e3b;color:#c3cee0;font-weight:700; }
+    .stamp-btn:hover {background:var(--aqua);color:#132a29;border-color:var(--aqua);}
+    .active .stamp-btn {background:var(--aqua);color:#132a29;border-color:var(--aqua);}
+    .empty {padding:65px 24px;text-align:center;color:var(--muted);}
+    .empty-symbol {font-size:40px;opacity:.58;margin-bottom:14px;}
+    .empty strong {display:block;font-size:16px;color:#e5ecf4;margin-bottom:7px;}
+    .empty p {margin:0 auto;max-width:305px;}
+    .rightfoot {border-top:1px solid var(--stroke);padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+    .shortcut {color:var(--muted);font-size:12px;}
+    .notice {display:none;padding:9px 12px;border-radius:9px;background:#372c27;border:1px solid #7a5841;color:#ffd5a4;font-size:12px;margin:0 22px 13px;}
+    .notice.show {display:block;}
+    .toast {position:fixed;bottom:24px;right:24px;background:#223c3b;border:1px solid #49877e;color:#ddfff7;padding:11px 16px;border-radius:10px;box-shadow:0 10px 30px #0005;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .18s,transform .18s;z-index:99;max-width:min(90vw,410px);}
+    .toast.show {opacity:1;transform:none;}
+    footer {padding:16px 3px;color:#778293;font-size:12px;}
+    @media(max-width:950px){.workspace{grid-template-columns:1fr}.right{position:static}.lyric-scroll{max-height:610px;min-height:280px}.left{display:grid;grid-template-columns:1fr 1fr;align-items:start}.left>.card:last-child{grid-column:1/-1}}
+    @media(max-width:640px){.shell{padding:12px}.brand h1{font-size:18px}.status{display:none}.left{display:flex}.cardpad{padding:16px}.righthead{padding:16px 15px 0}.syncbar{flex-direction:column;align-items:stretch}.syncbar-help{font-size:11px}.lyric-scroll{padding:0 7px 8px}.lyric-line{grid-template-columns:23px 75px minmax(0,1fr) 33px;gap:5px;padding:10px 5px}.lyric-text{font-size:13px}.stamp-time{font-size:10px}.stamp-btn{width:32px;height:31px}.rightfoot{padding:13px}.shortcut{font-size:11px}.btn{padding:9px 10px} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M4 13v-2m4 7V6m4 15V3m4 15V6m4 7v-2" /></svg>
+        </div>
+        <div><h1>Lyric Timestamp Studio</h1><p>Audio to lyric cues · Simple, accurate, exportable</p></div>
+      </div>
+      <div class="status"><i></i> Runs entirely in your browser</div>
+    </header>
+
+    <main class="workspace">
+      <section class="left" aria-label="Song, lyrics and exports">
+        <div class="card cardpad">
+          <div class="section-heading"><h2>01 / Load your track</h2><span class="sub">MP3, WAV, M4A</span></div>
+          <button type="button" class="audio-drop" id="audioDrop" aria-label="Choose or drop an audio file">
+            <span class="drop-symbol">♫</span><span><span class="audio-title" id="audioName">Choose your audio file</span><span class="audio-detail" id="audioDetail">Click or drag a file here · Never uploaded</span></span>
+          </button>
+          <input id="audioFile" type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg,.flac" />
+          <audio id="audio" preload="metadata"></audio>
+          <div class="clock"><span class="clock-current" id="curClock">00:00</span><span class="clock-small" id="curDecimal">.00</span><span class="clock-total" id="durClock">/ 00:00</span></div>
+          <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek through song" />
+          <div class="player-bar">
+            <button type="button" id="rewind" class="btn" title="Back 3 seconds" aria-label="Back 3 seconds">−3s</button>
+            <button type="button" id="playPause" class="btn primary" disabled>▶ Play</button>
+            <button type="button" id="forward" class="btn" title="Forward 5 seconds" aria-label="Forward 5 seconds">+5s</button>
+            <select id="speed" title="Playback speed" aria-label="Playback speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select>
+          </div>
+        </div>
+
+        <div class="card cardpad">
+          <div class="section-heading"><h2>02 / Paste your lyrics</h2><span class="sub">Auto-clean</span></div>
+          <textarea id="rawLyrics" spellcheck="false" placeholder="[Extended instrumental intro]\n\n[Verse 1]\nYour coat still hangs beside my door\nLike you might walk in once more\n\n[Chorus]\nStill, I come back to you\n(Repeat 2x)"></textarea>
+          <p class="hint">Removes [section labels], (production notes), instrumental directions, and empty lines. It keeps the actual lyric lines.</p>
+          <div class="row">
+            <button type="button" class="btn primary grow" id="cleanBtn">✦ Clean &amp; load lyrics</button>
+            <button type="button" class="btn ghost" id="clearBtn" title="Clear current timestamps">Reset times</button>
+          </div>
+        </div>
+
+        <div class="card cardpad">
+          <div class="section-heading"><h2>03 / Export your timing</h2><span class="sub">For visualizers</span></div>
+          <div class="actions">
+            <button type="button" class="btn" id="exportLrc">↓ LRC lyrics</button>
+            <button type="button" class="btn" id="exportSrt">↓ SRT captions</button>
+            <button type="button" class="btn" id="exportJson">↓ JSON cues</button>
+            <button type="button" class="btn" id="exportCsv">↓ CSV timings</button>
+            <button type="button" class="btn primary" id="copyAi">⧉ Copy AI prompt</button>
+            <button type="button" class="btn" id="exportProject">↓ Save project</button>
+          </div>
+          <div class="export-footer"><span class="sub">Autosaves lyrics &amp; timestamps locally</span><button type="button" class="btn small ghost" id="importProjectBtn">Open saved project</button></div>
+          <input id="projectFile" type="file" accept="application/json,.json" />
+        </div>
+      </section>
+
+      <section class="right card" aria-label="Lyric timing list">
+        <div class="righthead">
+          <div class="right-top"><div><h2>Live lyric sync</h2><div class="sub" id="syncSubtitle">Paste lyrics to begin</div></div><div class="progress-meta" id="progressText">0 / 0 timed</div></div>
+          <div class="progress-track" role="progressbar" aria-label="Lyrics timed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="syncbar">
+            <button type="button" class="btn primary" id="stampNext" disabled>◎ Stamp next line <span class="key" style="color:#102b27;background:#c3fff3;border-color:#83cfc2">T</span></button>
+            <div class="syncbar-help"><b id="upNext">No lyrics loaded yet</b><br />Press <span class="key">T</span> when the line starts, or click its ◎ button. Each stamp advances to the next line.</div>
+          </div>
+        </div>
+        <div class="notice" id="warning"></div>
+        <div class="lyric-scroll" id="lyricScroll"><div class="empty"><div class="empty-symbol">≋</div><strong>Ready when you are</strong><p>Load a track and paste your lyrics. Cleaned lines will appear here, each with a timestamp button.</p></div></div>
+        <div class="rightfoot">
+          <div class="row"><button type="button" class="btn small" id="undoBtn" disabled>↶ Undo stamp</button><button type="button" class="btn small ghost" id="editHint">Edit a lyric: double-click its text</button></div>
+          <span class="shortcut"><span class="key">Space</span> play/pause &nbsp; <span class="key">T</span> timestamp &nbsp; <span class="key">←</span>/<span class="key">→</span> seek 3s &nbsp; <span class="key">U</span> undo</span>
+        </div>
+      </section>
+    </main>
+    <footer>Private by design: your audio stays on your device. Lyrics and timings are stored only in this browser unless you export them.</footer>
+  </div>
+  <div role="status" aria-live="polite" class="toast" id="toast"></div>
+
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      const audio = $('audio');
+      window.addEventListener('message', event => {
+        if (event.source !== window.parent || event.origin !== window.location.origin) return;
+        if (event.data?.type === 'studio-tool-visibility' && !event.data.visible) audio.pause();
+      });
+      const storageKey = 'lyric_timestamp_studio_v1';
+      let lines = [], active = 0, history = [], audioUrl = null, fileName = '', savedDuration = 0;
+      let toastTimer = null;
+
+      function fmt(t, decimals = true) {
+        if (!Number.isFinite(t) || t < 0) t = 0;
+        const centis = Math.round(t * 100);
+        const m = Math.floor(centis / 6000);
+        const s = Math.floor((centis % 6000) / 100);
+        const c = centis % 100;
+        return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + (decimals ? '.' + String(c).padStart(2,'0') : '');
+      }
+      function srtTime(t) {
+        if (!Number.isFinite(t) || t < 0) t = 0;
+        const ms = Math.round(t * 1000);
+        const h = Math.floor(ms / 3600000), m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60;
+        return [h,m,s].map(n => String(n).padStart(2,'0')).join(':') + ',' + String(ms % 1000).padStart(3,'0');
+      }
+      function toast(msg) {
+        $('toast').textContent = msg; $('toast').classList.add('show');
+        clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').classList.remove('show'), 2700);
+      }
+      function getDuration() { return (Number.isFinite(audio.duration) && audio.duration > 0) ? audio.duration : savedDuration; }
+      function cleanLyrics(text) {
+        return text.replace(/\r\n?/g, '\n').split('\n').map(raw => {
+          let s = raw.trim();
+          s = s.replace(/\[(?:[^\]]*)\]/g, ' ').replace(/\([^)]*\)/g, ' ').replace(/\{[^}]*\}/g,' ');
+          s = s.replace(/^\s*(?:[-*•]+\s*|\d+[.)]\s+)+/, '');
+          s = s.replace(/^\s*#{1,6}\s*/, '').replace(/\*\*/g,'').replace(/\s{2,}/g,' ').trim();
+          // Remove stand-alone section names or stage/production directions, not actual sung lyrics.
+          if (/^(?:(?:verse|chorus|pre[- ]?chorus|bridge|hook|refrain|intro|outro|interlude|post[- ]?chorus|breakdown|drop|build(?:[- ]?up)?|instrumental|solo|spoken word|ad[- ]?lib)(?:\s*\d+|\s*[A-Z])?(?:\s*[:\-–].*)?|lyrics\s*:?|end)$/i.test(s)) return '';
+          if (/^(?:\[?\d{1,2}:\d{2}(?:\.\d{1,3})?\]?\s*)+$/.test(s)) return '';
+          if (/^(?:instrumental|production (?:note|direction)|music (?:cue|only)|fade(?: in| out)|\d+[- ]bar|repeat\s*\d+\s*x\b|no vocals\b)/i.test(s)) return '';
+          if (/^[-–—=_~*.\s♪♫]+$/.test(s)) return '';
+          return s;
+        }).filter(Boolean);
+      }
+      function persist() {
+        try { localStorage.setItem(storageKey, JSON.stringify({rawLyrics:$('rawLyrics').value, lines, active, fileName, duration:getDuration()})); }
+        catch (err) { /* Browsers can disable storage; app still works */ }
+      }
+      function restore() {
+        try {
+          const data = JSON.parse(localStorage.getItem(storageKey) || 'null');
+          if (!data) return;
+          $('rawLyrics').value = typeof data.rawLyrics === 'string' ? data.rawLyrics : '';
+          lines = Array.isArray(data.lines) ? data.lines.filter(x => x && typeof x.text === 'string').map(x => ({text:x.text,time:Number.isFinite(x.time) && x.time >= 0 ? x.time : null})) : [];
+          active = Number.isInteger(data.active) ? Math.max(0,Math.min(data.active,lines.length)) : 0;
+          fileName = typeof data.fileName === 'string' ? data.fileName : '';
+          savedDuration = Number.isFinite(data.duration) ? data.duration : 0;
+          if (fileName) { $('audioName').textContent = fileName; $('audioDetail').textContent = 'Select the audio again to resume playback'; }
+        } catch(err) { console.warn('Could not restore project',err); }
+      }
+      function hasAudio() { return !!audioUrl; }
+      function setActive(n, shouldScroll=true) {
+        active = Math.max(0,Math.min(n,lines.length));
+        paint();
+        persist();
+        if (shouldScroll) {
+          requestAnimationFrame(() => { const el = $('lyricScroll').querySelector('.lyric-line.active'); if (el) el.scrollIntoView({behavior:'smooth',block:'nearest'}); });
+        }
+      }
+      function paint() {
+        const timed = lines.filter(x => x.time !== null).length;
+        const total = lines.length;
+        $('progressText').textContent = timed + ' / ' + total + ' timed';
+        $('syncSubtitle').textContent = total ? total + ' cleaned lyric lines · Click a line to select it' : 'Paste lyrics to begin';
+        const pct = total ? Math.round(timed / total * 100) : 0;
+        $('progressFill').style.width = pct + '%';
+        $('progressTrack').setAttribute('aria-valuenow',String(pct));
+        $('stampNext').disabled = !hasAudio() || active >= lines.length;
+        $('undoBtn').disabled = !history.length;
+        $('upNext').textContent = !total ? 'No lyrics loaded yet' : active >= total ? 'All lines reached · select any line to correct it' : 'Next: ' + lines[active].text;
+        const list = $('lyricScroll');
+        list.replaceChildren();
+        if (!total) {
+          const outer = document.createElement('div');outer.className='empty';
+          const sym=document.createElement('div');sym.className='empty-symbol';sym.textContent='≋';
+          const heading=document.createElement('strong');heading.textContent='Ready when you are';
+          const p=document.createElement('p');p.textContent='Load a track and paste your lyrics. Cleaned lines will appear here, each with a timestamp button.';
+          outer.append(sym,heading,p);list.append(outer);
+        }
+        lines.forEach((line,i) => {
+          const el=document.createElement('div');el.className='lyric-line'+(i===active?' active':'')+(line.time!==null?' done':'');el.dataset.idx=i;
+          const num=document.createElement('span');num.className='lyric-num';num.textContent=String(i+1).padStart(2,'0');
+          const time=document.createElement('span');time.className='stamp-time';time.textContent=line.time===null?'--:--.--':fmt(line.time);
+          const lyric=document.createElement('span');lyric.className='lyric-text';lyric.textContent=line.text;lyric.title='Double-click to edit this lyric';lyric.tabIndex=0;
+          lyric.addEventListener('click',()=>{if(active!==i) setActive(i,false);});
+          lyric.addEventListener('dblclick',()=>editLyric(i));
+          lyric.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();editLyric(i);}});
+          const stamp=document.createElement('button');stamp.type='button';stamp.className='stamp-btn';stamp.textContent='◎';stamp.title='Timestamp this lyric at the current playback position';stamp.setAttribute('aria-label','Stamp time for line '+(i+1));
+          stamp.disabled=!hasAudio();stamp.addEventListener('click',()=>stampLine(i));
+          el.addEventListener('click',e=>{if(e.target===el)setActive(i,false);});
+          el.append(num,time,lyric,stamp);list.append(el);
+        });
+        validateOrdering();
+      }
+      function editLyric(i) {
+        const row=$('lyricScroll').querySelector('[data-idx="'+i+'"]');
+        if (!row) return;
+        const lyric=row.querySelector('.lyric-text');
+        lyric.contentEditable='true';lyric.focus();
+        const sel=window.getSelection(); if(sel){const range=document.createRange();range.selectNodeContents(lyric);sel.removeAllRanges();sel.addRange(range);}
+        const save=()=>{
+          const val=(lyric.textContent||'').replace(/\s+/g,' ').trim();
+          if (val) lines[i].text=val;
+          lyric.contentEditable='false';paint();persist();
+        };
+        lyric.addEventListener('blur',save,{once:true});
+        lyric.addEventListener('keydown',e=>{
+          if(e.key==='Enter'){e.preventDefault();lyric.blur();}
+          if(e.key==='Escape'){e.preventDefault();lyric.textContent=lines[i].text;lyric.blur();}
+        });
+      }
+      function validateOrdering() {
+        let latest=-1, outOfOrder=false;
+        for(const line of lines){ if(line.time!==null){if(line.time < latest)outOfOrder=true;latest=line.time;} }
+        const warning=$('warning');
+        warning.classList.toggle('show',outOfOrder);
+        warning.textContent=outOfOrder?'Some timestamps are earlier than preceding lyric lines. Re-stamp those lines before exporting.':'';
+      }
+      function stampLine(i) {
+        if (!hasAudio()) { toast('Choose an audio file first');return; }
+        if (!lines.length || i<0 || i>=lines.length) {toast('No lyric selected');return;}
+        const t = Math.round(audio.currentTime * 100)/100;
+        history.push({i,old:lines[i].time,oldActive:active});
+        lines[i].time=t;
+        active=Math.min(lines.length,i+1);
+        paint();persist();
+        const next=$('lyricScroll').querySelector('.lyric-line.active');
+        if (next) next.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }
+      function undo() {
+        const last=history.pop();if(!last)return;
+        lines[last.i].time=last.old;active=last.oldActive;paint();persist();
+        const next=$('lyricScroll').querySelector('.lyric-line.active');if(next)next.scrollIntoView({behavior:'smooth',block:'nearest'});
+        toast('Last timestamp undone');
+      }
+      function loadAudio(file) {
+        if (!file) return;
+        if (!file.type.startsWith('audio/') && !/\.(mp3|wav|m4a|flac|ogg|aac|aiff|opus)$/i.test(file.name)) {toast('Please choose an audio file');return;}
+        if (audioUrl) URL.revokeObjectURL(audioUrl);
+        audioUrl=URL.createObjectURL(file);
+        audio.pause();audio.src=audioUrl;audio.load();fileName=file.name;savedDuration=0;
+        $('audioName').textContent=file.name;
+        $('audioDetail').textContent='Loaded locally · Ready to play';
+        $('playPause').disabled=false;
+        updatePlayer();paint();persist();toast('Audio loaded: '+file.name);
+      }
+      function updatePlayer() {
+        const now=Number.isFinite(audio.currentTime)?audio.currentTime:0;
+        const t=fmt(now);
+        $('curClock').textContent=t.slice(0,5);$('curDecimal').textContent=t.slice(5);
+        const d=getDuration();$('durClock').textContent='/ '+fmt(d,false);
+        $('seek').value=d>0?String(Math.round(now/d*1000)):'0';
+        $('playPause').textContent=audio.paused?'▶ Play':'❚❚ Pause';
+      }
+      async function togglePlay() {
+        if (!hasAudio()){toast('Load an audio file to play it');return;}
+        if (audio.paused){try {await audio.play();}catch(err){toast('Your browser could not play this audio file');}}
+        else audio.pause();updatePlayer();
+      }
+      function seekBy(delta){if(hasAudio())audio.currentTime=Math.max(0,Math.min(audio.currentTime+delta,getDuration()||audio.currentTime+Math.max(delta,0)));updatePlayer();}
+      function getCues(){return lines.map((x,i)=>({index:i+1,text:x.text,start:x.time})).filter(x=>x.start!==null);}
+      function getCuesWithEnd(){
+        const cues=getCues(); const duration=getDuration();
+        return cues.map((cue,i)=>{
+          let next=cues.slice(i+1).find(x=>x.start>cue.start);
+          let end=next?next.start: (duration>cue.start?duration:cue.start+4);
+          if(end<=cue.start)end=cue.start+2;
+          return {...cue,end};
+        });
+      }
+      function download(contents,ext,mime){
+        const base=(fileName||'my-song').replace(/\.[^.]+$/,'').replace(/[^a-z0-9\-_ ]/gi,'').trim().replace(/\s+/g,'_').slice(0,65)||'my-song';
+        const blob=new Blob([contents],{type:mime+';charset=utf-8'});
+        const url=URL.createObjectURL(blob), a=document.createElement('a');a.href=url;a.download=base+'_lyrics.'+ext;
+        document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+      }
+      function requireCues(){if (!getCues().length){toast('Timestamp at least one lyric line first');return false;}return true;}
+      function escapeCsv(s){return '"'+String(s).replace(/"/g,'""')+'"';}
+      function exportLrc(){if(!requireCues())return;download(getCues().map(c=>'['+fmt(c.start)+']'+c.text).join('\n')+'\n','lrc','text/plain');toast('LRC exported');}
+      function exportSrt(){if(!requireCues())return;download(getCuesWithEnd().map((c,i)=>(i+1)+'\n'+srtTime(c.start)+' --> '+srtTime(c.end)+'\n'+c.text).join('\n\n')+'\n','srt','text/plain');toast('SRT exported');}
+      function exportCsv(){if(!requireCues())return;download('line,start_time,start_seconds,end_time,end_seconds,lyrics\n'+getCuesWithEnd().map(c=>[c.index,escapeCsv(fmt(c.start)),c.start.toFixed(2),escapeCsv(fmt(c.end)),c.end.toFixed(2),escapeCsv(c.text)].join(',')).join('\n')+'\n','csv','text/csv');toast('CSV exported');}
+      function exportJson(){if(!requireCues())return;const data={song:fileName||null,duration_seconds:getDuration()||null,cues:getCuesWithEnd().map(c=>({line:c.index,start_seconds:c.start,end_seconds:c.end,start_timestamp:fmt(c.start),end_timestamp:fmt(c.end),lyric:c.text}))};download(JSON.stringify(data,null,2),'json','application/json');toast('JSON cues exported');}
+      function exportProject(){ if(!lines.length){toast('Load lyrics before saving a project');return;}const data={format:'lyric-timestamp-studio-project',version:1,fileName,rawLyrics:$('rawLyrics').value,lines,active,duration:getDuration()};download(JSON.stringify(data,null,2),'project.json','application/json');toast('Project saved (audio not included)');}
+      function importProject(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{
+        const data=JSON.parse(String(reader.result));
+        if(data.format!=='lyric-timestamp-studio-project'||!Array.isArray(data.lines))throw new Error('Not a saved Lyric Timestamp Studio project');
+        if(lines.some(x=>x.time!==null)&&!confirm('Replace your current lyrics and timestamps with this project?'))return;
+        lines=data.lines.filter(x=>x&&typeof x.text==='string').map(x=>({text:x.text,time:Number.isFinite(x.time)&&x.time>=0?x.time:null}));
+        active=Math.max(0,Math.min(Number.isInteger(data.active)?data.active:0,lines.length));
+        $('rawLyrics').value=typeof data.rawLyrics==='string'?data.rawLyrics:lines.map(l=>l.text).join('\n');
+        fileName=typeof data.fileName==='string'?data.fileName:'';
+        savedDuration=Number.isFinite(data.duration)?data.duration:0;
+        if(audioUrl){URL.revokeObjectURL(audioUrl);audioUrl=null;}audio.pause();audio.removeAttribute('src');audio.load();
+        $('playPause').disabled=true;$('audioName').textContent=fileName||'Choose your audio file';$('audioDetail').textContent='Select the audio file again to resume playback';
+        history=[];updatePlayer();paint();persist();toast('Project opened · Reload the audio to continue');
+      }catch(e){toast('Could not open project: '+e.message);}};reader.readAsText(file);}
+      function makeAiPrompt(){
+        const cues=getCuesWithEnd();const title=(fileName||'Untitled song').replace(/\.[^.]+$/,'');
+        return `Create a time-synchronized lyric visualizer plan for my original song "${title}".\nUse the precise lyric start and end timestamps below as cue boundaries. Do not move any lyric earlier or later. Preserve the exact wording of each line. Build a visual treatment and prompt for each timed cue, with clean readable kinetic typography and continuity between scenes. Suggest scene transitions and pacing matched to the listed times. If the visuals are generated in clips, keep prompts and clip intervals aligned to these cues.\n\nLYRIC CUES (start → end | lyric):\n${cues.map(c=>`${fmt(c.start)} → ${fmt(c.end)} | ${c.text}`).join('\n')}\n\nTotal track duration: ${fmt(getDuration(),false)}.`; 
+      }
+      async function copyAi(){if(!requireCues())return;const content=makeAiPrompt();try{await navigator.clipboard.writeText(content);toast('AI visualizer prompt copied');}catch(e){const area=document.createElement('textarea');area.value=content;area.style.position='fixed';area.style.top='-9999px';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();toast(ok?'AI visualizer prompt copied':'Copy failed; try another browser');}}
+
+      $('audioDrop').addEventListener('click',()=>$('audioFile').click());
+      $('audioFile').addEventListener('change',e=>loadAudio(e.target.files[0]));
+      ['dragenter','dragover'].forEach(type=>$('audioDrop').addEventListener(type,e=>{e.preventDefault();$('audioDrop').classList.add('drag');}));
+      ['dragleave','drop'].forEach(type=>$('audioDrop').addEventListener(type,e=>{e.preventDefault();$('audioDrop').classList.remove('drag');}));
+      $('audioDrop').addEventListener('drop',e=>loadAudio(e.dataTransfer.files[0]));
+      $('playPause').addEventListener('click',togglePlay);
+      $('rewind').addEventListener('click',()=>seekBy(-3));
+      $('forward').addEventListener('click',()=>seekBy(5));
+      $('speed').addEventListener('change',e=>{audio.playbackRate=Number(e.target.value);});
+      $('seek').addEventListener('input',e=>{const d=getDuration();if(hasAudio()&&d>0)audio.currentTime=Number(e.target.value)/1000*d;updatePlayer();});
+      ['timeupdate','loadedmetadata','durationchange','play','pause','ended','seeked'].forEach(name=>audio.addEventListener(name,()=>{if(name==='loadedmetadata'||name==='durationchange')savedDuration=getDuration();updatePlayer();}));
+      $('cleanBtn').addEventListener('click',()=>{
+        const cleaned=cleanLyrics($('rawLyrics').value);
+        if(!cleaned.length){toast('Paste some lyrics first');return;}
+        if(lines.some(x=>x.time!==null)&&!confirm('This will replace all current lyric lines and timestamps. Continue?'))return;
+        lines=cleaned.map(text=>({text,time:null}));active=0;history=[];paint();persist();toast(cleaned.length+' lyric lines cleaned and loaded');
+      });
+      $('rawLyrics').addEventListener('input',persist);
+      $('clearBtn').addEventListener('click',()=>{
+        if(!lines.length){toast('No lyrics to reset');return;}
+        if(lines.some(x=>x.time!==null)&&!confirm('Clear all timestamps but keep your lyric lines?'))return;
+        lines.forEach(l=>l.time=null);active=0;history=[];paint();persist();toast('Timestamps cleared');
+      });
+      $('stampNext').addEventListener('click',()=>stampLine(active));
+      $('undoBtn').addEventListener('click',undo);
+      $('editHint').addEventListener('click',()=>toast('Double-click any lyric to edit it. Press Enter to save.'));
+      $('exportLrc').addEventListener('click',exportLrc);
+      $('exportSrt').addEventListener('click',exportSrt);
+      $('exportCsv').addEventListener('click',exportCsv);
+      $('exportJson').addEventListener('click',exportJson);
+      $('copyAi').addEventListener('click',copyAi);
+      $('exportProject').addEventListener('click',exportProject);
+      $('importProjectBtn').addEventListener('click',()=>$('projectFile').click());
+      $('projectFile').addEventListener('change',e=>{importProject(e.target.files[0]);e.target.value='';});
+      document.addEventListener('keydown',e=>{
+        const el=e.target;
+        if(el && (el.matches('input, textarea, select, [contenteditable="true"]')||el.isContentEditable))return;
+        if(e.ctrlKey||e.metaKey||e.altKey)return;
+        if(e.code==='Space'){if(el?.closest('button'))return;e.preventDefault();togglePlay();}
+        else if(e.key.toLowerCase()==='t'){e.preventDefault();stampLine(active);}
+        else if(e.key.toLowerCase()==='u'){e.preventDefault();undo();}
+        else if(e.key==='ArrowLeft'){e.preventDefault();seekBy(-3);}
+        else if(e.key==='ArrowRight'){e.preventDefault();seekBy(3);}
+      });
+      restore();paint();updatePlayer();
+    })();
+  </script>
+</body>
+</html>

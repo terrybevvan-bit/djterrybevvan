@@ -754,6 +754,7 @@
       <div class="grp-label">Your studio</div>
       <div class="navitem" data-tool="songcreator"><span class="ico" aria-hidden="true">♫</span><span class="lbl">Song Creator</span></div>
       <div class="navitem" data-tool="prompts"><span class="ico">✦</span><span class="lbl">Prompt Mechanic</span></div>
+      <div class="navitem" data-tool="lyrictimestamps"><span class="ico" aria-hidden="true">◷</span><span class="lbl">Lyric Timestamps</span></div>
       <div class="navitem on" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
       <div class="navitem" data-tool="soundcloud"><span class="ico">☁</span><span class="lbl">SoundCloud Desc</span></div>
       <div class="grp-label">Library</div>
@@ -1380,6 +1381,9 @@
     </div></div>
     <div id="panel-songcreator" class="tool-panel">
       <iframe id="songCreatorFrame" title="Song Creator — Bevvan’s Studio" data-src="/studio/song-creator/index.html" allow="clipboard-write" style="display:block;width:100%;height:calc(100dvh - 16px);min-height:640px;border:0;border-radius:12px;background:#0c121a"></iframe>
+    </div>
+    <div id="panel-lyrictimestamps" class="tool-panel">
+      <iframe id="lyricTimestampFrame" title="Lyric Timestamp Studio" data-src="/studio/lyric-timestamp.html" allow="clipboard-write" style="display:block;width:100%;height:100dvh;min-height:640px;border:0;background:#08090b"></iframe>
     </div>
     <div id="panel-master" class="tool-panel on">
 <div class="wrap narrow master-flow">
@@ -2332,6 +2336,7 @@
   const panels = {
     prompts: document.getElementById('panel-prompts'),
     songcreator: document.getElementById('panel-songcreator'),
+    lyrictimestamps: document.getElementById('panel-lyrictimestamps'),
     builder: document.getElementById('panel-builder'),
     lyriclab: document.getElementById('panel-lyriclab'),
     soundcloud: document.getElementById('panel-soundcloud'),
@@ -2350,13 +2355,16 @@
 
   window.TerryStudio = {
     switchTo(tool){
+      const lyricFrame=document.getElementById('lyricTimestampFrame');
+      if(tool==='lyrictimestamps' && !lyricFrame.hasAttribute('src'))lyricFrame.src=lyricFrame.dataset.src;
+      if(lyricFrame.contentWindow)lyricFrame.contentWindow.postMessage({type:'studio-tool-visibility',visible:tool==='lyrictimestamps'},window.location.origin);
       if(tool==='songcreator'){
         const frame=document.getElementById('songCreatorFrame');
         if(!frame.hasAttribute('src'))frame.src=frame.dataset.src;
       }
       items.forEach(i => i.classList.toggle('on', i.dataset.tool === tool));
       Object.keys(panels).forEach(k => panels[k].classList.toggle('on', k === tool));
-      document.getElementById('mobileTitle').textContent = tool==='prompts'?'Prompt Mechanic':tool==='songcreator'?'Song Creator':titles[tool] || '';
+      document.getElementById('mobileTitle').textContent = tool==='lyrictimestamps'?'Lyric Timestamps':tool==='prompts'?'Prompt Mechanic':tool==='songcreator'?'Song Creator':titles[tool] || '';
       window.scrollTo({top:0, behavior:'smooth'});
       closeMobile();
       // let tools know they became visible (mastering canvases need width)
