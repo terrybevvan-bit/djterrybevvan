@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix Room</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="fix-room.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="kicker">Suno repair and mastering · runs on your machine · nothing uploaded</p>
+    <h1>Fix Room <span>/ Terry Bevvan</span></h1>
+    <p class="sub">Try an alternative to Master Room. Scan a Suno export, audition the suggested repairs and master to WAV. Compare both tools below to hear which finish suits the track.</p>
+  </header>
+
+  <section aria-labelledby="abTitle">
+    <div class="sec-head"><span class="sec-num">A/B</span><h2 id="abTitle">Compare mastering tools</h2></div>
+    <div class="sec-body">
+      <p class="note">Start with the same original file in each tool. Export a master from Master Room and one from Fix Room, then load both here. Use exports with identical start points and no added intro or trimming. Switching keeps the playback position; matching turns down the louder master using measured integrated loudness. Comparison files are played as exported, without extra processing.</p>
+      <div class="row"><label>A · Master Room <input id="abFileA" type="file" accept="audio/*,.wav,.flac,.mp3"></label><label>B · Fix Room <input id="abFileB" type="file" accept="audio/*,.wav,.flac,.mp3"></label></div>
+      <div class="row" style="margin-top:18px">
+        <button id="abPlay" class="btn primary" disabled>Play comparison</button>
+        <div class="seg" role="group" aria-label="Mastering tool comparison"><button id="abA" aria-pressed="true" disabled>A · Master Room</button><button id="abB" aria-pressed="false" disabled>B · Fix Room</button></div>
+        <label class="switch"><input id="abMatch" type="checkbox" checked>Match loudness</label>
+      </div>
+      <label for="abSeek" class="cap">Comparison position <span id="abTime">0:00 / 0:00</span></label><input id="abSeek" type="range" min="0" max="1" step="0.01" value="0" disabled style="width:100%">
+      <p id="abStatus" class="note" role="status" aria-live="polite">Load both masters to compare. Audio stays in your browser.</p>
+    </div>
+  </section>
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>Load tracks</h2><span class="hint">WAV, FLAC or MP3. One file or a batch.</span></div>
+    <div class="sec-body">
+      <div id="drop" tabindex="0" role="button" aria-label="Choose audio files">
+        <div class="big">Drop audio here</div>
+        <div class="small">or click to choose. Use the WAV download from Suno when you can: MP3 adds its own fizz.</div>
+      </div>
+      <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.flac,.m4a,.ogg" multiple hidden>
+      <div id="queue"></div>
+    </div>
+  </section>
+
+  <section id="secScan" class="off">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Track report</h2><span class="hint" id="trackMeta">Load a track to scan it</span></div>
+    <div class="sec-body">
+      <p class="headline" id="headline"></p>
+      <div class="facts" id="facts"></div>
+      <p class="cap">Tonal balance against a typical club master</p>
+      <div class="plot"><canvas id="cvTone" style="height:170px"></canvas></div>
+      <p class="note">Bars inside the shaded band are normal. A bar above it means that range is heavier than usual, below it means thinner. The reference is a rough guide for house, techno and drum and bass, so treat it as a second opinion and trust your ears.</p>
+      <p class="cap">Waveform and audition window</p>
+      <div class="wave" id="wave"><canvas id="cvWave"></canvas><div class="region" id="region"></div><div class="ph" id="ph"></div></div>
+      <p class="note">The highlighted 30 seconds is what you audition. It starts on the busiest part of the track, where shimmer piles up. Click anywhere on the waveform to move it, for example to a breakdown to check the hiss.</p>
+    </div>
+  </section>
+
+  <section id="secPlan" class="repair off">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Fix plan</h2><span class="hint">built from the scan. Switch a step off to skip it.</span></div>
+    <div class="sec-body">
+      <div class="row"><span class="switch" style="cursor:default">Repair strength</span>
+        <div class="chips" id="repChips">
+          <button class="chip on" data-k="auto">Auto from scan</button>
+          <button class="chip" data-k="light">Light</button>
+          <button class="chip" data-k="standard">Standard</button>
+          <button class="chip" data-k="heavy">Heavy</button>
+        </div></div>
+      <div id="plan" style="display:flex;flex-direction:column;gap:10px"></div>
+      <p class="note">The green numbers are measured on your track after each change. Press Play in the bar at the bottom and flip between Raw and Fixed. <b>Removed</b> plays only what the repair takes out: if you hear hats, vocals or melody in there, drop the strength.</p>
+      <details><summary>Fine-tune the repair by hand</summary><div class="inner"><div class="controls" id="repCtl"></div></div></details>
+      <details style="--acc:var(--amber)"><summary>Fine-tune the master by hand</summary><div class="inner"><div class="controls" id="masCtl"></div></div></details>
+    </div>
+  </section>
+
+  <section id="secSpec" class="off">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Before and after</h2><span class="hint">measured on the audition window, loudness-matched</span></div>
+    <div class="sec-body">
+      <div class="meters" id="meters"></div>
+      <p class="cap">Frequency curve: raw against fixed</p>
+      <div class="spec"><canvas id="cvSpec"></canvas></div>
+      <p class="legend"><span><i style="background:#ff4d5e"></i>taken out</span><span><i style="background:#4ade80"></i>added by the master</span><span><i style="background:rgba(34,211,197,.35)"></i>shimmer zone, 7 to 16 kHz</span></p>
+      <p class="cap">Change in each range</p>
+      <div class="plot"><canvas id="cvBands" style="height:170px"></canvas></div>
+      <p class="cap">Where and when the repair cut</p>
+      <div class="plot"><canvas id="cvHeat" style="height:200px"></canvas></div>
+      <p class="note">Left to right is the 30-second audition window, bottom to top is 1 kHz to the top of the spectrum. Grey is the raw track. Red marks what the repair removed: thin horizontal streaks are shimmer being flattened, a red haze in the gaps is hiss.</p>
+      <div class="statline" id="statline"></div>
+    </div>
+  </section>
+
+  <section id="secExport" class="off">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Print</h2><span class="hint">full-length render at the original sample rate</span></div>
+    <div class="sec-body">
+      <div class="row">
+        <label for="fmt" class="switch" style="cursor:default">Format</label>
+        <select id="fmt"><option value="24">WAV 24-bit</option><option value="16">WAV 16-bit, dithered</option></select>
+        <button class="btn primary" id="fixBtn">Fix and download this track</button>
+        <button class="btn" id="batchBtn">Fix every track in the queue</button>
+      </div>
+      <div id="prog"><div class="plabel" id="pLabel"></div><div class="pbar"><i id="pFill"></i></div></div>
+      <div class="statline" id="result"></div>
+      <p class="note">With <b>Auto from scan</b> selected, a batch scans each track and sets its own repair amounts. Any other choice applies the sliders as they stand to every file. If the browser asks about multiple downloads, allow them.</p>
+    </div>
+  </section>
+</div>
+
+<div id="dock"><div class="in">
+  <button class="btn primary" id="playBtn" disabled>Play</button>
+  <div class="seg" role="group" aria-label="Audition source">
+    <button data-w="raw" aria-pressed="false">Raw</button>
+    <button data-w="fix" aria-pressed="true">Fixed</button>
+    <button data-w="rem" aria-pressed="false">Removed</button>
+  </div>
+  <label class="switch"><input type="checkbox" id="matchOn" checked>Match loudness</label>
+  <div id="dockStat">Load a track</div>
+  <span class="hint"><kbd>Space</kbd> play · <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> switch</span>
+</div></div>
+
+<script src="fix-room.js"></script>
+<script src="compare.js"></script>
+</body>
+</html>

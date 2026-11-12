@@ -756,6 +756,7 @@
       <div class="navitem" data-tool="prompts"><span class="ico">✦</span><span class="lbl">Prompt Mechanic</span></div>
       <div class="navitem" data-tool="lyrictimestamps"><span class="ico" aria-hidden="true">◷</span><span class="lbl">Lyric Timestamps</span></div>
       <div class="navitem on" data-tool="master"><span class="ico">◎</span><span class="lbl">Master Room</span></div>
+      <div class="navitem" data-tool="fixroom"><span class="ico" aria-hidden="true">⇄</span><span class="lbl">Fix Room · A/B</span></div>
       <div class="navitem" data-tool="soundcloud"><span class="ico">☁</span><span class="lbl">SoundCloud Desc</span></div>
       <div class="grp-label">Library</div>
       <div class="navitem" data-tool="styles"><span class="ico">◇</span><span class="lbl">EDM Style Library</span></div>
@@ -1390,6 +1391,9 @@
     </div></div>
     <div id="panel-songcreator" class="tool-panel">
       <iframe id="songCreatorFrame" title="Song Creator — Bevvan’s Studio" data-src="/studio/song-creator/index.html" allow="clipboard-write" style="display:block;width:100%;height:calc(100dvh - 16px);min-height:640px;border:0;border-radius:12px;background:#0c121a"></iframe>
+    </div>
+    <div id="panel-fixroom" class="tool-panel">
+      <iframe id="fixRoomFrame" title="Fix Room — repair, mastering and A/B comparison" data-src="/studio/fix-room/index.html" allow="autoplay" style="display:block;width:100%;height:100dvh;min-height:640px;border:0;background:#08090b"></iframe>
     </div>
     <div id="panel-lyrictimestamps" class="tool-panel">
       <iframe id="lyricTimestampFrame" title="Lyric Timestamp Studio" data-src="/studio/lyric-timestamp.html" allow="clipboard-write" style="display:block;width:100%;height:100dvh;min-height:640px;border:0;background:#08090b"></iframe>
@@ -2346,6 +2350,7 @@
     prompts: document.getElementById('panel-prompts'),
     songcreator: document.getElementById('panel-songcreator'),
     lyrictimestamps: document.getElementById('panel-lyrictimestamps'),
+    fixroom: document.getElementById('panel-fixroom'),
     builder: document.getElementById('panel-builder'),
     lyriclab: document.getElementById('panel-lyriclab'),
     soundcloud: document.getElementById('panel-soundcloud'),
@@ -2364,6 +2369,9 @@
 
   window.TerryStudio = {
     switchTo(tool){
+      const fixFrame=document.getElementById('fixRoomFrame');
+      if(tool==='fixroom' && !fixFrame.hasAttribute('src'))fixFrame.src=fixFrame.dataset.src;
+      if(fixFrame.contentWindow)fixFrame.contentWindow.postMessage({type:'studio-tool-visibility',visible:tool==='fixroom'},window.location.origin);
       const lyricFrame=document.getElementById('lyricTimestampFrame');
       if(tool==='lyrictimestamps' && !lyricFrame.hasAttribute('src'))lyricFrame.src=lyricFrame.dataset.src;
       if(lyricFrame.contentWindow)lyricFrame.contentWindow.postMessage({type:'studio-tool-visibility',visible:tool==='lyrictimestamps'},window.location.origin);
@@ -2373,7 +2381,7 @@
       }
       items.forEach(i => i.classList.toggle('on', i.dataset.tool === tool));
       Object.keys(panels).forEach(k => panels[k].classList.toggle('on', k === tool));
-      document.getElementById('mobileTitle').textContent = tool==='lyrictimestamps'?'Lyric Timestamps':tool==='prompts'?'Prompt Mechanic':tool==='songcreator'?'Song Creator':titles[tool] || '';
+      document.getElementById('mobileTitle').textContent = tool==='fixroom'?'Fix Room · A/B':tool==='lyrictimestamps'?'Lyric Timestamps':tool==='prompts'?'Prompt Mechanic':tool==='songcreator'?'Song Creator':titles[tool] || '';
       window.scrollTo({top:0, behavior:'smooth'});
       closeMobile();
       // let tools know they became visible (mastering canvases need width)
@@ -4598,7 +4606,12 @@ window.STYLES=[
 
   $('#aiMasterBtn').addEventListener('click', aiAutoMaster);
   // redraw spectrum when tool re-shown
-  window.addEventListener('toolshown', e=>{ if(e.detail.tool==='master' && panel._lastSpec) drawSpectrum(panel._lastSpec.spec, panel._lastSpec.bands); });
+  window.addEventListener('toolshown', e=>{
+    if(e.detail.tool==='master' && panel._lastSpec) drawSpectrum(panel._lastSpec.spec, panel._lastSpec.bands);
+    if(e.detail.tool==='fixroom'){
+      stopPlayback();stopCompare();$('#cleanupAudio').pause();
+    }
+  });
 
   // ---------- OFFLINE RENDER + EXPORT ----------
   let batchRunning=false;
