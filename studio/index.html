@@ -1356,6 +1356,14 @@
 
     <div id="panel-prompts" class="tool-panel"><div class="wrap">
       <header class="tool-head"><div class="brand"><div class="kicker">Reference → sound → style</div><h2>Prompt <span>Mechanic</span></h2><p>Turn an artist, instrument or musical idea into a style prompt for Suno.</p></div></header>
+      <section id="stem-prompts"><div class="sec-head"><span class="sec-num">FX</span><h3>Suno Studio stem polish</h3><span class="hint">Copy &amp; paste · no AI connection needed</span></div><div class="sec-body">
+        <p>Gentle starting points for cleaning up stems before the Master Room. Select just the matching stem in Suno Studio, copy its prompt below, and paste into Studio chat. If Suno builds a plugin, choose Add to track.</p>
+        <p class="note">Apply once, then compare bypassed and processed at similar loudness while the full mix plays. Keep only changes that help. Existing effects may already do the job; these are starting points, not universal settings.</p>
+        <div id="stemPromptCards" class="stem-prompt-grid"></div>
+        <p id="stemPromptStatus" role="status" aria-live="polite"></p>
+        <details><summary>Before exporting to the Master Room</summary><p class="note">Balance the stems together first. If the original full-song track is present alongside its extracted stems, mute it when mixing those stems to avoid doubling the song. Check that the mix does not clip; lower the mix output if needed and leave room for mastering. Skip final loudness limiting and export a WAV mix at the highest available quality. Judge the finished mix before applying further cleanup in the Master Room.</p></details>
+        <p class="note">Uses Suno's <a href="https://help.suno.com/en/articles/13670785" target="_blank" rel="noopener noreferrer">effects and plugins</a> workflow. Chat may ask you to confirm effect settings.</p>
+      </div></section>
       <section><div class="sec-head"><span class="sec-num">01</span><h3>What sound are you after?</h3></div><div class="sec-body">
         <form id="pmForm"><label class="field"><span class="cap">Artist, sound, instrument or musical reference</span><input id="pmReference" type="text" maxlength="2000" required placeholder="e.g. a bongo groove, a guitar riff, or a Justin Bieber type beat"></label><div class="output-bar"><button class="btn primary" type="submit">Create style prompt</button></div></form>
         <p class="note">Try a starting point:</p><div class="chips">
@@ -5934,5 +5942,6 @@ window.STYLES=[
 </script>
 
 <script src="/studio/prompt-mechanic.js"></script>
+<script src="/studio/stem-prompts.js"></script>
 <script src="/studio/studio.js"></script></body>
 </html>
